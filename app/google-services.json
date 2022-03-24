@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "120873677024",
+    "firebase_url": "https://accountingapp-36da1-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "accountingapp-36da1",
+    "storage_bucket": "accountingapp-36da1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120873677024:android:af5446c1ff552351d9e085",
+        "android_client_info": {
+          "package_name": "com.tom.accountingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120873677024-ivt23htbaqt0p69flt41j3er7mult57l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tom.accountingapp",
+            "certificate_hash": "d6a8577014479a570cef46dc3b9e7bd099e2d945"
+          }
+        },
+        {
+          "client_id": "120873677024-963gdeh5d0gtu7e1673530neee777a08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNLhZ9d3DF_e6S7zZ84EArG4_ohSTUni0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120873677024-963gdeh5d0gtu7e1673530neee777a08.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120873677024:android:f11e94caccf8f3d9d9e085",
+        "android_client_info": {
+          "package_name": "com.tom.accountingapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120873677024-963gdeh5d0gtu7e1673530neee777a08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNLhZ9d3DF_e6S7zZ84EArG4_ohSTUni0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120873677024-963gdeh5d0gtu7e1673530neee777a08.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120873677024:android:de288da8fb15d489d9e085",
+        "android_client_info": {
+          "package_name": "com.tom.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120873677024-09sn88ekvqpjv3v4ocrg0hhp6mlsu10u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tom.myapplication",
+            "certificate_hash": "d6a8577014479a570cef46dc3b9e7bd099e2d945"
+          }
+        },
+        {
+          "client_id": "120873677024-963gdeh5d0gtu7e1673530neee777a08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNLhZ9d3DF_e6S7zZ84EArG4_ohSTUni0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120873677024-963gdeh5d0gtu7e1673530neee777a08.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
