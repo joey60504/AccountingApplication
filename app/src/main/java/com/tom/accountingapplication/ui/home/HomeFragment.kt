@@ -2,11 +2,13 @@ package com.tom.accountingapplication.ui.home
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,20 +22,24 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
+import com.tom.accountingapplication.R;
+
+
 
 class HomeFragment : Fragment(),homeadapter.OnItemClick {
-    private var _binding : FragmentHomeBinding?= null
+    private var _binding : FragmentHomeBinding ?= null
     private val binding get() = _binding!!
 
     lateinit var auth : FirebaseAuth
-    private lateinit var firebaseAuth : FirebaseAuth
 
     var IncomeOrExpense = "Expense"
+    var TypeChoice = "Other"
     lateinit var FillPrice : String
-    lateinit var TypeChoice : String
+    lateinit var TypeRemark:String
     lateinit var nowdate:String
 
-    lateinit var StoreArray:ArrayList<HashMap<*,*>>
+    var StoreArray= arrayListOf<HashMap<*,*>>()
+    lateinit var imagebtnlist:ArrayList<ImageButton>
 
     override fun onCreateView(inflater:LayoutInflater, container:ViewGroup?, savedInstanceState:Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater,container,false)
@@ -43,41 +49,146 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
         nowdate = format.format(Date())
         binding.date.text = nowdate
 
-        firstlogin()
-//        dataselect()
+        binding.income.setBackgroundColor(Color.parseColor("#F5F5DC"))
+        binding.expense.setBackgroundColor(Color.parseColor("#FFB366"));
 
-        binding.date.setOnClickListener {
-            datePicker()
+        setimagebtnlist()
+        firstlogin()
+        setonclick()
+        return root
+    }
+    fun setimagebtnlist(){
+        imagebtnlist= arrayListOf(
+            binding.imageEgg,binding.imageLunch,binding.imageDinner,binding.imageBus,
+            binding.imageDrink,binding.imageCake,binding.imagePeople,binding.imageBag,
+            binding.imageHospital,binding.imageGame,binding.imageGift,binding.imageOther)
+    }
+    fun setonclick(){
+        binding.imageEgg.setOnClickListener {
+            TypeChoice="Breakfast"
+            binding.imageEgg.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageEgg)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageLunch.setOnClickListener {
+            TypeChoice="Lunch"
+            binding.imageLunch.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageLunch)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageDinner.setOnClickListener {
+            TypeChoice="Dinner"
+            binding.imageDinner.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageDinner)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageBus.setOnClickListener {
+            TypeChoice="Transportation"
+            binding.imageBus.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageBus)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageDrink.setOnClickListener {
+            TypeChoice="Drink"
+            binding.imageDrink.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageDrink)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageCake.setOnClickListener {
+            TypeChoice="Dessert"
+            binding.imageCake.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageCake)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imagePeople.setOnClickListener {
+            TypeChoice="Social"
+            binding.imagePeople.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imagePeople)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageBag.setOnClickListener {
+            TypeChoice="Shopping"
+            binding.imageBag.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageBag)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageHospital.setOnClickListener {
+            TypeChoice="Hospital"
+            binding.imageHospital.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageHospital)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageGame.setOnClickListener {
+            TypeChoice="Game"
+            binding.imageGame.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageGame)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageGift.setOnClickListener {
+            TypeChoice="Gift"
+            binding.imageGift.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageGift)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
+        }
+        binding.imageOther.setOnClickListener {
+            TypeChoice="Other"
+            binding.imageOther.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageOther)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
         }
         binding.income.setOnClickListener{
             IncomeOrExpense = "Income"
-            Toast.makeText(requireContext(), "Money Income", Toast.LENGTH_SHORT).show()
+            binding.income.setBackgroundColor(Color.parseColor("#FFB366"));
+            binding.expense.setBackgroundColor(Color.parseColor("#F5F5DC"));
         }
         binding.expense.setOnClickListener{
             IncomeOrExpense = "Expense"
-            Toast.makeText(requireContext(), "Money Expense", Toast.LENGTH_SHORT).show()
+            binding.income.setBackgroundColor(Color.parseColor("#F5F5DC"));
+            binding.expense.setBackgroundColor(Color.parseColor("#FFB366"));
+        }
+        binding.date.setOnClickListener {
+            datePicker()
         }
         binding.upload.setOnClickListener{
             updatedata()
         }
-        binding.Accounting.setOnClickListener {
-            startActivity(Intent(requireContext(), ProfileActivity::class.java))
-        }
-//        val lunch = arrayListOf("飲食", "娛樂", "治裝", "交通", "其他", "薪水")
-//        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,lunch)
-//        binding.kind.adapter = adapter
-//        binding.kind.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent:AdapterView<*>, view:View, pos:Int, id:Long){
-//
-//            }
-//            override fun onNothingSelected(parent:AdapterView<*>){
-//
-//            }
-//        }
-
-        return root
     }
-
     fun datePicker(){
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
@@ -96,7 +207,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
     }
 
     fun updatedata(){
-        TypeChoice = binding.filltype.text.toString()
+        TypeRemark= binding.filltype.text.toString()
         FillPrice = binding.fillmoney.text.toString()
         val FixNowDate=nowdate.replace("/","")
 
@@ -106,32 +217,31 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
         val emailname=email.substring(0,LittleMouseAt)
         var database = FirebaseDatabase.getInstance().reference
 
-        if (TypeChoice.isNotEmpty() && IncomeOrExpense.isNotEmpty() && FillPrice.isNotEmpty()) {
-            Log.d("kkk","456")
-            val upload = accounting(IncomeOrExpense,nowdate,TypeChoice,FillPrice).to_dict()
+        if ( FillPrice.isNotEmpty()) {
+            val upload = accounting(IncomeOrExpense,TypeChoice,nowdate,TypeRemark,FillPrice).to_dict()
             database.child(emailname).get().addOnSuccessListener {
-                Log.d("kkk",emailname)
                 val emailvalue = it.value as java.util.HashMap<String, Any>
-                Log.d("kkk",emailvalue.toString())
                 val accounting = emailvalue["Accounting"] as java.util.HashMap<String, Any>
                 if (accounting[FixNowDate] != null) {
                     val NowRecording = accounting[FixNowDate] as ArrayList<Map<String, *>>
                     NowRecording.add(upload)
                     accounting.put(FixNowDate, NowRecording)
                     database.child(emailname).child("Accounting").updateChildren(accounting)
-                }
-                else{
-                    accounting.put(FixNowDate, arrayListOf<Map<String,*>>(upload))
+                    binding.filltype.setText("")
+                    binding.fillmoney.setText("")
+                } else {
+                    accounting.put(FixNowDate, arrayListOf<Map<String, *>>(upload))
                     database.child(emailname).child("Accounting").updateChildren(accounting)
+                    binding.filltype.setText("")
+                    binding.fillmoney.setText("")
                 }
             }
         }
         else{
-            Toast.makeText(requireContext(), "Form must not be empty", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Price must not be empty", Toast.LENGTH_LONG).show()
         }
     }
     fun dataselect(){
-
         auth = FirebaseAuth.getInstance()
         var email = auth.currentUser?.email.toString()
         val LittleMouseAt=email.indexOf("@")
@@ -142,11 +252,19 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val root=dataSnapshot.value as HashMap<*,*>
                 val useremail=root[emailname] as HashMap<*,*>
-                val accounting = useremail["Accounting"] as HashMap<*,*>
-                val AccountingKeysList = accounting.keys.toList()
-                for (i in AccountingKeysList.indices){
-                    val date = accounting[i] as ArrayList<HashMap<*,*>>
-                    StoreArray.addAll(date)
+                try {
+                    val accounting = useremail["Accounting"] as HashMap<*,*>
+                    val AccountingKeysList = accounting.keys.filter {
+                        it != "test"
+                    }.toList()
+                    StoreArray.clear()
+                    for (i in AccountingKeysList.indices) {
+                        val date = accounting[AccountingKeysList[i]] as ArrayList<HashMap<*, *>>
+                        StoreArray.addAll(date)
+                    }
+                }
+                catch (e:Exception){
+                    StoreArray= arrayListOf()
                 }
                 activity?.runOnUiThread {
                     binding.recyclerview2.apply {
@@ -155,6 +273,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
                         val manager = LinearLayoutManager(requireContext())
                         manager.orientation = LinearLayoutManager.VERTICAL
                         layoutManager = manager
+                        manager.stackFromEnd = false
                         myAdapter.dataList = StoreArray
                     }
                 }
@@ -179,8 +298,9 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
                 val data0 = it.value as java.util.HashMap<*, *>
                 if (data0[emailname] == null) {
                     startActivity(Intent(requireContext(), ProfileActivity::class.java))
-                } else {
-                    Toast.makeText(requireContext(), "Welcome back", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    dataselect()
                 }
             }
         }

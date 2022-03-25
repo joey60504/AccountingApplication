@@ -44,7 +44,8 @@ class ProfileActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
         if (name.isNotEmpty() && phone.isNotEmpty() && birthday.isNotEmpty()){
             val upload = profile(name, phone, birthday)
-            database.child(emailname).child("Accounting").setValue(upload)
+            val test = test("QQ")
+            database.child(emailname).child("Accounting").setValue(test)
             database.child(emailname).child("Profile").setValue(upload)
                 .addOnCompleteListener{
                     startActivity(Intent(this, homepage::class.java))

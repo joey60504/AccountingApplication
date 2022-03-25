@@ -6,12 +6,171 @@
     android:layout_height="match_parent"
     tools:context=".ui.gallery.GalleryFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview1"
-        android:layout_width="413dp"
-        android:layout_height="721dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.4"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <org.eazegraph.lib.charts.PieChart
+                android:id="@+id/piechart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.6"
+                android:padding="6dp"
+
+                >
+
+            </org.eazegraph.lib.charts.PieChart>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/Breakfast"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Breakfast"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Lunch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Lunch"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Dinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Dinner"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Transportation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Transportation"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Drink"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Drink"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Dessert"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Dessert"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Social"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Social"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Shopping"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Shopping"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Hospital"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Hospital"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Game"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Game"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Gift"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Gift"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/Other"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Other"
+                    app:autoSizeMaxTextSize="15sp"
+                    app:autoSizeTextType="uniform" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

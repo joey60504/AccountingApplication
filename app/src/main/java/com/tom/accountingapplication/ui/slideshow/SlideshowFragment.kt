@@ -14,7 +14,6 @@ class SlideshowFragment : Fragment() {
     private var _binding: FragmentSlideshowBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var firebaseAuth : FirebaseAuth
     lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
@@ -29,9 +28,12 @@ class SlideshowFragment : Fragment() {
     }
     fun getdata(){
         auth = FirebaseAuth.getInstance()
-        val firebaseUser = firebaseAuth.currentUser.toString()
+        var email = auth.currentUser?.email.toString()
+        val LittleMouseAt=email.indexOf("@")
+        val emailname=email.substring(0,LittleMouseAt)
         var database = FirebaseDatabase.getInstance().reference
-        database.child(firebaseUser).child("profile").get().addOnSuccessListener {
+
+        database.child(emailname).child("Profile").get().addOnSuccessListener {
             val profile =it.value as HashMap<*,*>
             var name=profile["name"].toString()
             var birthday=profile["birthday"].toString()
@@ -39,7 +41,7 @@ class SlideshowFragment : Fragment() {
             binding.textView9.text=name
             binding.textView19.text=birthday
             binding.textView21.text=phone
-            binding.textView23.text=firebaseUser
+            binding.textView23.text=emailname
         }
     }
 }

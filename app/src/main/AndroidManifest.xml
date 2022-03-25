@@ -13,6 +13,7 @@
             android:name=".homepage"
             android:exported="false"
             android:label="@string/title_activity_homepage"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.AccountingApplication.NoActionBar" />
         <activity
             android:name=".ProfileActivity"

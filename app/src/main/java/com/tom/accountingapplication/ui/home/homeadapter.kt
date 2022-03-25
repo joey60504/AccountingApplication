@@ -1,5 +1,6 @@
 package com.tom.accountingapplication.ui.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,10 +24,10 @@ class homeadapter (private val itemListener:OnItemClick): RecyclerView.Adapter<h
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data=dataList[position]
-        val incomeorexpense=data["incomeexpense"].toString()
-        val datetext=data["date"].toString()
-        val spinnerchoice=data["spinnerchoice"].toString()
-        val price=data["price"].toString()
+        val incomeorexpense=data["IncomeOrExpense"].toString()
+        val datetext=data["Date"].toString()
+        val spinnerchoice=data["TypeChoice"].toString()
+        val price=data["FillPrice"].toString()
         holder.view.textView12.text=datetext
         holder.view.textView4.text=spinnerchoice
         if(incomeorexpense=="Income"){
