@@ -23,7 +23,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import com.tom.accountingapplication.R;
-
+import java.util.EnumSet.range
 
 
 class HomeFragment : Fragment(),homeadapter.OnItemClick {
@@ -61,7 +61,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
         imagebtnlist= arrayListOf(
             binding.imageEgg,binding.imageLunch,binding.imageDinner,binding.imageBus,
             binding.imageDrink,binding.imageCake,binding.imagePeople,binding.imageBag,
-            binding.imageHospital,binding.imageGame,binding.imageGift,binding.imageOther)
+            binding.imageHospital,binding.imageGame,binding.imageIncome,binding.imageOther)
     }
     fun setonclick(){
         binding.imageEgg.setOnClickListener {
@@ -154,10 +154,10 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             }
             setimagebtnlist()
         }
-        binding.imageGift.setOnClickListener {
-            TypeChoice="Gift"
-            binding.imageGift.setBackgroundResource(R.drawable.beige_rectangle)
-            imagebtnlist.remove(binding.imageGift)
+        binding.imageIncome.setOnClickListener {
+            TypeChoice="Income"
+            binding.imageIncome.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageIncome)
             for (i in imagebtnlist.indices){
                 imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
             }
@@ -176,6 +176,13 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             IncomeOrExpense = "Income"
             binding.income.setBackgroundColor(Color.parseColor("#FFB366"));
             binding.expense.setBackgroundColor(Color.parseColor("#F5F5DC"));
+            TypeChoice="Income"
+            binding.imageIncome.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageIncome)
+            for (i in imagebtnlist.indices){
+                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+            }
+            setimagebtnlist()
         }
         binding.expense.setOnClickListener{
             IncomeOrExpense = "Expense"
@@ -254,9 +261,15 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
                 val useremail=root[emailname] as HashMap<*,*>
                 try {
                     val accounting = useremail["Accounting"] as HashMap<*,*>
-                    val AccountingKeysList = accounting.keys.filter {
+                    val keysarray = accounting.keys.filter {
                         it != "test"
                     }.toList()
+                    val AccountingKeysList = mutableListOf("")
+                    for (i in keysarray.indices){
+                        AccountingKeysList.add(keysarray[i] as String)
+                    }
+                    AccountingKeysList.removeAt(0)
+                    AccountingKeysList.sort()
                     StoreArray.clear()
                     for (i in AccountingKeysList.indices) {
                         val date = accounting[AccountingKeysList[i]] as ArrayList<HashMap<*, *>>
@@ -273,7 +286,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
                         val manager = LinearLayoutManager(requireContext())
                         manager.orientation = LinearLayoutManager.VERTICAL
                         layoutManager = manager
-                        manager.stackFromEnd = false
+                        manager.stackFromEnd = true
                         myAdapter.dataList = StoreArray
                     }
                 }

@@ -230,12 +230,12 @@
                     app:autoSizeTextType="uniform" />
 
                 <ImageButton
-                    android:id="@+id/imageGift"
+                    android:id="@+id/imageIncome"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/gift_icon" />
+                    android:src="@drawable/money_icon" />
 
                 <TextView
                     android:id="@+id/textView30"
@@ -243,7 +243,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
                     android:gravity="center"
-                    android:text="Gift"
+                    android:text="Income"
                     app:autoSizeMaxTextSize="15sp"
                     app:autoSizeMinTextSize="5sp"
                     app:autoSizeTextType="uniform" />
