@@ -69,17 +69,18 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 Drink:Float,Dessert:Float,Social:Float,Shopping:Float,
                 Hospital:Float,Game:Float,Other:Float){
         val total = CalculatetypeArray.sum()
-        binding.piechart.addPieSlice(PieModel("Breakfast", (Breakfast/total),Color.parseColor("#FFA726")))
-        binding.piechart.addPieSlice(PieModel("Lunch",(Lunch/total),Color.parseColor("#FFFFFF")))
-        binding.piechart.addPieSlice(PieModel("Dinner", (Dinner/total),Color.parseColor("#EF5350")))
-        binding.piechart.addPieSlice(PieModel("Transportation",(Transportation/total),Color.parseColor("#29B6F6")))
-        binding.piechart.addPieSlice(PieModel("Drink", (Drink/total),Color.parseColor("#FFA726")))
-        binding.piechart.addPieSlice(PieModel("Dessert",(Dessert/total),Color.parseColor("#FFFFFF")))
-        binding.piechart.addPieSlice(PieModel("Social", (Social/total),Color.parseColor("#EF5350")))
-        binding.piechart.addPieSlice(PieModel("Shopping",(Shopping/total),Color.parseColor("#29B6F6")))
-        binding.piechart.addPieSlice(PieModel("Hospital", (Hospital/total),Color.parseColor("#FFA726")))
-        binding.piechart.addPieSlice(PieModel("Game",(Game/total),Color.parseColor("#FFFFFF")))
-        binding.piechart.addPieSlice(PieModel("Other",(Other/total),Color.parseColor("#29B6F6")))
+        binding.piechart.clearChart()
+        binding.piechart.addPieSlice(PieModel("Breakfast", (Breakfast/total),Color.parseColor("#FF88C2")))
+        binding.piechart.addPieSlice(PieModel("Lunch",(Lunch/total),Color.parseColor("#FF3333")))
+        binding.piechart.addPieSlice(PieModel("Dinner", (Dinner/total),Color.parseColor("#FFCC22")))
+        binding.piechart.addPieSlice(PieModel("Transportation",(Transportation/total),Color.parseColor("#FFFF00")))
+        binding.piechart.addPieSlice(PieModel("Drink", (Drink/total),Color.parseColor("#00DD00")))
+        binding.piechart.addPieSlice(PieModel("Dessert",(Dessert/total),Color.parseColor("#00AA55")))
+        binding.piechart.addPieSlice(PieModel("Social", (Social/total),Color.parseColor("#009FCC")))
+        binding.piechart.addPieSlice(PieModel("Shopping",(Shopping/total),Color.parseColor("#0000FF")))
+        binding.piechart.addPieSlice(PieModel("Hospital", (Hospital/total),Color.parseColor("#9955FF")))
+        binding.piechart.addPieSlice(PieModel("Game",(Game/total),Color.parseColor("#990099")))
+        binding.piechart.addPieSlice(PieModel("Other",(Other/total),Color.parseColor("#E8CCFF")))
         binding.piechart.startAnimation();
     }
     fun SpinnerDataSelect(){
@@ -89,7 +90,6 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 DataSelectAll()
                 chosentime = time[position]
-                setdata(FinalBreakfast,FinalLunch,FinalDinner,FinalTransportation,FinalDrink,FinalDessert,FinalSocial,FinalShopping,FinalHospital,FinalGame,FinalOther)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -135,6 +135,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                     DataSelectTime()
                     DataSelectKind()
                     DataFloatSelect()
+                    setdata(FinalBreakfast,FinalLunch,FinalDinner,FinalTransportation,FinalDrink,FinalDessert,FinalSocial,FinalShopping,FinalHospital,FinalGame,FinalOther)
                 }
                 catch (e: Exception){
                     StoreArray= arrayListOf()
