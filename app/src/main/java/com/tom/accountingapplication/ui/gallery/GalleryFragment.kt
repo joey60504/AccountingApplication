@@ -1,6 +1,7 @@
 package com.tom.accountingapplication.ui.gallery
 
 import android.R
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +22,7 @@ import com.tom.accountingapplication.databinding.FragmentGalleryBinding
 import org.eazegraph.lib.models.PieModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -29,12 +32,27 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
 
     lateinit var auth : FirebaseAuth
 
-    var dayslist= arrayListOf<Int>()
-    var StoreArray= arrayListOf<HashMap<*,*>>()
     var chosentime:String="All"
     var chosenkind:String="All"
+    var StoreArray= arrayListOf<HashMap<*,*>>()
+    var dayslist= arrayListOf<Int>()
     var deletearray= arrayListOf<HashMap<*,*>>()
-    var Finalarray= arrayListOf<HashMap<*,*>>()
+    var Typearray= arrayListOf<String>()
+    var Typedeletearray = arrayListOf<HashMap<*,*>>()
+    var CalculatetypeArray = arrayListOf<Float>()
+
+
+    var FinalBreakfast:Float= 0f
+    var FinalLunch:Float= 0f
+    var FinalDinner:Float= 0f
+    var FinalTransportation:Float= 0f
+    var FinalDrink:Float= 0f
+    var FinalDessert:Float= 0f
+    var FinalSocial:Float= 0f
+    var FinalShopping:Float= 0f
+    var FinalHospital:Float= 0f
+    var FinalGame:Float= 0f
+    var FinalOther:Float= 0f
 
     override fun onCreateView (
         inflater:LayoutInflater,
@@ -42,32 +60,52 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         savedInstanceState:Bundle?
     ): View {
         _binding = FragmentGalleryBinding.inflate(inflater,container,false)
-        val root:View = binding.root
-        dataselectAll()
-        dataselect()
-        setdata(9f,9f,9f,9f,9f,9f,9f,9f,9f,9f,5f,5f)
+        DataSelectAll()
+        SpinnerDataSelect()
 
-        return root
+        return binding.root
     }
     fun setdata(Breakfast:Float,Lunch:Float,Dinner:Float,Transportation:Float,
                 Drink:Float,Dessert:Float,Social:Float,Shopping:Float,
-                Hospital:Float,Game:Float,Gift:Float,Other:Float){
-        binding.piechart.addPieSlice(PieModel("Breakfast", Breakfast,Color.parseColor("#FFA726")))
-        binding.piechart.addPieSlice(PieModel("Lunch",Lunch,Color.parseColor("#FFFFFF")))
-        binding.piechart.addPieSlice(PieModel("Dinner", Dinner,Color.parseColor("#EF5350")))
-        binding.piechart.addPieSlice(PieModel("Transportation",Transportation,Color.parseColor("#29B6F6")))
-        binding.piechart.addPieSlice(PieModel("Drink", Drink,Color.parseColor("#FFA726")))
-        binding.piechart.addPieSlice(PieModel("Dessert",Dessert,Color.parseColor("#FFFFFF")))
-        binding.piechart.addPieSlice(PieModel("Social", Social,Color.parseColor("#EF5350")))
-        binding.piechart.addPieSlice(PieModel("Shopping",Shopping,Color.parseColor("#29B6F6")))
-        binding.piechart.addPieSlice(PieModel("Hospital", Hospital,Color.parseColor("#FFA726")))
-        binding.piechart.addPieSlice(PieModel("Game",Game,Color.parseColor("#FFFFFF")))
-        binding.piechart.addPieSlice(PieModel("Gift", Gift,Color.parseColor("#EF5350")))
-        binding.piechart.addPieSlice(PieModel("Other",Other,Color.parseColor("#29B6F6")))
+                Hospital:Float,Game:Float,Other:Float){
+        val total = CalculatetypeArray.sum()
+        binding.piechart.addPieSlice(PieModel("Breakfast", (Breakfast/total),Color.parseColor("#FFA726")))
+        binding.piechart.addPieSlice(PieModel("Lunch",(Lunch/total),Color.parseColor("#FFFFFF")))
+        binding.piechart.addPieSlice(PieModel("Dinner", (Dinner/total),Color.parseColor("#EF5350")))
+        binding.piechart.addPieSlice(PieModel("Transportation",(Transportation/total),Color.parseColor("#29B6F6")))
+        binding.piechart.addPieSlice(PieModel("Drink", (Drink/total),Color.parseColor("#FFA726")))
+        binding.piechart.addPieSlice(PieModel("Dessert",(Dessert/total),Color.parseColor("#FFFFFF")))
+        binding.piechart.addPieSlice(PieModel("Social", (Social/total),Color.parseColor("#EF5350")))
+        binding.piechart.addPieSlice(PieModel("Shopping",(Shopping/total),Color.parseColor("#29B6F6")))
+        binding.piechart.addPieSlice(PieModel("Hospital", (Hospital/total),Color.parseColor("#FFA726")))
+        binding.piechart.addPieSlice(PieModel("Game",(Game/total),Color.parseColor("#FFFFFF")))
+        binding.piechart.addPieSlice(PieModel("Other",(Other/total),Color.parseColor("#29B6F6")))
         binding.piechart.startAnimation();
     }
-
-    fun dataselectAll(){
+    fun SpinnerDataSelect(){
+        binding.spinner.adapter = MyAdapter(requireContext(),listOf("All","One_Week", "One_Month", "Six_Month", "One_Year"))
+        val time = arrayListOf("All","One_Week", "One_Month", "Six_Month", "One_Year")
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                DataSelectAll()
+                chosentime = time[position]
+                setdata(FinalBreakfast,FinalLunch,FinalDinner,FinalTransportation,FinalDrink,FinalDessert,FinalSocial,FinalShopping,FinalHospital,FinalGame,FinalOther)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+        binding.spinner2.adapter = MyAdapter(requireContext(),listOf("All","Breakfast","Lunch","Dinner","Transportation", "Drink","Dessert","Social","Shopping", "Hospital","Game","Income","Other","Without Income"))
+        val kind = arrayListOf("All","Breakfast","Lunch","Dinner","Transportation", "Drink","Dessert","Social","Shopping", "Hospital","Game","Income","Other","Without Income")
+        binding.spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                DataSelectAll()
+                chosenkind = kind[position]
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+    }
+    fun DataSelectAll(){
         auth = FirebaseAuth.getInstance()
         var email = auth.currentUser?.email.toString()
         val LittleMouseAt=email.indexOf("@")
@@ -94,6 +132,9 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                         val date = accounting[AccountingKeysList[i]] as ArrayList<HashMap<*, *>>
                         StoreArray.addAll(date)
                     }
+                    DataSelectTime()
+                    DataSelectKind()
+                    DataFloatSelect()
                 }
                 catch (e: Exception){
                     StoreArray= arrayListOf()
@@ -115,35 +156,26 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         }
         database.addValueEventListener(dataListener)
     }
-    override fun onItemClick(position: Int) {
-
-    }
-    fun dataselect(){
-        val time = arrayListOf("All","One_Week", "One_Month", "Six_Month", "One_Year")
-        val adapter1 = ArrayAdapter(requireContext(), R.layout.simple_spinner_dropdown_item,time)
-        binding.spinner.adapter = adapter1
-        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent:AdapterView<*>, view:View, pos:Int, id:Long){
-                chosentime = time[pos]
-            }
-            override fun onNothingSelected(parent:AdapterView<*>){
-
-            }
+    class MyAdapter(context: Context, item: List<String>) :
+        ArrayAdapter<String>(context, R.layout.simple_spinner_dropdown_item, item) {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view: TextView = super.getDropDownView(position, convertView, parent) as TextView
+            view.setTextColor(Color.BLACK)
+            return view
         }
-        val kind = arrayListOf("All","Breakfast","Lunch","Dinner","Transportation", "Drink","Dessert","Social","Shopping", "Hospital","Game","Income","Other","Without Income")
-        val adapter2 = ArrayAdapter(requireContext(), R.layout.simple_spinner_dropdown_item,kind)
-        binding.spinner2.adapter = adapter2
-        binding.spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent:AdapterView<*>, view:View, pos:Int, id:Long){
-                chosenkind = kind[pos]
-            }
-            override fun onNothingSelected(parent:AdapterView<*>){
-
-            }
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view: TextView = super.getDropDownView(position, convertView, parent) as TextView
+//            //set the color of first item in the drop down list to gray
+//            if (position == 0) {
+//                view.setTextColor(Color.GRAY)
+//            } else {
+//                //here it is possible to define color for other items by
+//                //view.setTextColor(Color.RED)
+//            }
+            return view
         }
     }
-    fun dataselectTime(){
-        Log.d("kkk",StoreArray.toString())
+    fun DataSelectTime(){
         var dateFormat = SimpleDateFormat("yyyy/MM/dd")
         val nowdate = dateFormat.format(Date())
         var startTime: Date = dateFormat.parse(nowdate)
@@ -158,6 +190,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         }//get相差天數陣列
         when (chosentime){
             "All"->{
+
             }
             "One_Week"->{
                 for(i in dayslist.indices){
@@ -165,7 +198,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                         deletearray.add(StoreArray[i])
                     }
                 }
-                Finalarray.removeAll(deletearray)
+                StoreArray.removeAll(deletearray)
                 deletearray.clear()
             }
             "One_Month"->{
@@ -174,7 +207,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                         deletearray.add(StoreArray[i])
                     }
                 }
-                Finalarray.removeAll(deletearray)
+                StoreArray.removeAll(deletearray)
                 deletearray.clear()
             }
             "Six_Month"->{
@@ -183,7 +216,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                         deletearray.add(StoreArray[i])
                     }
                 }
-                Finalarray.removeAll(deletearray)
+                StoreArray.removeAll(deletearray)
                 deletearray.clear()
             }
             "One_Year"->{
@@ -192,9 +225,209 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                         deletearray.add(StoreArray[i])
                     }
                 }
-                Finalarray.removeAll(deletearray)
+                StoreArray.removeAll(deletearray)
                 deletearray.clear()
             }
         }
     }
+    fun DataSelectKind() {
+        Typearray.clear()
+        for (i in StoreArray.indices) {
+            val TP = StoreArray[i]
+            val Type = TP["TypeChoice"].toString()
+            Typearray.add(Type)
+        }
+        when (chosenkind) {
+            "All" -> {
+
+            }
+            "Breakfast" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Breakfast") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Lunch" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Lunch") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Dinner" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Dinner") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Transportation" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Transportation") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Drink" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Drink") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Dessert" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Dessert") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Social" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Social") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Shopping" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Shopping") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Hospital" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Hospital") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Game" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Game") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Income" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Income") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Other" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] != "Other") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+            "Without Income" -> {
+                for (i in Typearray.indices) {
+                    if (Typearray[i] == "Income") {
+                        Typedeletearray.add(StoreArray[i])
+                    }
+                }
+                StoreArray.removeAll(Typedeletearray)
+                Typedeletearray.clear()
+            }
+        }
+    }
+    fun DataFloatSelect(){
+        FinalBreakfast = 0f
+        FinalLunch= 0f
+        FinalDinner= 0f
+        FinalTransportation= 0f
+        FinalDrink= 0f
+        FinalDessert= 0f
+        FinalSocial= 0f
+        FinalShopping= 0f
+        FinalHospital= 0f
+        FinalGame= 0f
+        FinalOther= 0f
+        CalculatetypeArray.clear()
+        for (i in StoreArray.indices) {
+            val typehashmap = StoreArray[i]
+            val Type = typehashmap["TypeChoice"].toString()
+            val price = typehashmap["FillPrice"].toString().toFloat()
+            when (Type) {
+                "Breakfast" -> {
+                    FinalBreakfast+=price
+                }
+                "Lunch" -> {
+                    FinalLunch+=price
+                }
+                "Dinner" -> {
+                    FinalDinner+=price
+                }
+                "Transportation" -> {
+                    FinalTransportation+=price
+                }
+                "Drink" -> {
+                    FinalDrink+=price
+                }
+                "Dessert" -> {
+                    FinalDessert+=price
+                }
+                "Social" -> {
+                    FinalSocial+=price
+                }
+                "Shopping" -> {
+                    FinalShopping+=price
+                }
+                "Hospital" -> {
+                    FinalHospital+=price
+                }
+                "Game" -> {
+                    FinalGame+=price
+                }
+                "Other" -> {
+                    FinalOther+=price
+                }
+            }
+        }
+        CalculatetypeArray.add(FinalBreakfast)
+        CalculatetypeArray.add(FinalLunch)
+        CalculatetypeArray.add(FinalDinner)
+        CalculatetypeArray.add(FinalTransportation)
+        CalculatetypeArray.add(FinalDrink)
+        CalculatetypeArray.add(FinalDessert)
+        CalculatetypeArray.add(FinalSocial)
+        CalculatetypeArray.add(FinalShopping)
+        CalculatetypeArray.add(FinalHospital)
+        CalculatetypeArray.add(FinalGame)
+        CalculatetypeArray.add(FinalOther)
+        Log.d("kkk",CalculatetypeArray.toString())
+    }
+    override fun onItemClick(position: Int) {
+
+    }
+
 }

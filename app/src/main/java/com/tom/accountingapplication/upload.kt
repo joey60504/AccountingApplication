@@ -24,3 +24,32 @@ class profile(
 class test(
     val test:String?=""
 ){}
+class Type(val Breakfast: String? ="",
+           val Lunch : String ? = "",
+           val Dinner: String? ="",
+           val Transportation: String? ="",
+           val Drink :String="",
+           val Dessert : String = "",
+           val Social : String = "",
+           val Shopping : String = "",
+           val Hospital : String = "",
+           val Game : String = "",
+           val Gift : String = "",
+           val Other : String = "",) {
+    fun to_dict(): Map<String, *> {
+        return mapOf(
+            "Breakfast" to Breakfast,
+            "Lunch" to Lunch,
+            "Dinner" to Dinner,
+            "Transportation" to Transportation,
+            "Drink" to Drink,
+            "Dessert" to Dessert,
+            "Social" to Social,
+            "Shopping" to Shopping,
+            "Hospital" to Hospital,
+            "Game" to Game,
+            "Gift" to Gift,
+            "Other" to Other,
+        )
+    }
+}
