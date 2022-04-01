@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         actionBar = supportActionBar!!
-        actionBar.setBackgroundDrawable(ColorDrawable(Color.parseColor("#FFB366")))
+        actionBar.setBackgroundDrawable(ColorDrawable(Color.parseColor("#FFBB86FC")))
         actionBar.setTitle(Html.fromHtml("<font color=\"black\">"+"Login" ))
         //getActionBar()/* or getSupportActionBar() */.setTitle(Html.fromHtml("<font color=\"red\">" + getString(R.string.app_name) + "</font>"));
         progressDialog = ProgressDialog(this)

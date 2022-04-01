@@ -9,13 +9,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/color11_rectangle"
         android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
+            android:layout_weight="1.6"
+            android:background="@drawable/color11_rectangle"
             android:orientation="horizontal">
 
             <Spinner
@@ -23,29 +25,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/color11_rectangle"
                 android:gravity="center" />
 
             <Spinner
                 android:id="@+id/spinner2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/color11_rectangle" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/color11_rectangle"
             android:orientation="horizontal">
 
             <org.eazegraph.lib.charts.PieChart
                 android:id="@+id/piechart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.6"
-                android:padding="6dp"
+                android:layout_weight="1.2"
+                android:background="@drawable/color11_rectangle"
 
-                >
+                android:padding="6dp">
 
             </org.eazegraph.lib.charts.PieChart>
 
@@ -55,125 +60,494 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/Breakfast"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Breakfast"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/Lunch"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Lunch"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    <TextView
+                        android:id="@+id/textView56"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.3"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center"
+                        android:text="Percent"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
 
-                <TextView
-                    android:id="@+id/Dinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Dinner"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    <TextView
+                        android:id="@+id/textView57"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.3"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center"
+                        android:text="Value"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
 
-                <TextView
-                    android:id="@+id/Transportation"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Transportation"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    <TextView
+                        android:id="@+id/textView58"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center"
+                        android:text="Type"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/Drink"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Drink"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/Dessert"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Dessert"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color1_rectangle"
+                        app:srcCompat="@drawable/color1_rectangle" />
 
-                <TextView
-                    android:id="@+id/Social"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Social"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    <TextView
+                        android:id="@+id/textView32"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
 
-                <TextView
-                    android:id="@+id/Shopping"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Shopping"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    <TextView
+                        android:id="@+id/Breakfast"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Breakfast"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
 
-                <TextView
-                    android:id="@+id/Hospital"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Hospital"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/Game"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Game"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/Gift"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Gift"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color2_rectangle"
+                        app:srcCompat="@drawable/color2_rectangle" />
 
-                <TextView
-                    android:id="@+id/Other"
+                    <TextView
+                        android:id="@+id/textView33"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Lunch"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Lunch"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Other"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeTextType="uniform" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color3_rectangle"
+                        app:srcCompat="@drawable/color3_rectangle" />
+
+                    <TextView
+                        android:id="@+id/textView34"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Dinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Dinner"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color4_rectangle"
+                        app:srcCompat="@drawable/color4_rectangle" />
+
+                    <TextView
+                        android:id="@+id/textView35"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Transportation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Transport"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color5_rectangle"
+                        app:srcCompat="@drawable/color5_rectangle" />
+
+                    <TextView
+                        android:id="@+id/textView36"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Drink"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Drink"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color6_rectangle"
+                        app:srcCompat="@drawable/color6_rectangle" />
+
+                    <TextView
+                        android:id="@+id/textView37"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Dessert"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Dessert"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color7_rectangle"
+                        app:srcCompat="@drawable/color7_rectangle" />
+
+                    <TextView
+                        android:id="@+id/textView38"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Social"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Social"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color8_rectangle"
+                        app:srcCompat="@drawable/color8_rectangle" />
+
+                    <TextView
+                        android:id="@+id/textView39"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Shopping"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Shopping"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color9_rectangle"
+                        app:srcCompat="@drawable/color9_rectangle" />
+
+                    <TextView
+                        android:id="@+id/textView40"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Hospital"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Hospital"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color10_rectangle"
+                        app:srcCompat="@drawable/color10_rectangle" />
+
+                    <TextView
+                        android:id="@+id/textView41"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Game"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Game"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/color11_rectangle"
+                        app:srcCompat="@drawable/color11_rectangle" />
+
+                    <TextView
+                        android:id="@+id/textView42"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/Other"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/myfont"
+                        android:gravity="center|left"
+                        android:text="Other"
+                        android:textSize="13sp"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="13sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -182,7 +556,8 @@
             android:id="@+id/recyclerview1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.6" />
+            android:layout_weight="0.8"
+            android:background="@drawable/color11_rectangle" />
 
     </LinearLayout>
 

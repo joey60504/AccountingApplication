@@ -50,7 +50,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
         binding.date.text = nowdate
 
         binding.income.setBackgroundColor(Color.parseColor("#F5F5DC"))
-        binding.expense.setBackgroundColor(Color.parseColor("#FFB366"));
+        binding.expense.setBackgroundColor(Color.parseColor("#907dac"));
 
         setimagebtnlist()
         firstlogin()
@@ -69,7 +69,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageEgg.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageEgg)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -78,7 +78,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageLunch.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageLunch)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -87,7 +87,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageDinner.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageDinner)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -96,7 +96,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageBus.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageBus)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -105,7 +105,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageDrink.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageDrink)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -114,7 +114,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageCake.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageCake)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -123,7 +123,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imagePeople.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imagePeople)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -132,7 +132,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageBag.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageBag)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -141,7 +141,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageHospital.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageHospital)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -150,7 +150,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageGame.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageGame)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -159,7 +159,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageIncome.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageIncome)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
@@ -168,26 +168,26 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             binding.imageOther.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageOther)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.income.setOnClickListener{
             IncomeOrExpense = "Income"
-            binding.income.setBackgroundColor(Color.parseColor("#FFB366"));
+            binding.income.setBackgroundColor(Color.parseColor("#907dac"));
             binding.expense.setBackgroundColor(Color.parseColor("#F5F5DC"));
             TypeChoice="Income"
             binding.imageIncome.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageIncome)
             for (i in imagebtnlist.indices){
-                imagebtnlist[i].setBackgroundResource(R.drawable.white_rectangle)
+                imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.expense.setOnClickListener{
             IncomeOrExpense = "Expense"
             binding.income.setBackgroundColor(Color.parseColor("#F5F5DC"));
-            binding.expense.setBackgroundColor(Color.parseColor("#FFB366"));
+            binding.expense.setBackgroundColor(Color.parseColor("#907dac"));
         }
         binding.date.setOnClickListener {
             datePicker()

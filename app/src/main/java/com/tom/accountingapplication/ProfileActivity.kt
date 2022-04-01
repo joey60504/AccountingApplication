@@ -25,7 +25,7 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
         actionBar = supportActionBar!!
         actionBar.setTitle(Html.fromHtml("<font color=\"black\">"))
-        actionBar.setBackgroundDrawable(ColorDrawable(Color.parseColor("#FFB366")))
+        actionBar.setBackgroundDrawable(ColorDrawable(Color.parseColor("#FFBB86FC")))
 
         binding.button.setOnClickListener{
             profileupload()

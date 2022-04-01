@@ -11,15 +11,20 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.common.internal.AccountType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.tom.accountingapplication.databinding.FragmentGalleryBinding
+import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
+import java.io.PipedWriter
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -62,7 +67,6 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         _binding = FragmentGalleryBinding.inflate(inflater,container,false)
         DataSelectAll()
         SpinnerDataSelect()
-
         return binding.root
     }
     fun setdata(Breakfast:Float,Lunch:Float,Dinner:Float,Transportation:Float,
@@ -70,18 +74,31 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 Hospital:Float,Game:Float,Other:Float){
         val total = CalculatetypeArray.sum()
         binding.piechart.clearChart()
-        binding.piechart.addPieSlice(PieModel("Breakfast", (Breakfast/total),Color.parseColor("#FF88C2")))
-        binding.piechart.addPieSlice(PieModel("Lunch",(Lunch/total),Color.parseColor("#FF3333")))
-        binding.piechart.addPieSlice(PieModel("Dinner", (Dinner/total),Color.parseColor("#FFCC22")))
-        binding.piechart.addPieSlice(PieModel("Transportation",(Transportation/total),Color.parseColor("#FFFF00")))
-        binding.piechart.addPieSlice(PieModel("Drink", (Drink/total),Color.parseColor("#00DD00")))
-        binding.piechart.addPieSlice(PieModel("Dessert",(Dessert/total),Color.parseColor("#00AA55")))
-        binding.piechart.addPieSlice(PieModel("Social", (Social/total),Color.parseColor("#009FCC")))
-        binding.piechart.addPieSlice(PieModel("Shopping",(Shopping/total),Color.parseColor("#0000FF")))
-        binding.piechart.addPieSlice(PieModel("Hospital", (Hospital/total),Color.parseColor("#9955FF")))
-        binding.piechart.addPieSlice(PieModel("Game",(Game/total),Color.parseColor("#990099")))
-        binding.piechart.addPieSlice(PieModel("Other",(Other/total),Color.parseColor("#E8CCFF")))
+        binding.piechart.addPieSlice(PieModel("Breakfast", (Breakfast/total),Color.parseColor("#c5d0e2")))
+        binding.piechart.addPieSlice(PieModel("Lunch",(Lunch/total),Color.parseColor("#f7f1bd")))
+        binding.piechart.addPieSlice(PieModel("Dinner", (Dinner/total),Color.parseColor("#e2cece")))
+        binding.piechart.addPieSlice(PieModel("Transportation",(Transportation/total),Color.parseColor("#bce9b2")))
+        binding.piechart.addPieSlice(PieModel("Drink", (Drink/total),Color.parseColor("#d9d19b")))
+        binding.piechart.addPieSlice(PieModel("Dessert",(Dessert/total),Color.parseColor("#a77979")))
+        binding.piechart.addPieSlice(PieModel("Social", (Social/total),Color.parseColor("#99a4f5")))
+        binding.piechart.addPieSlice(PieModel("Shopping",(Shopping/total),Color.parseColor("#d4a46f")))
+        binding.piechart.addPieSlice(PieModel("Hospital", (Hospital/total),Color.parseColor("#e69575")))
+        binding.piechart.addPieSlice(PieModel("Game",(Game/total),Color.parseColor("#ffcece")))
+        binding.piechart.addPieSlice(PieModel("Other",(Other/total),Color.parseColor("#e6e1d7")))
         binding.piechart.startAnimation();
+        val fixdata = DecimalFormat("00.00")
+        val fixdata2 = DecimalFormat("00,000")
+        binding.textView32.text = "${fixdata.format((Breakfast/total)*100.0)}%  $${fixdata2.format(Breakfast)}"
+        binding.textView33.text = "${fixdata.format((Lunch/total)*100.0)}%  $${fixdata2.format(Lunch)}"
+        binding.textView34.text = "${fixdata.format((Dinner/total)*100.0)}%  $${fixdata2.format(Dinner)}"
+        binding.textView35.text = "${fixdata.format((Transportation/total)*100.0)}%  $${fixdata2.format(Transportation)}"
+        binding.textView36.text = "${fixdata.format((Drink/total)*100.0)}%  $${fixdata2.format(Drink)}"
+        binding.textView37.text = "${fixdata.format((Dessert/total)*100.0)}%  $${fixdata2.format(Dessert)}"
+        binding.textView38.text = "${fixdata.format((Social/total)*100.0)}%  $${fixdata2.format(Social)}"
+        binding.textView39.text = "${fixdata.format((Shopping/total)*100.0)}%  $${fixdata2.format(Shopping)}"
+        binding.textView40.text = "${fixdata.format((Hospital/total)*100.0)}%  $${fixdata2.format(Hospital)}"
+        binding.textView41.text = "${fixdata.format((Game/total)*100.0)}%  $${fixdata2.format(Game)}"
+        binding.textView42.text = "${fixdata.format((Other/total)*100.0)}%  $${fixdata2.format(Other)}"
     }
     fun SpinnerDataSelect(){
         binding.spinner.adapter = MyAdapter(requireContext(),listOf("All","One_Week", "One_Month", "Six_Month", "One_Year"))

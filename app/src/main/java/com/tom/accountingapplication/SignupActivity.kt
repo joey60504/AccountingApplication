@@ -30,7 +30,7 @@ class SignupActivity : AppCompatActivity() {
         actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + "Signup" ))
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setDisplayShowHomeEnabled(true)
-        actionBar.setBackgroundDrawable(ColorDrawable(Color.parseColor("#FFB366")))
+        actionBar.setBackgroundDrawable(ColorDrawable(Color.parseColor("#FFBB86FC")))
 
         progressDialog= ProgressDialog(this)
         progressDialog.setTitle("Please wait")

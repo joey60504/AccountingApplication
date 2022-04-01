@@ -10,6 +10,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/color11_rectangle"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.2"
+            android:background="@drawable/color11_rectangle"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -33,6 +35,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:autoText="false"
+                android:fontFamily="@font/myfont"
                 android:text="expense"
                 app:autoSizeTextType="uniform" />
 
@@ -44,6 +47,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:autoText="false"
+                android:fontFamily="@font/myfont"
                 android:text="income"
                 app:autoSizeTextType="uniform" />
 
@@ -53,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.8"
+            android:background="@drawable/color11_rectangle"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -67,7 +72,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/beige_rectangle"
-                    android:src="@drawable/breakfast_egg_icon"
+                    android:src="@drawable/breakfast_icon"
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
@@ -75,6 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Breakfast"
                     app:autoSizeMaxTextSize="15sp"
@@ -94,6 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Drink"
                     app:autoSizeMaxTextSize="15sp"
@@ -113,6 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Hospital"
                     app:autoSizeMaxTextSize="15sp"
@@ -133,13 +141,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/food_icon" />
+                    android:src="@drawable/lunch_icon" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Lunch"
                     app:autoSizeMaxTextSize="15sp"
@@ -152,13 +161,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/cake_icon" />
+                    android:src="@drawable/dessert_icon" />
 
                 <TextView
                     android:id="@+id/textView25"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Dessert"
                     app:autoSizeMaxTextSize="15sp"
@@ -178,6 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Game"
                     app:autoSizeMaxTextSize="15sp"
@@ -197,13 +208,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/fork_knife_icon" />
+                    android:src="@drawable/dinner_icon" />
 
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Dinner"
                     app:autoSizeMaxTextSize="15sp"
@@ -216,13 +228,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/people_icon" />
+                    android:src="@drawable/social_icon" />
 
                 <TextView
                     android:id="@+id/textView26"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Social"
                     app:autoSizeMaxTextSize="15sp"
@@ -235,13 +248,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/money_icon" />
+                    android:src="@drawable/income_icon" />
 
                 <TextView
                     android:id="@+id/textView30"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Income"
                     app:autoSizeMaxTextSize="15sp"
@@ -261,13 +275,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/bus_icon" />
+                    android:src="@drawable/transportation_icon" />
 
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Transportation"
                     app:autoSizeMaxTextSize="15sp"
@@ -280,13 +295,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/shopping_bag_icon" />
+                    android:src="@drawable/shopping_icon" />
 
                 <TextView
                     android:id="@+id/textView27"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Shopping"
                     app:autoSizeMaxTextSize="15sp"
@@ -306,6 +322,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
+                    android:fontFamily="@font/myfont"
                     android:gravity="center"
                     android:text="Other"
                     app:autoSizeMaxTextSize="15sp"
@@ -320,6 +337,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.2"
+            android:background="@drawable/color11_rectangle"
+            android:fontFamily="@font/myfont"
             android:onClick="datePicker"
             android:text="20XX/XX/XX"
             app:autoSizeTextType="uniform"
@@ -338,6 +357,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:fontFamily="@font/myfont"
+                android:gravity="center"
                 android:hint="EnterPrice"
                 android:inputType="textPersonName"
                 android:textSize="18sp" />
@@ -347,26 +368,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:fontFamily="@font/myfont"
+                android:gravity="center"
                 android:hint="EnterRemark"
                 android:inputType="textPersonName"
                 android:textSize="18sp" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/upload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autoText="false"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:background="@drawable/color11_rectangle"
             android:gravity="center"
-            android:text="UPLOAD"
-            app:autoSizeTextType="uniform" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoText="false"
+                android:fontFamily="@font/myfont"
+                android:gravity="center"
+                android:text="UPLOAD"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.8" />
+            android:layout_weight="0.8"
+            android:background="@drawable/color11_rectangle" />
 
     </LinearLayout>
 
