@@ -236,11 +236,25 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
                     database.child(emailname).child("Accounting").updateChildren(accounting)
                     binding.filltype.setText("")
                     binding.fillmoney.setText("")
+                    if(IncomeOrExpense == "Income"){
+                        val emailvalue =it.value as java.util.HashMap<String, Any>
+                        val profile = emailvalue["Profile"] as HashMap<*,*>
+                        val asset = profile["Asset"].toString()
+                        val addasset = (FillPrice.toFloat()+asset.toFloat()).toString()
+                        database.child(emailname).child("Profile").child("Asset").setValue(addasset)
+                    }
                 } else {
                     accounting.put(FixNowDate, arrayListOf<Map<String, *>>(upload))
                     database.child(emailname).child("Accounting").updateChildren(accounting)
                     binding.filltype.setText("")
                     binding.fillmoney.setText("")
+                    if(IncomeOrExpense == "Income"){
+                        val profile = it.value as java.util.HashMap<String, Any>
+                        val asset = profile["Asset"].toString()
+                        Log.d("kkk",asset.toString())
+                        val addasset = (FillPrice.toFloat()+asset.toFloat()).toString()
+                        database.child(emailname).child("Profile").child("Asset").setValue(addasset)
+                    }
                 }
             }
         }
