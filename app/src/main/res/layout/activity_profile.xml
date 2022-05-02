@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/color11_rectangle"
+    android:background="@drawable/background_rectangle"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".ProfileActivity">
@@ -27,7 +27,7 @@
         android:layout_width="412dp"
         android:layout_height="match_parent"
         android:layout_weight="0.2"
-        android:background="@drawable/color11_rectangle"
+        android:background="@drawable/background_rectangle"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:orientation="horizontal">
 
             <TextView
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:orientation="horizontal">
 
             <TextView
@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:orientation="horizontal">
 
             <TextView
