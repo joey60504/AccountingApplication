@@ -4,26 +4,22 @@ import android.R
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.common.internal.AccountType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.tom.accountingapplication.DialogAccuountingDetail
 import com.tom.accountingapplication.databinding.FragmentGalleryBinding
-import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
-import java.io.PipedWriter
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -442,10 +438,9 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         CalculatetypeArray.add(FinalHospital)
         CalculatetypeArray.add(FinalGame)
         CalculatetypeArray.add(FinalOther)
-        Log.d("kkk",CalculatetypeArray.toString())
     }
     override fun onItemClick(position: Int) {
-
+        activity?.supportFragmentManager?.let { DialogAccuountingDetail(StoreArray[position]).show(it, "DialogAccuountingDetail") }
     }
 
 }

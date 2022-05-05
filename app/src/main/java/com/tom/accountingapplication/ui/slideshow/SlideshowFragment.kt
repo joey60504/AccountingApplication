@@ -41,7 +41,7 @@ class SlideshowFragment : Fragment() {
             binding.textView9.text=name
             binding.textView19.text=birthday
             binding.textView21.text=phone
-            binding.textView23.text=emailname
+            binding.textView23.text=email
         }
     }
 }

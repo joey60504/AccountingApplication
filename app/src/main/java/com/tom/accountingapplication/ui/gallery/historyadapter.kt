@@ -16,6 +16,9 @@ class histortyadapter(private val itemListener:OnItemClick):RecyclerView.Adapter
         return ViewHolder(binding)
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.view.cardview1.setOnClickListener {
+            itemListener.onItemClick(position)
+        }
         val data=dataList[position]
         val incomeorexpense=data["IncomeOrExpense"].toString()
         val datetext=data["Date"].toString()
