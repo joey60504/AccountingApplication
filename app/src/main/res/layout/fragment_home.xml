@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/color11_rectangle"
+        android:background="@drawable/background_rectangle"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.2"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.8"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -108,12 +108,12 @@
                     app:autoSizeTextType="uniform" />
 
                 <ImageButton
-                    android:id="@+id/imageHospital"
+                    android:id="@+id/imageBill"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/hospital_icon" />
+                    android:src="@drawable/bill_icon" />
 
                 <TextView
                     android:id="@+id/textView28"
@@ -122,7 +122,7 @@
                     android:layout_weight="1.2"
                     android:fontFamily="@font/myfont"
                     android:gravity="center"
-                    android:text="Hospital"
+                    android:text="Bill"
                     app:autoSizeMaxTextSize="15sp"
                     app:autoSizeMinTextSize="5sp"
                     app:autoSizeTextType="uniform" />
@@ -337,7 +337,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.2"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:fontFamily="@font/myfont"
             android:onClick="datePicker"
             android:text="20XX/XX/XX"
@@ -380,7 +380,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.2"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -400,7 +400,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.8"
-            android:background="@drawable/color11_rectangle" />
+            android:background="@drawable/background_rectangle" />
 
     </LinearLayout>
 

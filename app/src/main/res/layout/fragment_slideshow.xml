@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/color11_rectangle"
+        android:background="@drawable/background_rectangle"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.8"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:orientation="vertical">
 
             <TextView
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.4"
-                android:background="@drawable/color11_rectangle"
+                android:background="@drawable/background_rectangle"
                 android:fontFamily="@font/myfont"
                 android:gravity="center"
                 android:text="Personal\nInformation"
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/color11_rectangle"
+                android:background="@drawable/background_rectangle"
                 android:orientation="horizontal">
 
                 <TextView
@@ -77,7 +77,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/color11_rectangle"
+                        android:background="@drawable/background_rectangle"
                         android:src="@drawable/pencil_icon" />
 
                     <TextView
@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:orientation="horizontal">
 
             <TextView
@@ -128,7 +128,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:orientation="horizontal">
 
             <TextView
@@ -156,7 +156,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:orientation="horizontal">
 
             <TextView
@@ -184,7 +184,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/color11_rectangle"
+            android:background="@drawable/background_rectangle"
             android:orientation="horizontal">
 
             <TextView

@@ -4,22 +4,27 @@ import android.R
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.common.internal.AccountType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.tom.accountingapplication.DialogAccuountingDetail
 import com.tom.accountingapplication.databinding.FragmentGalleryBinding
+import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
+import java.io.PipedWriter
+import java.lang.Math.abs
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,18 +35,18 @@ import kotlin.collections.HashMap
 class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
     private var _binding : FragmentGalleryBinding?= null
     private val binding get() = _binding!!
-
     lateinit var auth : FirebaseAuth
 
     var chosentime:String="All"
+    var chosentimevalue :Float = 0f
     var chosenkind:String="All"
+    var Asset :String = ""
     var StoreArray= arrayListOf<HashMap<*,*>>()
     var dayslist= arrayListOf<Int>()
     var deletearray= arrayListOf<HashMap<*,*>>()
     var Typearray= arrayListOf<String>()
     var Typedeletearray = arrayListOf<HashMap<*,*>>()
     var CalculatetypeArray = arrayListOf<Float>()
-
 
     var FinalBreakfast:Float= 0f
     var FinalLunch:Float= 0f
@@ -51,9 +56,10 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
     var FinalDessert:Float= 0f
     var FinalSocial:Float= 0f
     var FinalShopping:Float= 0f
-    var FinalHospital:Float= 0f
+    var FinalBill:Float= 0f
     var FinalGame:Float= 0f
     var FinalOther:Float= 0f
+    var FinalIncome:Float = 0f
 
     override fun onCreateView (
         inflater:LayoutInflater,
@@ -67,7 +73,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
     }
     fun setdata(Breakfast:Float,Lunch:Float,Dinner:Float,Transportation:Float,
                 Drink:Float,Dessert:Float,Social:Float,Shopping:Float,
-                Hospital:Float,Game:Float,Other:Float){
+                Bill:Float,Game:Float,Other:Float){
         val total = CalculatetypeArray.sum()
         binding.piechart.clearChart()
         binding.piechart.addPieSlice(PieModel("Breakfast", (Breakfast/total),Color.parseColor("#c5d0e2")))
@@ -78,11 +84,11 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         binding.piechart.addPieSlice(PieModel("Dessert",(Dessert/total),Color.parseColor("#a77979")))
         binding.piechart.addPieSlice(PieModel("Social", (Social/total),Color.parseColor("#99a4f5")))
         binding.piechart.addPieSlice(PieModel("Shopping",(Shopping/total),Color.parseColor("#d4a46f")))
-        binding.piechart.addPieSlice(PieModel("Hospital", (Hospital/total),Color.parseColor("#e69575")))
+        binding.piechart.addPieSlice(PieModel("Bill", (Bill/total),Color.parseColor("#f2b175")))
         binding.piechart.addPieSlice(PieModel("Game",(Game/total),Color.parseColor("#ffcece")))
-        binding.piechart.addPieSlice(PieModel("Other",(Other/total),Color.parseColor("#e6e1d7")))
+        binding.piechart.addPieSlice(PieModel("Other",(Other/total),Color.parseColor("#876f99")))
         binding.piechart.startAnimation();
-        val fixdata = DecimalFormat("00.00")
+        val fixdata = DecimalFormat("000.00")
         val fixdata2 = DecimalFormat("00,000")
         binding.textView32.text = "${fixdata.format((Breakfast/total)*100.0)}%  $${fixdata2.format(Breakfast)}"
         binding.textView33.text = "${fixdata.format((Lunch/total)*100.0)}%  $${fixdata2.format(Lunch)}"
@@ -92,9 +98,14 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         binding.textView37.text = "${fixdata.format((Dessert/total)*100.0)}%  $${fixdata2.format(Dessert)}"
         binding.textView38.text = "${fixdata.format((Social/total)*100.0)}%  $${fixdata2.format(Social)}"
         binding.textView39.text = "${fixdata.format((Shopping/total)*100.0)}%  $${fixdata2.format(Shopping)}"
-        binding.textView40.text = "${fixdata.format((Hospital/total)*100.0)}%  $${fixdata2.format(Hospital)}"
+        binding.textView40.text = "${fixdata.format((Bill/total)*100.0)}%  $${fixdata2.format(Bill)}"
         binding.textView41.text = "${fixdata.format((Game/total)*100.0)}%  $${fixdata2.format(Game)}"
         binding.textView42.text = "${fixdata.format((Other/total)*100.0)}%  $${fixdata2.format(Other)}"
+        binding.textView62.text = "${fixdata.format((total/total)*100.0)}%  $${fixdata2.format(total)}"
+        binding.textView54.text = "$${Asset.toFloat()}"
+        binding.textView55.text = "$${FinalIncome}"
+        Log.d("kkk",chosentimevalue.toString())
+        binding.textView61.text = "$${chosentimevalue*10000-total}"
     }
     fun SpinnerDataSelect(){
         binding.spinner.adapter = MyAdapter(requireContext(),listOf("All","One_Week", "One_Month", "Six_Month", "One_Year"))
@@ -107,8 +118,8 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
-        binding.spinner2.adapter = MyAdapter(requireContext(),listOf("All","Breakfast","Lunch","Dinner","Transportation", "Drink","Dessert","Social","Shopping", "Hospital","Game","Income","Other","Without Income"))
-        val kind = arrayListOf("All","Breakfast","Lunch","Dinner","Transportation", "Drink","Dessert","Social","Shopping", "Hospital","Game","Income","Other","Without Income")
+        binding.spinner2.adapter = MyAdapter(requireContext(),listOf("All","Breakfast","Lunch","Dinner","Transportation", "Drink","Dessert","Social","Shopping", "Bill","Game","Income","Other","Without Income"))
+        val kind = arrayListOf("All","Breakfast","Lunch","Dinner","Transportation", "Drink","Dessert","Social","Shopping", "Bill","Game","Income","Other","Without Income")
         binding.spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 DataSelectAll()
@@ -130,6 +141,8 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 val root=dataSnapshot.value as HashMap<*,*>
                 val useremail=root[emailname] as HashMap<*,*>
                 try {
+                    val profile = useremail["Profile"] as HashMap<*,*>
+                    Asset = profile["Asset"].toString()
                     val accounting = useremail["Accounting"] as HashMap<*,*>
                     val keysarray = accounting.keys.filter {
                         it != "test"
@@ -148,7 +161,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                     DataSelectTime()
                     DataSelectKind()
                     DataFloatSelect()
-                    setdata(FinalBreakfast,FinalLunch,FinalDinner,FinalTransportation,FinalDrink,FinalDessert,FinalSocial,FinalShopping,FinalHospital,FinalGame,FinalOther)
+                    setdata(FinalBreakfast,FinalLunch,FinalDinner,FinalTransportation,FinalDrink,FinalDessert,FinalSocial,FinalShopping,FinalBill,FinalGame,FinalOther)
                 }
                 catch (e: Exception){
                     StoreArray= arrayListOf()
@@ -202,11 +215,20 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
             var days = (diff / (1000 * 60 * 60 * 24)).toInt()
             dayslist.add(days)
         }//get相差天數陣列
+        val fixdata = DecimalFormat("00")
         when (chosentime){
             "All"->{
-
+                var minnumber = dayslist.minOrNull()?.toFloat()
+                if (minnumber != null) {
+                    val a = 100f
+                    chosentimevalue = fixdata.format(abs(minnumber)/30).toFloat()
+                    if(chosentimevalue == 0.0f){
+                        chosentimevalue = 1.0f
+                    }
+                }
             }
             "One_Week"->{
+                chosentimevalue = 0.25f
                 for(i in dayslist.indices){
                     if (dayslist[i] <= -7) {
                         deletearray.add(StoreArray[i])
@@ -216,6 +238,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 deletearray.clear()
             }
             "One_Month"->{
+                chosentimevalue = 1.0f
                 for(i in dayslist.indices){
                     if (dayslist[i] <= -31) {
                         deletearray.add(StoreArray[i])
@@ -225,6 +248,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 deletearray.clear()
             }
             "Six_Month"->{
+                chosentimevalue = 6.0f
                 for(i in dayslist.indices){
                     if (dayslist[i] <= -186) {
                         deletearray.add(StoreArray[i])
@@ -234,8 +258,9 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 deletearray.clear()
             }
             "One_Year"->{
+                chosentimevalue = 12.0f
                 for(i in dayslist.indices){
-                    if (dayslist[i] <= -365) {
+                    if (dayslist[i] <= -366) {
                         deletearray.add(StoreArray[i])
                     }
                 }
@@ -327,9 +352,9 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 StoreArray.removeAll(Typedeletearray)
                 Typedeletearray.clear()
             }
-            "Hospital" -> {
+            "Bill" -> {
                 for (i in Typearray.indices) {
-                    if (Typearray[i] != "Hospital") {
+                    if (Typearray[i] != "Bill") {
                         Typedeletearray.add(StoreArray[i])
                     }
                 }
@@ -383,8 +408,9 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         FinalDessert= 0f
         FinalSocial= 0f
         FinalShopping= 0f
-        FinalHospital= 0f
+        FinalBill= 0f
         FinalGame= 0f
+        FinalIncome = 0f
         FinalOther= 0f
         CalculatetypeArray.clear()
         for (i in StoreArray.indices) {
@@ -416,11 +442,14 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 "Shopping" -> {
                     FinalShopping+=price
                 }
-                "Hospital" -> {
-                    FinalHospital+=price
+                "Bill" -> {
+                    FinalBill+=price
                 }
                 "Game" -> {
                     FinalGame+=price
+                }
+                "Income" ->{
+                    FinalIncome +=price
                 }
                 "Other" -> {
                     FinalOther+=price
@@ -435,12 +464,12 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         CalculatetypeArray.add(FinalDessert)
         CalculatetypeArray.add(FinalSocial)
         CalculatetypeArray.add(FinalShopping)
-        CalculatetypeArray.add(FinalHospital)
+        CalculatetypeArray.add(FinalBill)
         CalculatetypeArray.add(FinalGame)
         CalculatetypeArray.add(FinalOther)
     }
     override fun onItemClick(position: Int) {
-        activity?.supportFragmentManager?.let { DialogAccuountingDetail(StoreArray[position]).show(it, "DialogAccuountingDetail") }
+
     }
 
 }

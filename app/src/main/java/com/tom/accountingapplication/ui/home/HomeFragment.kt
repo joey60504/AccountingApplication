@@ -61,7 +61,7 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
         imagebtnlist= arrayListOf(
             binding.imageEgg,binding.imageLunch,binding.imageDinner,binding.imageBus,
             binding.imageDrink,binding.imageCake,binding.imagePeople,binding.imageBag,
-            binding.imageHospital,binding.imageGame,binding.imageIncome,binding.imageOther)
+            binding.imageBill,binding.imageGame,binding.imageIncome,binding.imageOther)
     }
     fun setonclick(){
         binding.imageEgg.setOnClickListener {
@@ -136,10 +136,10 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
             }
             setimagebtnlist()
         }
-        binding.imageHospital.setOnClickListener {
-            TypeChoice="Hospital"
-            binding.imageHospital.setBackgroundResource(R.drawable.beige_rectangle)
-            imagebtnlist.remove(binding.imageHospital)
+        binding.imageBill.setOnClickListener {
+            TypeChoice="Bill"
+            binding.imageBill.setBackgroundResource(R.drawable.beige_rectangle)
+            imagebtnlist.remove(binding.imageBill)
             for (i in imagebtnlist.indices){
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
@@ -236,11 +236,33 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
                     database.child(emailname).child("Accounting").updateChildren(accounting)
                     binding.filltype.setText("")
                     binding.fillmoney.setText("")
+                    val emailvalue = it.value as java.util.HashMap<String, Any>
+                    val profile = emailvalue["Profile"] as HashMap<*,*>
+                    val asset = profile["Asset"].toString()
+                    if(IncomeOrExpense == "Income"){
+                        val addasset = (FillPrice.toFloat()+asset.toFloat()).toString()
+                        database.child(emailname).child("Profile").child("Asset").setValue(addasset)
+                    }
+                    else if(IncomeOrExpense == "Expense"){
+                        val subasset = (asset.toFloat()-FillPrice.toFloat()).toString()
+                        database.child(emailname).child("Profile").child("Asset").setValue(subasset)
+                    }
                 } else {
                     accounting.put(FixNowDate, arrayListOf<Map<String, *>>(upload))
                     database.child(emailname).child("Accounting").updateChildren(accounting)
                     binding.filltype.setText("")
                     binding.fillmoney.setText("")
+                    val emailvalue = it.value as java.util.HashMap<String, Any>
+                    val profile = emailvalue["Profile"] as HashMap<*,*>
+                    val asset = profile["Asset"].toString()
+                    if(IncomeOrExpense == "Income"){
+                        val addasset = (FillPrice.toFloat()+asset.toFloat()).toString()
+                        database.child(emailname).child("Profile").child("Asset").setValue(addasset)
+                    }
+                    else if(IncomeOrExpense == "Expense"){
+                        val subasset = (asset.toFloat()-FillPrice.toFloat()).toString()
+                        database.child(emailname).child("Profile").child("Asset").setValue(subasset)
+                    }
                 }
             }
         }
