@@ -5,8 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/beige_rectangle"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".DialogAccuountingDetail">
+
+    <TextView
+        android:id="@+id/textView63"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/beige_rectangle"
+        android:fontFamily="@font/myfont"
+        android:gravity="center"
+        android:text="About Detail"
+        app:autoSizeMaxTextSize="25sp"
+        app:autoSizeMinTextSize="14sp"
+        app:autoSizeTextType="uniform" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -109,7 +123,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.2"
+        android:layout_weight="1.1"
         android:background="@drawable/beige_rectangle"
         android:orientation="horizontal">
 
@@ -117,7 +131,6 @@
             android:id="@+id/textView62"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@drawable/beige_rectangle"
             android:fontFamily="@font/myfont"
             android:gravity="center"
@@ -139,6 +152,15 @@
         app:autoSizeMaxTextSize="25sp"
         app:autoSizeMinTextSize="14sp"
         app:autoSizeTextType="uniform" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1.1"
+        android:fontFamily="@font/myfont"
+        android:text="Delete Target Accounting"
+        android:textSize="14sp" />
 
 
 </LinearLayout>

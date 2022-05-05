@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AccountingApplication">
         <activity
+            android:name=".yesnodialog"
+            android:exported="false" />
+        <activity
             android:name=".DialogAccuountingDetail"
             android:exported="false" />
         <activity

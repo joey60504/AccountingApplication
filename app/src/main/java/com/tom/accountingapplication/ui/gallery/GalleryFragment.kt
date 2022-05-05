@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.tom.accountingapplication.DialogAccuountingDetail
 import com.tom.accountingapplication.databinding.FragmentGalleryBinding
 import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
@@ -469,7 +470,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         CalculatetypeArray.add(FinalOther)
     }
     override fun onItemClick(position: Int) {
-
+        activity?.supportFragmentManager?.let { DialogAccuountingDetail(StoreArray[position]).show(it, "DialogAccuountingDetail")}
     }
 
 }
