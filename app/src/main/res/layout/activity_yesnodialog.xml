@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:fontFamily="@font/myfont"
-        android:text="Sure To Delete?"
         android:textSize="25sp" />
 
     <LinearLayout

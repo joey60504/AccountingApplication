@@ -153,14 +153,5 @@
         app:autoSizeMinTextSize="14sp"
         app:autoSizeTextType="uniform" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1.1"
-        android:fontFamily="@font/myfont"
-        android:text="Delete Target Accounting"
-        android:textSize="14sp" />
-
 
 </LinearLayout>

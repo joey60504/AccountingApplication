@@ -11,10 +11,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.common.internal.AccountType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -22,10 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.tom.accountingapplication.DialogAccuountingDetail
 import com.tom.accountingapplication.databinding.FragmentGalleryBinding
-import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
-import java.io.PipedWriter
-import java.lang.Math.abs
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,7 +34,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
     lateinit var auth : FirebaseAuth
 
     var chosentime:String="All"
-    var chosentimevalue :Float = 0f
+    var monthaddprice :Float = 0f
     var chosenkind:String="All"
     var Asset :String = ""
     var StoreArray= arrayListOf<HashMap<*,*>>()
@@ -70,6 +65,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         _binding = FragmentGalleryBinding.inflate(inflater,container,false)
         DataSelectAll()
         SpinnerDataSelect()
+
         return binding.root
     }
     fun setdata(Breakfast:Float,Lunch:Float,Dinner:Float,Transportation:Float,
@@ -105,8 +101,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         binding.textView62.text = "${fixdata.format((total/total)*100.0)}%  $${fixdata2.format(total)}"
         binding.textView54.text = "$${Asset.toFloat()}"
         binding.textView55.text = "$${FinalIncome}"
-        Log.d("kkk",chosentimevalue.toString())
-        binding.textView61.text = "$${chosentimevalue*10000-total}"
+        binding.textView61.text = "$${10000-monthaddprice}"
     }
     fun SpinnerDataSelect(){
         binding.spinner.adapter = MyAdapter(requireContext(),listOf("All","One_Week", "One_Month", "Six_Month", "One_Year"))
@@ -159,6 +154,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                         val date = accounting[AccountingKeysList[i]] as ArrayList<HashMap<*, *>>
                         StoreArray.addAll(date)
                     }
+                    chosentimevalue()
                     DataSelectTime()
                     DataSelectKind()
                     DataFloatSelect()
@@ -216,20 +212,10 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
             var days = (diff / (1000 * 60 * 60 * 24)).toInt()
             dayslist.add(days)
         }//get相差天數陣列
-        val fixdata = DecimalFormat("00")
         when (chosentime){
             "All"->{
-                var minnumber = dayslist.minOrNull()?.toFloat()
-                if (minnumber != null) {
-                    val a = 100f
-                    chosentimevalue = fixdata.format(abs(minnumber)/30).toFloat()
-                    if(chosentimevalue == 0.0f){
-                        chosentimevalue = 1.0f
-                    }
-                }
             }
             "One_Week"->{
-                chosentimevalue = 0.25f
                 for(i in dayslist.indices){
                     if (dayslist[i] <= -7) {
                         deletearray.add(StoreArray[i])
@@ -239,7 +225,6 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 deletearray.clear()
             }
             "One_Month"->{
-                chosentimevalue = 1.0f
                 for(i in dayslist.indices){
                     if (dayslist[i] <= -31) {
                         deletearray.add(StoreArray[i])
@@ -249,7 +234,6 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 deletearray.clear()
             }
             "Six_Month"->{
-                chosentimevalue = 6.0f
                 for(i in dayslist.indices){
                     if (dayslist[i] <= -186) {
                         deletearray.add(StoreArray[i])
@@ -259,7 +243,6 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 deletearray.clear()
             }
             "One_Year"->{
-                chosentimevalue = 12.0f
                 for(i in dayslist.indices){
                     if (dayslist[i] <= -366) {
                         deletearray.add(StoreArray[i])
@@ -472,5 +455,18 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
     override fun onItemClick(position: Int) {
         activity?.supportFragmentManager?.let { DialogAccuountingDetail(StoreArray[position]).show(it, "DialogAccuountingDetail")}
     }
-
+    fun chosentimevalue(){
+        monthaddprice = 0f
+        var dateFormat = SimpleDateFormat("MM")
+        val nowdate = dateFormat.format(Date())
+        for( i in StoreArray.indices){
+            val storehashmap = StoreArray[i]
+            val date = storehashmap["Date"].toString()
+            val fixstring = date.substring(5,7)
+            if(fixstring == nowdate && storehashmap["IncomeOrExpense"] == "Expense"){
+                monthaddprice += storehashmap["FillPrice"].toString().toInt()
+            }
+        }
+        Log.d("kkk",monthaddprice.toString())
+    }
 }

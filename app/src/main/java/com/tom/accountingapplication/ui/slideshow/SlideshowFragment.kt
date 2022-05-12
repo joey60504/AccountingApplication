@@ -1,5 +1,6 @@
 package com.tom.accountingapplication.ui.slideshow
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.tom.accountingapplication.ModifyPersonalInformation
 import com.tom.accountingapplication.databinding.FragmentSlideshowBinding
+import com.tom.accountingapplication.homepage
 
 class SlideshowFragment : Fragment() {
 
@@ -23,6 +26,9 @@ class SlideshowFragment : Fragment() {
     ): View {
         _binding = FragmentSlideshowBinding.inflate(inflater,container,false)
         val root: View = binding.root
+        binding.imageButton3.setOnClickListener {
+            startActivity(Intent(requireContext(), ModifyPersonalInformation::class.java))
+        }
         getdata()
         return root
     }

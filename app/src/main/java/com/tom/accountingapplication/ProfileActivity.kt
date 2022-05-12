@@ -36,7 +36,6 @@ class ProfileActivity : AppCompatActivity() {
         val name = binding.editTextTextPersonName11.text.toString()
         val phone = binding.editTextTextPersonName12.text.toString()
         val birthday = binding.editTextTextPersonName13.text.toString()
-
         auth = FirebaseAuth.getInstance()
         var email = auth.currentUser?.email.toString()
         val LittleMouseAt=email.indexOf("@")
