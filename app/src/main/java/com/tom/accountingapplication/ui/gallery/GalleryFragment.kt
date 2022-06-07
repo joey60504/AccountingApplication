@@ -39,6 +39,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
     var Asset :String = ""
     var StoreArray= arrayListOf<HashMap<*,*>>()
     var dayslist= arrayListOf<Int>()
+    var monthlist = arrayListOf<String>()
     var deletearray= arrayListOf<HashMap<*,*>>()
     var Typearray= arrayListOf<String>()
     var Typedeletearray = arrayListOf<HashMap<*,*>>()
@@ -104,8 +105,8 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         binding.textView61.text = "$${10000-monthaddprice}"
     }
     fun SpinnerDataSelect(){
-        binding.spinner.adapter = MyAdapter(requireContext(),listOf("All","One_Week", "One_Month", "Six_Month", "One_Year"))
-        val time = arrayListOf("All","One_Week", "One_Month", "Six_Month", "One_Year")
+        binding.spinner.adapter = MyAdapter(requireContext(),listOf("All","One_Week", "One_Month","Last_Month", "Six_Month", "One_Year"))
+        val time = arrayListOf("All","One_Week", "One_Month","Last_Month", "Six_Month", "One_Year")
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 DataSelectAll()
@@ -203,17 +204,26 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         var dateFormat = SimpleDateFormat("yyyy/MM/dd")
         val nowdate = dateFormat.format(Date())
         var startTime: Date = dateFormat.parse(nowdate)
+
+        var dateFormatM = SimpleDateFormat("MM")
+        val nowdateM = dateFormatM.format(Date())
         dayslist.clear()
+        monthlist.clear()
         for (i in StoreArray.indices){
             val StoreArrayhashmap = StoreArray[i]
             val Timedate = StoreArrayhashmap["Date"]
+
             var endTime: Date = dateFormat.parse(Timedate.toString())
             val diff = endTime.time - startTime.time
             var days = (diff / (1000 * 60 * 60 * 24)).toInt()
             dayslist.add(days)
+
+            var fixstring = Timedate.toString().substring(5,7)
+            monthlist.add(fixstring)
         }//get相差天數陣列
         when (chosentime){
             "All"->{
+
             }
             "One_Week"->{
                 for(i in dayslist.indices){
@@ -225,17 +235,76 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 deletearray.clear()
             }
             "One_Month"->{
-                for(i in dayslist.indices){
-                    if (dayslist[i] <= -31) {
+                for(i in monthlist.indices) {
+                    if (monthlist[i] != nowdateM) {
                         deletearray.add(StoreArray[i])
                     }
                 }
                 StoreArray.removeAll(deletearray)
                 deletearray.clear()
             }
+            "Last_Month"->{
+                if(nowdateM == "01"){
+                    for(i in monthlist.indices) {
+                        if (monthlist[i] != "12") {
+                            deletearray.add(StoreArray[i])
+                        }
+                    }
+                    StoreArray.removeAll(deletearray)
+                    deletearray.clear()
+                }
+                else{
+                    for(i in monthlist.indices) {
+                        if (monthlist[i] != "0${nowdateM.toInt()-1}") {
+                            deletearray.add(StoreArray[i])
+                        }
+                    }
+                    StoreArray.removeAll(deletearray)
+                    deletearray.clear()
+                }
+            }
             "Six_Month"->{
-                for(i in dayslist.indices){
-                    if (dayslist[i] <= -186) {
+                var montharray= arrayListOf<String>()
+                when(nowdateM){
+                    "1"->{
+                        montharray = arrayListOf("07","06","05","04","03","02")
+                    }
+                    "2"->{
+                        montharray = arrayListOf("08","07","06","05","04","03")
+                    }
+                    "3"->{
+                        montharray = arrayListOf("09","08","07","06","05","04")
+                    }
+                    "4"->{
+                        montharray = arrayListOf("10","09","08","07","06","05")
+                    }
+                    "5"->{
+                        montharray = arrayListOf("11","10","09","08","07","06")
+                    }
+                    "6"->{
+                        montharray = arrayListOf("12","11","10","09","08","07")
+                    }
+                    "7"->{
+                        montharray = arrayListOf("01","12","11","10","09","08")
+                    }
+                    "8"->{
+                        montharray = arrayListOf("02","01","12","11","10","09")
+                    }
+                    "9"->{
+                        montharray = arrayListOf("03","02","01","12","11","10")
+                    }
+                    "10"->{
+                        montharray = arrayListOf("04","03","02","01","12","11")
+                    }
+                    "11"->{
+                        montharray = arrayListOf("05","04","03","02","01","12")
+                    }
+                    "12"->{
+                        montharray = arrayListOf("06","05","04","03","02","01")
+                    }
+                }
+                for(i in monthlist.indices) {
+                    if (montharray.contains(monthlist[i])) {
                         deletearray.add(StoreArray[i])
                     }
                 }
@@ -243,13 +312,7 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 deletearray.clear()
             }
             "One_Year"->{
-                for(i in dayslist.indices){
-                    if (dayslist[i] <= -366) {
-                        deletearray.add(StoreArray[i])
-                    }
-                }
-                StoreArray.removeAll(deletearray)
-                deletearray.clear()
+
             }
         }
     }
@@ -452,9 +515,12 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
         CalculatetypeArray.add(FinalGame)
         CalculatetypeArray.add(FinalOther)
     }
+
     override fun onItemClick(position: Int) {
         activity?.supportFragmentManager?.let { DialogAccuountingDetail(StoreArray[position]).show(it, "DialogAccuountingDetail")}
     }
+
+
     fun chosentimevalue(){
         monthaddprice = 0f
         var dateFormat = SimpleDateFormat("MM")
@@ -467,6 +533,19 @@ class GalleryFragment : Fragment(),histortyadapter.OnItemClick{
                 monthaddprice += storehashmap["FillPrice"].toString().toInt()
             }
         }
-        Log.d("kkk",monthaddprice.toString())
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

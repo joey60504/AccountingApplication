@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.Exclude
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.IgnoreExtraProperties
 import com.tom.accountingapplication.databinding.ActivityModifyPersonalInformationBinding
-import com.tom.accountingapplication.ui.slideshow.SlideshowFragment
+
 
 
 private lateinit var binding : ActivityModifyPersonalInformationBinding
@@ -40,6 +38,8 @@ class ModifyPersonalInformation : AppCompatActivity() {
                 }
             }).show()
     }
+
+
     fun profileupload(){
         val name = binding.editTextTextPersonName.text.toString()
         val phone = binding.editTextTextPersonName2.text.toString()
