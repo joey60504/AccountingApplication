@@ -26,24 +26,28 @@ import com.tom.accountingapplication.R;
 import java.util.EnumSet.range
 
 
-class HomeFragment : Fragment(),homeadapter.OnItemClick {
-    private var _binding : FragmentHomeBinding ?= null
+class HomeFragment : Fragment(), homeadapter.OnItemClick {
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var auth : FirebaseAuth
+    lateinit var auth: FirebaseAuth
 
     var IncomeOrExpense = "Expense"
     var TypeChoice = "Other"
-    lateinit var FillPrice : String
-    lateinit var TypeRemark:String
-    lateinit var nowdate:String
+    lateinit var FillPrice: String
+    lateinit var TypeRemark: String
+    lateinit var nowdate: String
 
-    var StoreArray= arrayListOf<HashMap<*,*>>()
-    lateinit var imagebtnlist:ArrayList<ImageButton>
+    var StoreArray = arrayListOf<HashMap<*, *>>()
+    lateinit var imagebtnlist: ArrayList<ImageButton>
 
-    override fun onCreateView(inflater:LayoutInflater, container:ViewGroup?, savedInstanceState:Bundle?): View {
-        _binding = FragmentHomeBinding.inflate(inflater,container,false)
-        val root : View = binding.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val root: View = binding.root
 
         val format = SimpleDateFormat("yyyy/MM/dd")
         nowdate = format.format(Date())
@@ -55,136 +59,140 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
         setimagebtnlist()
         firstlogin()
         setonclick()
+
         return root
     }
-    fun setimagebtnlist(){
-        imagebtnlist= arrayListOf(
-            binding.imageEgg,binding.imageLunch,binding.imageDinner,binding.imageBus,
-            binding.imageDrink,binding.imageCake,binding.imagePeople,binding.imageBag,
-            binding.imageBill,binding.imageGame,binding.imageIncome,binding.imageOther)
+
+    fun setimagebtnlist() {
+        imagebtnlist = arrayListOf(
+            binding.imageEgg, binding.imageLunch, binding.imageDinner, binding.imageBus,
+            binding.imageDrink, binding.imageCake, binding.imagePeople, binding.imageBag,
+            binding.imageBill, binding.imageGame, binding.imageIncome, binding.imageOther
+        )
     }
-    fun setonclick(){
+
+    fun setonclick() {
         binding.imageEgg.setOnClickListener {
-            TypeChoice="Breakfast"
+            TypeChoice = "Breakfast"
             binding.imageEgg.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageEgg)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageLunch.setOnClickListener {
-            TypeChoice="Lunch"
+            TypeChoice = "Lunch"
             binding.imageLunch.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageLunch)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageDinner.setOnClickListener {
-            TypeChoice="Dinner"
+            TypeChoice = "Dinner"
             binding.imageDinner.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageDinner)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageBus.setOnClickListener {
-            TypeChoice="Transportation"
+            TypeChoice = "Transportation"
             binding.imageBus.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageBus)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageDrink.setOnClickListener {
-            TypeChoice="Drink"
+            TypeChoice = "Drink"
             binding.imageDrink.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageDrink)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageCake.setOnClickListener {
-            TypeChoice="Dessert"
+            TypeChoice = "Dessert"
             binding.imageCake.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageCake)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imagePeople.setOnClickListener {
-            TypeChoice="Social"
+            TypeChoice = "Social"
             binding.imagePeople.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imagePeople)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageBag.setOnClickListener {
-            TypeChoice="Shopping"
+            TypeChoice = "Shopping"
             binding.imageBag.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageBag)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageBill.setOnClickListener {
-            TypeChoice="Bill"
+            TypeChoice = "Bill"
             binding.imageBill.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageBill)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageGame.setOnClickListener {
-            TypeChoice="Game"
+            TypeChoice = "Game"
             binding.imageGame.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageGame)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageIncome.setOnClickListener {
-            TypeChoice="Income"
+            TypeChoice = "Income"
             binding.imageIncome.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageIncome)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
         binding.imageOther.setOnClickListener {
-            TypeChoice="Other"
+            TypeChoice = "Other"
             binding.imageOther.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageOther)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
-        binding.income.setOnClickListener{
+        binding.income.setOnClickListener {
             IncomeOrExpense = "Income"
             binding.income.setBackgroundColor(Color.parseColor("#907dac"));
             binding.expense.setBackgroundColor(Color.parseColor("#F5F5DC"));
-            TypeChoice="Income"
+            TypeChoice = "Income"
             binding.imageIncome.setBackgroundResource(R.drawable.beige_rectangle)
             imagebtnlist.remove(binding.imageIncome)
-            for (i in imagebtnlist.indices){
+            for (i in imagebtnlist.indices) {
                 imagebtnlist[i].setBackgroundResource(R.drawable.color_rectangle)
             }
             setimagebtnlist()
         }
-        binding.expense.setOnClickListener{
+        binding.expense.setOnClickListener {
             IncomeOrExpense = "Expense"
             binding.income.setBackgroundColor(Color.parseColor("#F5F5DC"));
             binding.expense.setBackgroundColor(Color.parseColor("#907dac"));
@@ -192,114 +200,144 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
         binding.date.setOnClickListener {
             datePicker()
         }
-        binding.upload.setOnClickListener{
+        binding.upload.setOnClickListener {
             updatedata()
         }
     }
-    fun datePicker(){
+
+    fun datePicker() {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        DatePickerDialog(requireContext(), {_,year,month,day ->
-            run{
+        DatePickerDialog(requireContext(), { _, year, month, day ->
+            run {
                 val format = setDateFormat(year, month, day)
                 binding.date.text = format
             }
         }, year, month, day).show()
     }
 
-    private fun setDateFormat(year:Int, month:Int, day:Int) : String{
-        return "$year-${month + 1}-$day"
+    private fun setDateFormat(year: Int, month: Int, day: Int): String {
+        val fixmonth = if (month < 10) {
+            "0${month+1}"
+        } else {
+            "${month+1}"
+        }
+        val fixDay = if (day < 10) {
+            "0$day"
+        } else {
+            "$day"
+        }
+        return "$year/$fixmonth/$fixDay"
     }
 
-    fun updatedata(){
-        TypeRemark= binding.filltype.text.toString()
+    fun updatedata() {
+        TypeRemark = binding.filltype.text.toString()
         FillPrice = binding.fillmoney.text.toString()
-        val FixNowDate=nowdate.replace("/","")
+        val FixNowDate = binding.date.text.toString().replace("/", "")
+        var recorddate = binding.date.text.substring(0, 7).replace("/", "")
 
         auth = FirebaseAuth.getInstance()
         var email = auth.currentUser?.email.toString()
-        val LittleMouseAt=email.indexOf("@")
-        val emailname=email.substring(0,LittleMouseAt)
+        val LittleMouseAt = email.indexOf("@")
+        val emailname = email.substring(0, LittleMouseAt)
         var database = FirebaseDatabase.getInstance().reference
-
-        if ( FillPrice.isNotEmpty()) {
-            val upload = accounting(IncomeOrExpense,TypeChoice,nowdate,TypeRemark,FillPrice).to_dict()
+        if (FillPrice.isNotEmpty()) {
+            val upload = accounting(
+                IncomeOrExpense,
+                TypeChoice,
+                binding.date.text.toString(),
+                TypeRemark,
+                FillPrice
+            ).to_dict()
             database.child(emailname).get().addOnSuccessListener {
                 val emailvalue = it.value as java.util.HashMap<String, Any>
                 val accounting = emailvalue["Accounting"] as java.util.HashMap<String, Any>
-                if (accounting[FixNowDate] != null) {
-                    val NowRecording = accounting[FixNowDate] as ArrayList<Map<String, *>>
-                    NowRecording.add(upload)
-                    accounting.put(FixNowDate, NowRecording)
-                    database.child(emailname).child("Accounting").updateChildren(accounting)
-                    binding.filltype.setText("")
-                    binding.fillmoney.setText("")
-                    val emailvalue = it.value as java.util.HashMap<String, Any>
-                    val profile = emailvalue["Profile"] as HashMap<*,*>
-                    val asset = profile["Asset"].toString()
-                    if(IncomeOrExpense == "Income"){
-                        val addasset = (FillPrice.toFloat()+asset.toFloat()).toString()
-                        database.child(emailname).child("Profile").child("Asset").setValue(addasset)
-                    }
-                    else if(IncomeOrExpense == "Expense"){
-                        val subasset = (asset.toFloat()-FillPrice.toFloat()).toString()
-                        database.child(emailname).child("Profile").child("Asset").setValue(subasset)
+                if (accounting[recorddate] != null) {
+                    val NowRecordingMonth = accounting[recorddate] as HashMap<String, Any>
+                    if (NowRecordingMonth[FixNowDate] != null) {
+                        val NowRecording =
+                            NowRecordingMonth[FixNowDate] as ArrayList<Map<String, *>>
+                        NowRecording.add(upload)
+                        NowRecordingMonth.put(FixNowDate, NowRecording)
+                        accounting.put(recorddate, NowRecordingMonth)
+                        database.child(emailname).child("Accounting")
+                            .updateChildren(accounting)
+                        binding.filltype.setText("")
+                        binding.fillmoney.setText("")
+                        val profile = emailvalue["Profile"] as HashMap<*, *>
+                        val asset = profile["Asset"].toString()
+                        if (IncomeOrExpense == "Income") {
+                            val addasset = (FillPrice.toFloat() + asset.toFloat()).toString()
+                            database.child(emailname).child("Profile").child("Asset")
+                                .setValue(addasset)
+                        } else if (IncomeOrExpense == "Expense") {
+                            val subasset = (asset.toFloat() - FillPrice.toFloat()).toString()
+                            database.child(emailname).child("Profile").child("Asset")
+                                .setValue(subasset)
+                        }
+                    } else {
+                        NowRecordingMonth.put(FixNowDate, arrayListOf(upload))
+                        accounting.put(recorddate, NowRecordingMonth)
+                        database.child(emailname).child("Accounting")
+                            .updateChildren(accounting)
                     }
                 } else {
-                    accounting.put(FixNowDate, arrayListOf<Map<String, *>>(upload))
-                    database.child(emailname).child("Accounting").updateChildren(accounting)
+                    val NewRecordingMonth = hashMapOf<String, Any>()
+                    NewRecordingMonth.put(FixNowDate, arrayListOf(upload))
+                    accounting.put(recorddate, NewRecordingMonth)
+                    database.child(emailname).child("Accounting")
+                        .updateChildren(accounting)
                     binding.filltype.setText("")
                     binding.fillmoney.setText("")
                     val emailvalue = it.value as java.util.HashMap<String, Any>
-                    val profile = emailvalue["Profile"] as HashMap<*,*>
+                    val profile = emailvalue["Profile"] as HashMap<*, *>
                     val asset = profile["Asset"].toString()
-                    if(IncomeOrExpense == "Income"){
-                        val addasset = (FillPrice.toFloat()+asset.toFloat()).toString()
+                    if (IncomeOrExpense == "Income") {
+                        val addasset = (FillPrice.toFloat() + asset.toFloat()).toString()
                         database.child(emailname).child("Profile").child("Asset").setValue(addasset)
-                    }
-                    else if(IncomeOrExpense == "Expense"){
-                        val subasset = (asset.toFloat()-FillPrice.toFloat()).toString()
+                    } else if (IncomeOrExpense == "Expense") {
+                        val subasset = (asset.toFloat() - FillPrice.toFloat()).toString()
                         database.child(emailname).child("Profile").child("Asset").setValue(subasset)
                     }
                 }
             }
-        }
-        else{
+        } else {
             Toast.makeText(requireContext(), "Price must not be empty", Toast.LENGTH_LONG).show()
         }
     }
-    fun dataselect(){
+
+    fun dataselect() {
         auth = FirebaseAuth.getInstance()
         var email = auth.currentUser?.email.toString()
-        val LittleMouseAt=email.indexOf("@")
-        val emailname=email.substring(0,LittleMouseAt)
+        val LittleMouseAt = email.indexOf("@")
+        val emailname = email.substring(0, LittleMouseAt)
         var database = FirebaseDatabase.getInstance().reference
 
         val dataListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val root=dataSnapshot.value as HashMap<*,*>
-                val useremail=root[emailname] as HashMap<*,*>
+                val root = dataSnapshot.value as HashMap<*, *>
+                val useremail = root[emailname] as HashMap<*, *>
                 try {
-                    val accounting = useremail["Accounting"] as HashMap<*,*>
-                    val keysarray = accounting.keys.filter {
-                        it != "test"
-                    }.toList()
-                    val AccountingKeysList = mutableListOf("")
-                    for (i in keysarray.indices){
-                        AccountingKeysList.add(keysarray[i] as String)
-                    }
-                    AccountingKeysList.removeAt(0)
-                    AccountingKeysList.sort()
+                    val accounting =
+                        useremail["Accounting"] as HashMap<String, HashMap<String, ArrayList<HashMap<*, *>>>>
+                    val sortedMonthKeyList = accounting.filter {
+                        it.key != "test"
+                    }.toSortedMap().values.toList()
                     StoreArray.clear()
-                    for (i in AccountingKeysList.indices) {
-                        val date = accounting[AccountingKeysList[i]] as ArrayList<HashMap<*, *>>
-                        StoreArray.addAll(date)
+                    for (i in sortedMonthKeyList.indices) {
+                        val sortedDateKeyList = sortedMonthKeyList[i].toSortedMap().values.toList()
+                        for (j in sortedDateKeyList.indices) {
+                            sortedDateKeyList[j].map {
+                                StoreArray.add(it)
+                            }
+                        }
                     }
-                }
-                catch (e:Exception){
-                    StoreArray= arrayListOf()
+
+                } catch (e: Exception) {
+                    StoreArray = arrayListOf()
+
                 }
                 activity?.runOnUiThread {
                     binding.recyclerview2.apply {
@@ -313,33 +351,33 @@ class HomeFragment : Fragment(),homeadapter.OnItemClick {
                     }
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
             }
         }
         database.addValueEventListener(dataListener)
     }
 
-    fun firstlogin(){
+    fun firstlogin() {
         auth = FirebaseAuth.getInstance()
         var email = auth.currentUser?.email.toString()
-        val LittleMouseAt=email.indexOf("@")
-        val emailname=email.substring(0,LittleMouseAt)
+        val LittleMouseAt = email.indexOf("@")
+        val emailname = email.substring(0, LittleMouseAt)
         var database = FirebaseDatabase.getInstance().reference
         database.get().addOnSuccessListener {
-            if(it.value == null) {
+            if (it.value == null) {
                 startActivity(Intent(requireContext(), ProfileActivity::class.java))
-            }
-            else{
+            } else {
                 val data0 = it.value as java.util.HashMap<*, *>
                 if (data0[emailname] == null) {
                     startActivity(Intent(requireContext(), ProfileActivity::class.java))
-                }
-                else{
+                } else {
                     dataselect()
                 }
             }
         }
     }
+
     override fun onItemClick(position: Int) {
 
     }
