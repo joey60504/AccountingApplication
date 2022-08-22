@@ -132,14 +132,40 @@
             android:layout_weight="1.15"
             android:background="@drawable/background_rectangle"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/myfont"
-                android:text="UPLOAD" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/myfont"
+                    android:text="DatePicker" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/myfont"
+                    android:text="UPLOAD" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -168,10 +194,13 @@
                 android:textSize="24sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_invest_stock"
+                android:id="@+id/recycler_invest_virtual_currency"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.3">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
         </LinearLayout>
 
         <LinearLayout
@@ -192,12 +221,11 @@
                 android:textSize="24sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_invest_virtual_currency"
+                android:id="@+id/recycler_invest_stock"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3">
+                android:layout_weight="0.3" />
 
-            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
 
     </LinearLayout>

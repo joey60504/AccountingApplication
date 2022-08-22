@@ -63,6 +63,7 @@ class Type(
 class invest(
     val VirtualCurrencyOrStock: String? = "",
     val BuyOrSell: String? = "",
+    val Date: String? = "",
     val TypeRemark: String? = "",
     val FillPrice: String = ""
 ) {
@@ -71,7 +72,8 @@ class invest(
             "VirtualCurrencyOrStock" to VirtualCurrencyOrStock,
             "BuyOrSell" to BuyOrSell,
             "TypeRemark" to TypeRemark,
-            "FillPrice" to FillPrice
+            "FillPrice" to FillPrice,
+            "Date" to Date,
         )
     }
 }
