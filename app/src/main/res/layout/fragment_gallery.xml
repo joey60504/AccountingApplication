@@ -81,7 +81,7 @@
                             android:layout_weight="0.6"
                             android:fontFamily="@font/myfont"
                             android:gravity="center|left"
-                            android:text="Asset:" />
+                            android:text="CashAsset:" />
 
                         <TextView
                             android:id="@+id/textView54"
@@ -129,7 +129,7 @@
                             android:layout_weight="0.6"
                             android:fontFamily="@font/myfont"
                             android:gravity="center|left"
-                            android:text="Remain:" />
+                            android:text="MonthRemain:" />
 
                         <TextView
                             android:id="@+id/textView61"

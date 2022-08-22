@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AccountingApplication">
         <activity
-            android:name=".ModifyPersonalInformation"
+            android:name=".ui.slideshow.ModifyPersonalInformation"
             android:exported="false" />
         <activity
             android:name=".homepage"

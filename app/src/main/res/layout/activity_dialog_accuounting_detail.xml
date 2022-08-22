@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/beige_rectangle"
     android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".DialogAccuountingDetail">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView63"
@@ -152,6 +151,25 @@
         app:autoSizeMaxTextSize="25sp"
         app:autoSizeMinTextSize="14sp"
         app:autoSizeTextType="uniform" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/color_rectangle"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView64"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/myfont"
+            android:gravity="center"
+            android:text="Click Here To Delete Account"
+            app:autoSizeMaxTextSize="25sp"
+            app:autoSizeMinTextSize="14sp"
+            app:autoSizeTextType="uniform" />
+    </LinearLayout>
 
 
 </LinearLayout>

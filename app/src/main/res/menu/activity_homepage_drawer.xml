@@ -12,6 +12,10 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/history_icon"
             android:title="History" />
+        <item
+            android:id="@+id/nav_invest"
+            android:icon="@drawable/cash_money_icon"
+            android:title="Invest" />
         <item android:title="設定">
             <menu>
                 <group android:checkableBehavior="single">

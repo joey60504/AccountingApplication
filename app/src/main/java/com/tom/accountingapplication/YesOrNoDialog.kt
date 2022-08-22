@@ -2,30 +2,29 @@ package com.tom.accountingapplication
 
 import android.app.Dialog
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 
-class yesnodialog(context: Context): Dialog(context){
+class YesOrNoDialog(context: Context): Dialog(context){
 
     private var message: String?= null
 
     private var cancelListener: IOnCancelListener? = null
     private var confirmListener: IOnConfirmListener? = null
 
-    fun setMessage(message: String?): yesnodialog {
+    fun setMessage(message: String?): YesOrNoDialog {
         this.message = message
         return this
     }
 
-    fun setConfirm(Listener: IOnConfirmListener): yesnodialog {
+    fun setConfirm(Listener: IOnConfirmListener): YesOrNoDialog {
         this.confirmListener = Listener
         return this
     }
 
-    fun setCancel(Listener: IOnCancelListener): yesnodialog {
+    fun setCancel(Listener: IOnCancelListener): YesOrNoDialog {
         this.cancelListener = Listener
         return this
     }
@@ -62,10 +61,10 @@ class yesnodialog(context: Context): Dialog(context){
     }
 
     interface IOnCancelListener {
-        fun onCancel(dialog: yesnodialog?)
+        fun onCancel(dialog: YesOrNoDialog?)
     }
 
     interface IOnConfirmListener {
-        fun onConfirm(dialog: yesnodialog?)
+        fun onConfirm(dialog: YesOrNoDialog?)
     }
 }

@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import com.tom.accountingapplication.R;
-import java.util.EnumSet.range
 
 
 class HomeFragment : Fragment(), homeadapter.OnItemClick {
@@ -57,8 +55,8 @@ class HomeFragment : Fragment(), homeadapter.OnItemClick {
         binding.expense.setBackgroundColor(Color.parseColor("#907dac"));
 
         setimagebtnlist()
-        firstlogin()
-        setonclick()
+        firstLogin()
+        setOnClick()
 
         return root
     }
@@ -71,7 +69,7 @@ class HomeFragment : Fragment(), homeadapter.OnItemClick {
         )
     }
 
-    fun setonclick() {
+    fun setOnClick() {
         binding.imageEgg.setOnClickListener {
             TypeChoice = "Breakfast"
             binding.imageEgg.setBackgroundResource(R.drawable.beige_rectangle)
@@ -201,11 +199,11 @@ class HomeFragment : Fragment(), homeadapter.OnItemClick {
             datePicker()
         }
         binding.upload.setOnClickListener {
-            updatedata()
+            upDateData()
         }
     }
 
-    fun datePicker() {
+    private fun datePicker() {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -219,30 +217,30 @@ class HomeFragment : Fragment(), homeadapter.OnItemClick {
     }
 
     private fun setDateFormat(year: Int, month: Int, day: Int): String {
-        val fixmonth = if (month < 10) {
-            "0${month+1}"
+        val fixMonth = if (month < 9) {
+            "0${month + 1}"
         } else {
-            "${month+1}"
+            "${month + 1}"
         }
         val fixDay = if (day < 10) {
             "0$day"
         } else {
             "$day"
         }
-        return "$year/$fixmonth/$fixDay"
+        return "$year/$fixMonth/$fixDay"
     }
 
-    fun updatedata() {
+    private fun upDateData() {
         TypeRemark = binding.filltype.text.toString()
         FillPrice = binding.fillmoney.text.toString()
-        val FixNowDate = binding.date.text.toString().replace("/", "")
-        var recorddate = binding.date.text.substring(0, 7).replace("/", "")
+        val chosenDate = binding.date.text.toString().replace("/", "")
+        val chosenDateMonth = binding.date.text.substring(0, 7).replace("/", "")
 
         auth = FirebaseAuth.getInstance()
-        var email = auth.currentUser?.email.toString()
-        val LittleMouseAt = email.indexOf("@")
-        val emailname = email.substring(0, LittleMouseAt)
-        var database = FirebaseDatabase.getInstance().reference
+        val userEmail = auth.currentUser?.email.toString()
+        val findLittleMouseAt = userEmail.indexOf("@")
+        val userEmailValue = userEmail.substring(0, findLittleMouseAt)
+        val database = FirebaseDatabase.getInstance().reference
         if (FillPrice.isNotEmpty()) {
             val upload = accounting(
                 IncomeOrExpense,
@@ -251,56 +249,42 @@ class HomeFragment : Fragment(), homeadapter.OnItemClick {
                 TypeRemark,
                 FillPrice
             ).to_dict()
-            database.child(emailname).get().addOnSuccessListener {
-                val emailvalue = it.value as java.util.HashMap<String, Any>
-                val accounting = emailvalue["Accounting"] as java.util.HashMap<String, Any>
-                if (accounting[recorddate] != null) {
-                    val NowRecordingMonth = accounting[recorddate] as HashMap<String, Any>
-                    if (NowRecordingMonth[FixNowDate] != null) {
-                        val NowRecording =
-                            NowRecordingMonth[FixNowDate] as ArrayList<Map<String, *>>
-                        NowRecording.add(upload)
-                        NowRecordingMonth.put(FixNowDate, NowRecording)
-                        accounting.put(recorddate, NowRecordingMonth)
-                        database.child(emailname).child("Accounting")
-                            .updateChildren(accounting)
-                        binding.filltype.setText("")
-                        binding.fillmoney.setText("")
-                        val profile = emailvalue["Profile"] as HashMap<*, *>
-                        val asset = profile["Asset"].toString()
-                        if (IncomeOrExpense == "Income") {
-                            val addasset = (FillPrice.toFloat() + asset.toFloat()).toString()
-                            database.child(emailname).child("Profile").child("Asset")
-                                .setValue(addasset)
-                        } else if (IncomeOrExpense == "Expense") {
-                            val subasset = (asset.toFloat() - FillPrice.toFloat()).toString()
-                            database.child(emailname).child("Profile").child("Asset")
-                                .setValue(subasset)
-                        }
+            database.child(userEmailValue).get().addOnSuccessListener {
+                val databaseEmailValue = it.value as java.util.HashMap<String, Any>
+                //profile
+                val userProfile = databaseEmailValue["Profile"] as HashMap<*, *>
+                val userAsset = userProfile["Asset"].toString()
+                //accounting
+                val userAccounting =
+                    databaseEmailValue["Accounting"] as java.util.HashMap<String, Any>
+                if (userAccounting[chosenDateMonth] != null) {    //有無月份
+                    val recordingDateMonth = userAccounting[chosenDateMonth] as HashMap<String, Any>
+                    if (recordingDateMonth[chosenDate] != null) {  //有無日期
+                        val recordingDate =
+                            recordingDateMonth[chosenDate] as ArrayList<Map<String, *>>
+                        recordingDate.add(upload)
+                        recordingDateMonth[chosenDate] = recordingDate
+                        userAccounting[chosenDateMonth] = recordingDateMonth
+                        database.child(userEmailValue).child("Accounting")
+                            .updateChildren(userAccounting)
+                        //profile Asset
+                        fillProfileAsset(userAsset, userEmailValue)
                     } else {
-                        NowRecordingMonth.put(FixNowDate, arrayListOf(upload))
-                        accounting.put(recorddate, NowRecordingMonth)
-                        database.child(emailname).child("Accounting")
-                            .updateChildren(accounting)
+                        recordingDateMonth[chosenDate] = arrayListOf(upload)
+                        userAccounting[chosenDateMonth] = recordingDateMonth
+                        database.child(userEmailValue).child("Accounting")
+                            .updateChildren(userAccounting)
+                        //profile Asset
+                        fillProfileAsset(userAsset, userEmailValue)
                     }
                 } else {
-                    val NewRecordingMonth = hashMapOf<String, Any>()
-                    NewRecordingMonth.put(FixNowDate, arrayListOf(upload))
-                    accounting.put(recorddate, NewRecordingMonth)
-                    database.child(emailname).child("Accounting")
-                        .updateChildren(accounting)
-                    binding.filltype.setText("")
-                    binding.fillmoney.setText("")
-                    val emailvalue = it.value as java.util.HashMap<String, Any>
-                    val profile = emailvalue["Profile"] as HashMap<*, *>
-                    val asset = profile["Asset"].toString()
-                    if (IncomeOrExpense == "Income") {
-                        val addasset = (FillPrice.toFloat() + asset.toFloat()).toString()
-                        database.child(emailname).child("Profile").child("Asset").setValue(addasset)
-                    } else if (IncomeOrExpense == "Expense") {
-                        val subasset = (asset.toFloat() - FillPrice.toFloat()).toString()
-                        database.child(emailname).child("Profile").child("Asset").setValue(subasset)
-                    }
+                    val recordingDateMonth = hashMapOf<String, Any>()
+                    recordingDateMonth[chosenDate] = arrayListOf(upload)
+                    userAccounting[chosenDateMonth] = recordingDateMonth
+                    database.child(userEmailValue).child("Accounting")
+                        .updateChildren(userAccounting)
+                    //profile Asset
+                    fillProfileAsset(userAsset, userEmailValue)
                 }
             }
         } else {
@@ -308,17 +292,32 @@ class HomeFragment : Fragment(), homeadapter.OnItemClick {
         }
     }
 
-    fun dataselect() {
+    private fun fillProfileAsset(asset: String, emailName: String) {
+        val database = FirebaseDatabase.getInstance().reference
+        binding.filltype.setText("")
+        binding.fillmoney.setText("")
+        if (IncomeOrExpense == "Income") {
+            val addasset = (FillPrice.toFloat() + asset.toFloat()).toString()
+            database.child(emailName).child("Profile").child("Asset")
+                .setValue(addasset)
+        } else if (IncomeOrExpense == "Expense") {
+            val subasset = (asset.toFloat() - FillPrice.toFloat()).toString()
+            database.child(emailName).child("Profile").child("Asset")
+                .setValue(subasset)
+        }
+    }
+
+    private fun dataSelect() {
         auth = FirebaseAuth.getInstance()
-        var email = auth.currentUser?.email.toString()
-        val LittleMouseAt = email.indexOf("@")
-        val emailname = email.substring(0, LittleMouseAt)
-        var database = FirebaseDatabase.getInstance().reference
+        val userEmail = auth.currentUser?.email.toString()
+        val findLittleMouseAt = userEmail.indexOf("@")
+        val userEmailValue = userEmail.substring(0, findLittleMouseAt)
+        val database = FirebaseDatabase.getInstance().reference
 
         val dataListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val root = dataSnapshot.value as HashMap<*, *>
-                val useremail = root[emailname] as HashMap<*, *>
+                val useremail = root[userEmailValue] as HashMap<*, *>
                 try {
                     val accounting =
                         useremail["Accounting"] as HashMap<String, HashMap<String, ArrayList<HashMap<*, *>>>>
@@ -334,7 +333,6 @@ class HomeFragment : Fragment(), homeadapter.OnItemClick {
                             }
                         }
                     }
-
                 } catch (e: Exception) {
                     StoreArray = arrayListOf()
 
@@ -358,21 +356,21 @@ class HomeFragment : Fragment(), homeadapter.OnItemClick {
         database.addValueEventListener(dataListener)
     }
 
-    fun firstlogin() {
+    private fun firstLogin() {
         auth = FirebaseAuth.getInstance()
-        var email = auth.currentUser?.email.toString()
-        val LittleMouseAt = email.indexOf("@")
-        val emailname = email.substring(0, LittleMouseAt)
+        var userEmail = auth.currentUser?.email.toString()
+        val findLittleMouseAt = userEmail.indexOf("@")
+        val userEmailValue = userEmail.substring(0, findLittleMouseAt)
         var database = FirebaseDatabase.getInstance().reference
         database.get().addOnSuccessListener {
             if (it.value == null) {
                 startActivity(Intent(requireContext(), ProfileActivity::class.java))
             } else {
-                val data0 = it.value as java.util.HashMap<*, *>
-                if (data0[emailname] == null) {
+                val databaseHashMap = it.value as java.util.HashMap<*, *>
+                if (databaseHashMap[userEmailValue] == null) {
                     startActivity(Intent(requireContext(), ProfileActivity::class.java))
                 } else {
-                    dataselect()
+                    dataSelect()
                 }
             }
         }

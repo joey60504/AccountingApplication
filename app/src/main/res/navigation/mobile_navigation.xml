@@ -22,4 +22,9 @@
         android:name="com.tom.accountingapplication.ui.slideshow.SlideshowFragment"
         android:label="PersonalInformation"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_invest"
+        android:name="com.tom.accountingapplication.ui.invest.InvestFragment"
+        android:label="InvestFragment"
+        tools:layout="@layout/fragment_invest"/>
 </navigation>

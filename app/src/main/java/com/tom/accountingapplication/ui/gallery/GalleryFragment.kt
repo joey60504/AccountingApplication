@@ -1,10 +1,10 @@
 package com.tom.accountingapplication.ui.gallery
 
 import android.R
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +18,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.tom.accountingapplication.DialogAccuountingDetail
+import com.tom.accountingapplication.AccountDetailDialog
 import com.tom.accountingapplication.databinding.FragmentGalleryBinding
-import com.tom.accountingapplication.ui.home.homeadapter
 import org.eazegraph.lib.models.PieModel
 import java.lang.Exception
 import java.text.DecimalFormat
@@ -30,35 +29,36 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
-class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+class GalleryFragment : Fragment(), HistoricAdapter.OnItemClick {
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
     lateinit var auth: FirebaseAuth
 
-    var chosentime: String = "All"
-    var monthaddprice: Float = 0f
-    var chosenkind: String = "All"
-    var Asset: String = ""
-    var StoreArray = arrayListOf<HashMap<*, *>>()
-    var dayslist = arrayListOf<Int>()
-    var monthlist = arrayListOf<String>()
-    var deletearray = arrayListOf<HashMap<*, *>>()
-    var Typearray = arrayListOf<String>()
-    var Typedeletearray = arrayListOf<HashMap<*, *>>()
-    var CalculatetypeArray = arrayListOf<Float>()
+    var chosenTime: String = "All"
+    var monthAddPrice: Float = 0f
+    var chosenKind: String = "All"
+    var asset: String = ""
+    var storeArray = arrayListOf<HashMap<*, *>>()
+    var daysDiffList = arrayListOf<Int>()
+    var monthList = arrayListOf<String>()
+    var deleteArray = arrayListOf<HashMap<*, *>>()
+    var typeArray = arrayListOf<String>()
+    var typeDeleteArray = arrayListOf<HashMap<*, *>>()
+    var calculateTypeArray = arrayListOf<Float>()
 
-    var FinalBreakfast: Float = 0f
-    var FinalLunch: Float = 0f
-    var FinalDinner: Float = 0f
-    var FinalTransportation: Float = 0f
-    var FinalDrink: Float = 0f
-    var FinalDessert: Float = 0f
-    var FinalSocial: Float = 0f
-    var FinalShopping: Float = 0f
-    var FinalBill: Float = 0f
-    var FinalGame: Float = 0f
-    var FinalOther: Float = 0f
-    var FinalIncome: Float = 0f
+    var finalBreakfast: Float = 0f
+    var finalLunch: Float = 0f
+    var finalDinner: Float = 0f
+    var finalTransportation: Float = 0f
+    var finalDrink: Float = 0f
+    var finalDessert: Float = 0f
+    var finalSocial: Float = 0f
+    var finalShopping: Float = 0f
+    var finalBill: Float = 0f
+    var finalGame: Float = 0f
+    var finalOther: Float = 0f
+    var finalIncome: Float = 0f
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,18 +66,19 @@ class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
-        DataSelectAll()
-        SpinnerDataSelect()
+        dataSelectAll()
+        spinnerDataSelect()
 
         return binding.root
     }
 
-    fun setdata(
+    @SuppressLint("SetTextI18n")
+    fun setData(
         Breakfast: Float, Lunch: Float, Dinner: Float, Transportation: Float,
         Drink: Float, Dessert: Float, Social: Float, Shopping: Float,
         Bill: Float, Game: Float, Other: Float
     ) {
-        val total = CalculatetypeArray.sum()
+        val total = calculateTypeArray.sum()
         binding.piechart.clearChart()
         binding.piechart.addPieSlice(
             PieModel(
@@ -135,8 +136,19 @@ class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
                 Color.parseColor("#d4a46f")
             )
         )
-        binding.piechart.addPieSlice(PieModel("Bill", (Bill / total), Color.parseColor("#f2b175")))
-        binding.piechart.addPieSlice(PieModel("Game", (Game / total), Color.parseColor("#ffcece")))
+        binding.piechart.addPieSlice(
+            PieModel(
+                "Bill",
+                (Bill / total),
+                Color.parseColor("#f2b175")
+            )
+        )
+        binding.piechart.addPieSlice(
+            PieModel("Game",
+                (Game / total),
+                Color.parseColor("#ffcece")
+            )
+        )
         binding.piechart.addPieSlice(
             PieModel(
                 "Other",
@@ -145,38 +157,38 @@ class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
             )
         )
         binding.piechart.startAnimation();
-        val fixdata = DecimalFormat("000.00")
-        val fixdata2 = DecimalFormat("00,000")
+        val fixDataTwoDot = DecimalFormat("000.00")
+        val fixDataThreeDot = DecimalFormat("00,000")
         binding.textView32.text =
-            "${fixdata.format((Breakfast / total) * 100.0)}%  $${fixdata2.format(Breakfast)}"
+            "${fixDataTwoDot.format((Breakfast / total) * 100.0)}%  $${fixDataThreeDot.format(Breakfast)}"
         binding.textView33.text =
-            "${fixdata.format((Lunch / total) * 100.0)}%  $${fixdata2.format(Lunch)}"
+            "${fixDataTwoDot.format((Lunch / total) * 100.0)}%  $${fixDataThreeDot.format(Lunch)}"
         binding.textView34.text =
-            "${fixdata.format((Dinner / total) * 100.0)}%  $${fixdata2.format(Dinner)}"
+            "${fixDataTwoDot.format((Dinner / total) * 100.0)}%  $${fixDataThreeDot.format(Dinner)}"
         binding.textView35.text =
-            "${fixdata.format((Transportation / total) * 100.0)}%  $${fixdata2.format(Transportation)}"
+            "${fixDataTwoDot.format((Transportation / total) * 100.0)}%  $${fixDataThreeDot.format(Transportation)}"
         binding.textView36.text =
-            "${fixdata.format((Drink / total) * 100.0)}%  $${fixdata2.format(Drink)}"
+            "${fixDataTwoDot.format((Drink / total) * 100.0)}%  $${fixDataThreeDot.format(Drink)}"
         binding.textView37.text =
-            "${fixdata.format((Dessert / total) * 100.0)}%  $${fixdata2.format(Dessert)}"
+            "${fixDataTwoDot.format((Dessert / total) * 100.0)}%  $${fixDataThreeDot.format(Dessert)}"
         binding.textView38.text =
-            "${fixdata.format((Social / total) * 100.0)}%  $${fixdata2.format(Social)}"
+            "${fixDataTwoDot.format((Social / total) * 100.0)}%  $${fixDataThreeDot.format(Social)}"
         binding.textView39.text =
-            "${fixdata.format((Shopping / total) * 100.0)}%  $${fixdata2.format(Shopping)}"
+            "${fixDataTwoDot.format((Shopping / total) * 100.0)}%  $${fixDataThreeDot.format(Shopping)}"
         binding.textView40.text =
-            "${fixdata.format((Bill / total) * 100.0)}%  $${fixdata2.format(Bill)}"
+            "${fixDataTwoDot.format((Bill / total) * 100.0)}%  $${fixDataThreeDot.format(Bill)}"
         binding.textView41.text =
-            "${fixdata.format((Game / total) * 100.0)}%  $${fixdata2.format(Game)}"
+            "${fixDataTwoDot.format((Game / total) * 100.0)}%  $${fixDataThreeDot.format(Game)}"
         binding.textView42.text =
-            "${fixdata.format((Other / total) * 100.0)}%  $${fixdata2.format(Other)}"
+            "${fixDataTwoDot.format((Other / total) * 100.0)}%  $${fixDataThreeDot.format(Other)}"
         binding.textView62.text =
-            "${fixdata.format((total / total) * 100.0)}%  $${fixdata2.format(total)}"
-        binding.textView54.text = "$${Asset.toFloat()}"
-        binding.textView55.text = "$${FinalIncome}"
-        binding.textView61.text = "$${10000 - monthaddprice}"
+            "${fixDataTwoDot.format((total / total) * 100.0)}%  $${fixDataThreeDot.format(total)}"
+        binding.textView54.text = "$${asset.toFloat()}"
+        binding.textView55.text = "$${finalIncome}"
+        binding.textView61.text = "$${10000 - monthAddPrice}"
     }
 
-    fun SpinnerDataSelect() {
+    private fun spinnerDataSelect() {
         binding.spinner.adapter = MyAdapter(
             requireContext(),
             listOf("All", "One_Week", "One_Month", "Last_Month", "Six_Month", "One_Year")
@@ -190,8 +202,8 @@ class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
                 position: Int,
                 id: Long
             ) {
-                DataSelectAll()
-                chosentime = time[position]
+                dataSelectAll()
+                chosenTime = time[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -239,8 +251,8 @@ class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
                 position: Int,
                 id: Long
             ) {
-                DataSelectAll()
-                chosenkind = kind[position]
+                dataSelectAll()
+                chosenKind = kind[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -248,64 +260,64 @@ class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
         }
     }
 
-    fun DataSelectAll() {
+    fun dataSelectAll() {
         auth = FirebaseAuth.getInstance()
-        var email = auth.currentUser?.email.toString()
-        val LittleMouseAt = email.indexOf("@")
-        val emailname = email.substring(0, LittleMouseAt)
-        var database = FirebaseDatabase.getInstance().reference
+        val userEmail = auth.currentUser?.email.toString()
+        val findLittleMouseAt = userEmail.indexOf("@")
+        val userEmailValue = userEmail.substring(0, findLittleMouseAt)
+        val database = FirebaseDatabase.getInstance().reference
 
         val dataListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val root = dataSnapshot.value as HashMap<*, *>
-                val useremail = root[emailname] as HashMap<*, *>
+                val useremail = root[userEmailValue] as HashMap<*, *>
                 try {
-                    val profile = useremail["Profile"] as HashMap<*,*>
-                    Asset = profile["Asset"].toString()
+                    val profile = useremail["Profile"] as HashMap<*, *>
+                    asset = profile["Asset"].toString()
                     val accounting =
                         useremail["Accounting"] as HashMap<String, HashMap<String, ArrayList<HashMap<*, *>>>>
                     val sortedMonthKeyList = accounting.filter {
                         it.key != "test"
                     }.toSortedMap().values.toList()
-                    StoreArray.clear()
+                    storeArray.clear()
                     for (i in sortedMonthKeyList.indices) {
                         val sortedDateKeyList = sortedMonthKeyList[i].toSortedMap().values.toList()
                         for (j in sortedDateKeyList.indices) {
                             sortedDateKeyList[j].map {
-                                StoreArray.add(it)
+                                storeArray.add(it)
                             }
                         }
                     }
-                    chosentimevalue()
-                    DataSelectTime()
-                    DataSelectKind()
-                    DataFloatSelect()
-                    setdata(
-                        FinalBreakfast,
-                        FinalLunch,
-                        FinalDinner,
-                        FinalTransportation,
-                        FinalDrink,
-                        FinalDessert,
-                        FinalSocial,
-                        FinalShopping,
-                        FinalBill,
-                        FinalGame,
-                        FinalOther
+                    chosenTimeValue()
+                    dataSelectTime()
+                    dataSelectKind()
+                    dataKindSelectCalculatePrice()
+                    setData(
+                        finalBreakfast,
+                        finalLunch,
+                        finalDinner,
+                        finalTransportation,
+                        finalDrink,
+                        finalDessert,
+                        finalSocial,
+                        finalShopping,
+                        finalBill,
+                        finalGame,
+                        finalOther
                     )
                 } catch (e: Exception) {
-                    StoreArray = arrayListOf()
+                    storeArray = arrayListOf()
 
                 }
                 activity?.runOnUiThread {
                     binding.recyclerview1.apply {
-                        val myAdapter = histortyadapter(this@GalleryFragment)
+                        val myAdapter = HistoricAdapter(this@GalleryFragment)
                         adapter = myAdapter
                         val manager = LinearLayoutManager(requireContext())
                         manager.orientation = LinearLayoutManager.VERTICAL
                         layoutManager = manager
                         manager.stackFromEnd = true
-                        myAdapter.dataList = StoreArray
+                        myAdapter.dataList = storeArray
                     }
                 }
             }
@@ -337,71 +349,71 @@ class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
         }
     }
 
-    fun DataSelectTime() {
-        var dateFormat = SimpleDateFormat("yyyy/MM/dd")
-        val nowdate = dateFormat.format(Date())
-        var startTime: Date = dateFormat.parse(nowdate)
+    @SuppressLint("SimpleDateFormat")
+    fun dataSelectTime() {
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+        val nowDate = dateFormat.format(Date())
+        val startTime: Date = dateFormat.parse(nowDate)
 
-        var dateFormatM = SimpleDateFormat("MM")
-        val nowdateM = dateFormatM.format(Date())
-        dayslist.clear()
-        monthlist.clear()
-        for (i in StoreArray.indices) {
-            val StoreArrayhashmap = StoreArray[i]
-            val Timedate = StoreArrayhashmap["Date"]
-
-            var endTime: Date = dateFormat.parse(Timedate.toString())
+        val dateFormatMonth = SimpleDateFormat("MM")
+        val nowDateMonth = dateFormatMonth.format(Date())
+        daysDiffList.clear()
+        monthList.clear()
+        for (i in storeArray.indices) {
+            val storeArrayHashMap = storeArray[i]
+            val timeDate = storeArrayHashMap["Date"]
+            val endTime: Date = dateFormat.parse(timeDate.toString())
             val diff = endTime.time - startTime.time
-            var days = (diff / (1000 * 60 * 60 * 24)).toInt()
-            dayslist.add(days)
+            val days = (diff / (1000 * 60 * 60 * 24)).toInt()
+            daysDiffList.add(days)
 
-            var fixstring = Timedate.toString().substring(5, 7)
-            monthlist.add(fixstring)
+            val DataMonth = timeDate.toString().substring(5, 7)
+            monthList.add(DataMonth)
         }//get相差天數陣列
-        when (chosentime) {
+        when (chosenTime) {
             "All" -> {
 
             }
             "One_Week" -> {
-                for (i in dayslist.indices) {
-                    if (dayslist[i] <= -7) {
-                        deletearray.add(StoreArray[i])
+                for (i in daysDiffList.indices) {
+                    if (daysDiffList[i] <= -7) {
+                        deleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(deletearray)
-                deletearray.clear()
+                storeArray.removeAll(deleteArray)
+                deleteArray.clear()
             }
             "One_Month" -> {
-                for (i in monthlist.indices) {
-                    if (monthlist[i] != nowdateM) {
-                        deletearray.add(StoreArray[i])
+                for (i in monthList.indices) {
+                    if (monthList[i] != nowDateMonth) {
+                        deleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(deletearray)
-                deletearray.clear()
+                storeArray.removeAll(deleteArray)
+                deleteArray.clear()
             }
             "Last_Month" -> {
-                if (nowdateM == "01") {
-                    for (i in monthlist.indices) {
-                        if (monthlist[i] != "12") {
-                            deletearray.add(StoreArray[i])
+                if (nowDateMonth == "01") {
+                    for (i in monthList.indices) {
+                        if (monthList[i] != "12") {
+                            deleteArray.add(storeArray[i])
                         }
                     }
-                    StoreArray.removeAll(deletearray)
-                    deletearray.clear()
+                    storeArray.removeAll(deleteArray)
+                    deleteArray.clear()
                 } else {
-                    for (i in monthlist.indices) {
-                        if (monthlist[i] != "0${nowdateM.toInt() - 1}") {
-                            deletearray.add(StoreArray[i])
+                    for (i in monthList.indices) {
+                        if (monthList[i] != "0${nowDateMonth.toInt() - 1}") {
+                            deleteArray.add(storeArray[i])
                         }
                     }
-                    StoreArray.removeAll(deletearray)
-                    deletearray.clear()
+                    storeArray.removeAll(deleteArray)
+                    deleteArray.clear()
                 }
             }
             "Six_Month" -> {
                 var montharray = arrayListOf<String>()
-                when (nowdateM) {
+                when (nowDateMonth) {
                     "1" -> {
                         montharray = arrayListOf("07", "06", "05", "04", "03", "02")
                     }
@@ -439,13 +451,13 @@ class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
                         montharray = arrayListOf("06", "05", "04", "03", "02", "01")
                     }
                 }
-                for (i in monthlist.indices) {
-                    if (montharray.contains(monthlist[i])) {
-                        deletearray.add(StoreArray[i])
+                for (i in monthList.indices) {
+                    if (montharray.contains(monthList[i])) {
+                        deleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(deletearray)
-                deletearray.clear()
+                storeArray.removeAll(deleteArray)
+                deleteArray.clear()
             }
             "One_Year" -> {
 
@@ -453,227 +465,228 @@ class GalleryFragment : Fragment(), histortyadapter.OnItemClick {
         }
     }
 
-    fun DataSelectKind() {
-        Typearray.clear()
-        for (i in StoreArray.indices) {
-            val TP = StoreArray[i]
+    fun dataSelectKind() {
+        typeArray.clear()
+        for (i in storeArray.indices) {
+            val TP = storeArray[i]
             val Type = TP["TypeChoice"].toString()
-            Typearray.add(Type)
+            typeArray.add(Type)
         }
-        when (chosenkind) {
+        when (chosenKind) {
             "All" -> {
 
             }
             "Breakfast" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Breakfast") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Breakfast") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Lunch" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Lunch") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Lunch") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Dinner" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Dinner") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Dinner") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Transportation" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Transportation") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Transportation") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Drink" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Drink") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Drink") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Dessert" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Dessert") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Dessert") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Social" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Social") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Social") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Shopping" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Shopping") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Shopping") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Bill" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Bill") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Bill") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Game" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Game") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Game") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Income" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Income") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Income") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Other" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] != "Other") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] != "Other") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
             "Without Income" -> {
-                for (i in Typearray.indices) {
-                    if (Typearray[i] == "Income") {
-                        Typedeletearray.add(StoreArray[i])
+                for (i in typeArray.indices) {
+                    if (typeArray[i] == "Income") {
+                        typeDeleteArray.add(storeArray[i])
                     }
                 }
-                StoreArray.removeAll(Typedeletearray)
-                Typedeletearray.clear()
+                storeArray.removeAll(typeDeleteArray)
+                typeDeleteArray.clear()
             }
         }
     }
 
-    fun DataFloatSelect() {
-        FinalBreakfast = 0f
-        FinalLunch = 0f
-        FinalDinner = 0f
-        FinalTransportation = 0f
-        FinalDrink = 0f
-        FinalDessert = 0f
-        FinalSocial = 0f
-        FinalShopping = 0f
-        FinalBill = 0f
-        FinalGame = 0f
-        FinalIncome = 0f
-        FinalOther = 0f
-        CalculatetypeArray.clear()
-        for (i in StoreArray.indices) {
-            val typehashmap = StoreArray[i]
-            val Type = typehashmap["TypeChoice"].toString()
-            val price = typehashmap["FillPrice"].toString().toFloat()
-            when (Type) {
+    fun dataKindSelectCalculatePrice() {
+        finalBreakfast = 0f
+        finalLunch = 0f
+        finalDinner = 0f
+        finalTransportation = 0f
+        finalDrink = 0f
+        finalDessert = 0f
+        finalSocial = 0f
+        finalShopping = 0f
+        finalBill = 0f
+        finalGame = 0f
+        finalIncome = 0f
+        finalOther = 0f
+        calculateTypeArray.clear()
+        for (i in storeArray.indices) {
+            val dataHashMap = storeArray[i]
+            val dataType = dataHashMap["TypeChoice"].toString()
+            val dataPrice = dataHashMap["FillPrice"].toString().toFloat()
+            when (dataType) {
                 "Breakfast" -> {
-                    FinalBreakfast += price
+                    finalBreakfast += dataPrice
                 }
                 "Lunch" -> {
-                    FinalLunch += price
+                    finalLunch += dataPrice
                 }
                 "Dinner" -> {
-                    FinalDinner += price
+                    finalDinner += dataPrice
                 }
                 "Transportation" -> {
-                    FinalTransportation += price
+                    finalTransportation += dataPrice
                 }
                 "Drink" -> {
-                    FinalDrink += price
+                    finalDrink += dataPrice
                 }
                 "Dessert" -> {
-                    FinalDessert += price
+                    finalDessert += dataPrice
                 }
                 "Social" -> {
-                    FinalSocial += price
+                    finalSocial += dataPrice
                 }
                 "Shopping" -> {
-                    FinalShopping += price
+                    finalShopping += dataPrice
                 }
                 "Bill" -> {
-                    FinalBill += price
+                    finalBill += dataPrice
                 }
                 "Game" -> {
-                    FinalGame += price
+                    finalGame += dataPrice
                 }
                 "Income" -> {
-                    FinalIncome += price
+                    finalIncome += dataPrice
                 }
                 "Other" -> {
-                    FinalOther += price
+                    finalOther += dataPrice
                 }
             }
         }
-        CalculatetypeArray.add(FinalBreakfast)
-        CalculatetypeArray.add(FinalLunch)
-        CalculatetypeArray.add(FinalDinner)
-        CalculatetypeArray.add(FinalTransportation)
-        CalculatetypeArray.add(FinalDrink)
-        CalculatetypeArray.add(FinalDessert)
-        CalculatetypeArray.add(FinalSocial)
-        CalculatetypeArray.add(FinalShopping)
-        CalculatetypeArray.add(FinalBill)
-        CalculatetypeArray.add(FinalGame)
-        CalculatetypeArray.add(FinalOther)
+        calculateTypeArray.add(finalBreakfast)
+        calculateTypeArray.add(finalLunch)
+        calculateTypeArray.add(finalDinner)
+        calculateTypeArray.add(finalTransportation)
+        calculateTypeArray.add(finalDrink)
+        calculateTypeArray.add(finalDessert)
+        calculateTypeArray.add(finalSocial)
+        calculateTypeArray.add(finalShopping)
+        calculateTypeArray.add(finalBill)
+        calculateTypeArray.add(finalGame)
+        calculateTypeArray.add(finalOther)
     }
 
     override fun onItemClick(position: Int) {
         activity?.supportFragmentManager?.let {
-            DialogAccuountingDetail(StoreArray[position]).show(
+            AccountDetailDialog(storeArray[position]).show(
                 it,
-                "DialogAccuountingDetail"
+                "AccountDetailDialog"
             )
         }
     }
 
 
-    fun chosentimevalue() {
-        monthaddprice = 0f
+    @SuppressLint("SimpleDateFormat")
+    fun chosenTimeValue() {
+        monthAddPrice = 0f
         var dateFormat = SimpleDateFormat("MM")
-        val nowdate = dateFormat.format(Date())
-        for (i in StoreArray.indices) {
-            val storehashmap = StoreArray[i]
-            val date = storehashmap["Date"].toString()
-            val fixstring = date.substring(5, 7)
-            if (fixstring == nowdate && storehashmap["IncomeOrExpense"] == "Expense") {
-                monthaddprice += storehashmap["FillPrice"].toString().toInt()
+        val nowDate = dateFormat.format(Date())
+        for (i in storeArray.indices) {
+            val dataHashMap = storeArray[i]
+            val date = dataHashMap["Date"].toString()
+            val dateMonth = date.substring(5, 7)
+            if (dateMonth == nowDate && dataHashMap["IncomeOrExpense"] == "Expense") {
+                monthAddPrice += dataHashMap["FillPrice"].toString().toInt()
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.tom.accountingapplication
+package com.tom.accountingapplication.ui.slideshow
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,8 +7,9 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.tom.accountingapplication.YesOrNoDialog
 import com.tom.accountingapplication.databinding.ActivityModifyPersonalInformationBinding
-
+import com.tom.accountingapplication.homepage
 
 
 private lateinit var binding : ActivityModifyPersonalInformationBinding
@@ -24,16 +25,16 @@ class ModifyPersonalInformation : AppCompatActivity() {
         }
     }
     private fun showDialog(message: String){
-        val yesNoDialog= yesnodialog(this@ModifyPersonalInformation)
+        val yesNoDialog= YesOrNoDialog(this@ModifyPersonalInformation)
         yesNoDialog
             .setMessage(message)
-            .setCancel(object : yesnodialog.IOnCancelListener {
-                override fun onCancel(dialog: yesnodialog?) {
+            .setCancel(object : YesOrNoDialog.IOnCancelListener {
+                override fun onCancel(dialog: YesOrNoDialog?) {
                     yesNoDialog.dismiss()
                 }
             })
-            .setConfirm(object : yesnodialog.IOnConfirmListener {
-                override fun onConfirm(dialog: yesnodialog?) {
+            .setConfirm(object : YesOrNoDialog.IOnConfirmListener {
+                override fun onConfirm(dialog: YesOrNoDialog?) {
                     profileupload()
                 }
             }).show()
