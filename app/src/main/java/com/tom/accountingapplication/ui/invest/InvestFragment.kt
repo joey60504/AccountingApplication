@@ -1,6 +1,7 @@
 package com.tom.accountingapplication.ui.invest
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,15 +16,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.FragmentInvestBinding
-import com.tom.accountingapplication.invest
-import com.tom.accountingapplication.ui.home.homeadapter
-import java.lang.Exception
+import com.tom.accountingapplication.Invest
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class InvestFragment : Fragment(), InvestAdapter.OnItemClick {
+class InvestFragment : Fragment(), InvestAdapter.OnMagnifierClickStock,
+    InvestAdapter.OnMagnifierClickVirtualCurrency {
 
     private var _binding: FragmentInvestBinding? = null
     private val binding get() = _binding!!
@@ -118,9 +118,9 @@ class InvestFragment : Fragment(), InvestAdapter.OnItemClick {
         val database = FirebaseDatabase.getInstance().reference
 
         if (recordingKind.isNotEmpty() && recordingBuyOrSell.isNotEmpty() && price.isNotEmpty() && remark.isNotEmpty()) {
-            val invest = invest(
+            val invest = Invest(
                 recordingKind, recordingBuyOrSell, binding.button4.text.toString(), remark, price
-            ).to_dict()
+            ).toDict()
             database.child(userEmailValue).get().addOnSuccessListener {
                 val databaseEmailValue = it.value as java.util.HashMap<String, Any>
                 //profile
@@ -202,7 +202,7 @@ class InvestFragment : Fragment(), InvestAdapter.OnItemClick {
                     }
                     activity?.runOnUiThread {
                         binding.recyclerInvestVirtualCurrency.apply {
-                            val myAdapter = InvestAdapter(this@InvestFragment)
+                            val myAdapter = InvestAdapter(this@InvestFragment, this@InvestFragment)
                             adapter = myAdapter
                             val manager = LinearLayoutManager(requireContext())
                             manager.orientation = LinearLayoutManager.VERTICAL
@@ -211,7 +211,7 @@ class InvestFragment : Fragment(), InvestAdapter.OnItemClick {
                             myAdapter.dataList = storeVirtualCurrencyArray
                         }
                         binding.recyclerInvestStock.apply {
-                            val myAdapter = InvestAdapter(this@InvestFragment)
+                            val myAdapter = InvestAdapter(this@InvestFragment, this@InvestFragment)
                             adapter = myAdapter
                             val manager = LinearLayoutManager(requireContext())
                             manager.orientation = LinearLayoutManager.VERTICAL
@@ -229,7 +229,21 @@ class InvestFragment : Fragment(), InvestAdapter.OnItemClick {
         database.addValueEventListener(dataListener)
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onMagnifierClickStock(position: Int) {
+        startActivity(
+            Intent(requireContext(), InvestWeb::class.java).putExtra(
+                "Invest",
+                storeStockArray
+            )
+        )
+    }
 
+    override fun onMagnifierClickVirtualCurrency(position: Int) {
+        startActivity(
+            Intent(requireContext(), InvestWeb::class.java).putExtra(
+                "Invest",
+                storeVirtualCurrencyArray
+            )
+        )
     }
 }

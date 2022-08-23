@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.tom.accountingapplication.ProfileActivity
-import com.tom.accountingapplication.accounting
+import com.tom.accountingapplication.Accounting
 import com.tom.accountingapplication.databinding.FragmentHomeBinding
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -242,13 +242,13 @@ class HomeFragment : Fragment(), homeadapter.OnItemClick {
         val userEmailValue = userEmail.substring(0, findLittleMouseAt)
         val database = FirebaseDatabase.getInstance().reference
         if (FillPrice.isNotEmpty()) {
-            val upload = accounting(
+            val upload = Accounting(
                 IncomeOrExpense,
                 TypeChoice,
                 binding.date.text.toString(),
                 TypeRemark,
                 FillPrice
-            ).to_dict()
+            ).toDict()
             database.child(userEmailValue).get().addOnSuccessListener {
                 val databaseEmailValue = it.value as java.util.HashMap<String, Any>
                 //profile

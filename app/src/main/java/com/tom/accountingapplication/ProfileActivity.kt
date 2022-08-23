@@ -42,8 +42,8 @@ class ProfileActivity : AppCompatActivity() {
         val emailname=email.substring(0,LittleMouseAt)
         database = FirebaseDatabase.getInstance().reference
         if (name.isNotEmpty() && phone.isNotEmpty() && birthday.isNotEmpty()){
-            val upload = profile(name, phone, birthday)
-            val test = test("QQ")
+            val upload = Profile(name, phone, birthday)
+            val test = Test("QQ")
             database.child(emailname).child("Accounting").setValue(test)
             database.child(emailname).child("Profile").setValue(upload)
                 .addOnCompleteListener{

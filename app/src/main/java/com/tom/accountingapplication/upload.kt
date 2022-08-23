@@ -1,73 +1,76 @@
 package com.tom.accountingapplication
 
-class accounting(
-    val IncomeOrExpense: String? = "",
-    val TypeChoice: String? = "",
-    val Date: String? = "",
-    val TypeRemark: String? = "",
-    val FillPrice: String = ""
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+class Accounting(
+    private val incomeOrExpense: String? = "",
+    private val typeChoice: String? = "",
+    private val date: String? = "",
+    private val typeRemark: String? = "",
+    private val fillPrice: String = ""
 ) {
-    fun to_dict(): Map<String, *> {
+    fun toDict(): Map<String, *> {
         return mapOf(
-            "IncomeOrExpense" to IncomeOrExpense,
-            "TypeChoice" to TypeChoice,
-            "Date" to Date,
-            "TypeRemark" to TypeRemark,
-            "FillPrice" to FillPrice
+            "IncomeOrExpense" to incomeOrExpense,
+            "TypeChoice" to typeChoice,
+            "Date" to date,
+            "TypeRemark" to typeRemark,
+            "FillPrice" to fillPrice
         )
     }
 }
 
-class profile(
+class Profile(
     val name: String? = "",
     val phone: String? = "",
     val birthday: String? = ""
 ) {}
 
-class test(
+class Test(
     val test: String? = ""
 ) {}
 
 class Type(
-    val Breakfast: String? = "",
-    val Lunch: String? = "",
-    val Dinner: String? = "",
-    val Transportation: String? = "",
-    val Drink: String = "",
-    val Dessert: String = "",
-    val Social: String = "",
-    val Shopping: String = "",
-    val Hospital: String = "",
-    val Game: String = "",
-    val Gift: String = "",
-    val Other: String = "",
+    private val breakfast: String? = "",
+    private val lunch: String? = "",
+    private val dinner: String? = "",
+    private val transportation: String? = "",
+    private val drink: String = "",
+    private val dessert: String = "",
+    private val social: String = "",
+    private val shopping: String = "",
+    private val hospital: String = "",
+    private val game: String = "",
+    private val gift: String = "",
+    private val other: String = "",
 ) {
-    fun to_dict(): Map<String, *> {
+    fun toDict(): Map<String, *> {
         return mapOf(
-            "Breakfast" to Breakfast,
-            "Lunch" to Lunch,
-            "Dinner" to Dinner,
-            "Transportation" to Transportation,
-            "Drink" to Drink,
-            "Dessert" to Dessert,
-            "Social" to Social,
-            "Shopping" to Shopping,
-            "Hospital" to Hospital,
-            "Game" to Game,
-            "Gift" to Gift,
-            "Other" to Other,
+            "Breakfast" to breakfast,
+            "Lunch" to lunch,
+            "Dinner" to dinner,
+            "Transportation" to transportation,
+            "Drink" to drink,
+            "Dessert" to dessert,
+            "Social" to social,
+            "Shopping" to shopping,
+            "Hospital" to hospital,
+            "Game" to game,
+            "Gift" to gift,
+            "Other" to other,
         )
     }
 }
-
-class invest(
+@Parcelize
+data class Invest(
     val VirtualCurrencyOrStock: String? = "",
     val BuyOrSell: String? = "",
     val Date: String? = "",
     val TypeRemark: String? = "",
     val FillPrice: String = ""
-) {
-    fun to_dict(): Map<String,*> {
+): Parcelable {
+    fun toDict(): Map<String,*> {
         return mapOf(
             "VirtualCurrencyOrStock" to VirtualCurrencyOrStock,
             "BuyOrSell" to BuyOrSell,
