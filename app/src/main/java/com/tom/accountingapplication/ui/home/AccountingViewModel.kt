@@ -24,10 +24,11 @@ class AccountingViewModel : ViewModel() {
             UpdateItem("Drink", R.drawable.icon_drink,1),
             UpdateItem("Dessert", R.drawable.icon_dessert,1),
             UpdateItem("Entertainment", R.drawable.icon_entertainment,1),
+            UpdateItem("DailyNecessary",R.drawable.icon_daily_necessary,1),
             UpdateItem("Shopping", R.drawable.icon_shopping,1),
             UpdateItem("Bill", R.drawable.icon_bill,1),
             UpdateItem("Stock", R.drawable.icon_stock,1),
-            UpdateItem("VC", R.drawable.icon_bill,1),
+            UpdateItem("VC", R.drawable.icon_vertical_currency,1),
             UpdateItem("Other", R.drawable.icon_other,1),
         )
         incomeList = arrayListOf(

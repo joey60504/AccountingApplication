@@ -27,19 +27,20 @@ class AccountingFragment : Fragment() {
         binding.btnIncome.setOnClickListener {
             viewModel.onIncomeClick()
         }
+        val itemAdapter = AccountingItemAdapter(
+            onItemClick = { UpdateItem->
+                viewModel.onItemClick(UpdateItem)
+            }
+        )
+        binding.recyclerItem.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = itemAdapter
+        }
         viewModel.displayAccounting.observe(this){
-            val itemAdapter = AccountingItemAdapter(
-                onItemClick = { UpdateItem->
-                    viewModel.onItemClick(UpdateItem)
-                }
-            )
             itemAdapter.seq = it.seq
             itemAdapter.itemList = it.itemList
-            binding.recyclerItem.apply {
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
-                this.adapter = itemAdapter
-            }
+
         }
         return root
     }
