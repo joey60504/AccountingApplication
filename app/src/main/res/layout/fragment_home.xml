@@ -1,407 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_rectangle"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/corners_grown"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.2"
-            android:background="@drawable/background_rectangle"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/expense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_weight="1"
-                android:autoText="false"
-                android:fontFamily="@font/myfont"
-                android:text="expense"
-                app:autoSizeTextType="uniform" />
-
-            <Button
-                android:id="@+id/income"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_weight="1"
-                android:autoText="false"
-                android:fontFamily="@font/myfont"
-                android:text="income"
-                app:autoSizeTextType="uniform" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:background="@drawable/background_rectangle"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageEgg"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/beige_rectangle"
-                    android:src="@drawable/breakfast_icon"
-                    tools:ignore="SpeakableTextPresentCheck" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Breakfast"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-
-                <ImageButton
-                    android:id="@+id/imageDrink"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/drink_icon" />
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Drink"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-
-                <ImageButton
-                    android:id="@+id/imageBill"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/bill_icon" />
-
-                <TextView
-                    android:id="@+id/textView28"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Bill"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageLunch"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/lunch_icon" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Lunch"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-
-                <ImageButton
-                    android:id="@+id/imageCake"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/dessert_icon" />
-
-                <TextView
-                    android:id="@+id/textView25"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Dessert"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-
-                <ImageButton
-                    android:id="@+id/imageGame"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/game_icon" />
-
-                <TextView
-                    android:id="@+id/textView29"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Game"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageDinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/dinner_icon" />
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Dinner"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-
-                <ImageButton
-                    android:id="@+id/imagePeople"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/social_icon" />
-
-                <TextView
-                    android:id="@+id/textView26"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Social"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-
-                <ImageButton
-                    android:id="@+id/imageIncome"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/income_icon" />
-
-                <TextView
-                    android:id="@+id/textView30"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Income"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageBus"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/transportation_icon" />
-
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Transportation"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-
-                <ImageButton
-                    android:id="@+id/imageBag"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/shopping_icon" />
-
-                <TextView
-                    android:id="@+id/textView27"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Shopping"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-
-                <ImageButton
-                    android:id="@+id/imageOther"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/divider_horizontal_dark"
-                    android:src="@drawable/other_icon" />
-
-                <TextView
-                    android:id="@+id/textView31"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:fontFamily="@font/myfont"
-                    android:gravity="center"
-                    android:text="Other"
-                    app:autoSizeMaxTextSize="15sp"
-                    app:autoSizeMinTextSize="5sp"
-                    app:autoSizeTextType="uniform" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.2"
-            android:background="@drawable/background_rectangle"
+        <TextView
+            android:id="@+id/btn_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
             android:fontFamily="@font/myfont"
-            android:onClick="datePicker"
-            android:text="20XX/XX/XX"
-            app:autoSizeTextType="uniform"
-            app:icon="@drawable/calendar_icon"
-            app:iconGravity="textStart"
-            app:iconSize="20dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.2"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/fillmoney"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/myfont"
-                android:gravity="center"
-                android:hint="EnterPrice"
-                android:inputType="textPersonName"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/filltype"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:fontFamily="@font/myfont"
-                android:gravity="center"
-                android:hint="EnterRemark"
-                android:inputType="textPersonName"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.2"
-            android:background="@drawable/background_rectangle"
             android:gravity="center"
-            android:orientation="vertical">
+            android:text="Expense"
+            android:textColor="@color/greyish_brown"
+            android:textSize="30sp" />
 
-            <Button
-                android:id="@+id/upload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoText="false"
-                android:fontFamily="@font/myfont"
-                android:gravity="center"
-                android:text="UPLOAD"
-                app:autoSizeTextType="uniform" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:background="@drawable/background_rectangle" />
+        <TextView
+            android:id="@+id/btn_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/myfont"
+            android:gravity="center"
+            android:text="Income"
+            android:textColor="@color/greyish_brown"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp" />
+
+</LinearLayout>
