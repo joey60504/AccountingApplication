@@ -12,21 +12,18 @@
             android:title="History" />
         <item
             android:id="@+id/nav_invest"
-            android:icon="@drawable/money_icon"
             android:title="Invest" />
         <item android:title="設定">
             <menu>
                 <group android:checkableBehavior="single">
                     <item
                         android:id="@+id/nav_slideshow"
-                        android:icon="@drawable/user_information_icon"
                         android:title="PersonalInformation" />
                 </group>
             </menu>
         </item>
         <item
             android:id="@+id/logoutmenu"
-            android:icon="@drawable/logout_icon"
             android:onClick="logoutmethod"
             android:title="Logout" />
     </group>

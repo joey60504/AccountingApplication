@@ -1,6 +1,5 @@
 package com.tom.accountingapplication.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,72 +10,93 @@ class AccountingViewModel : ViewModel() {
     val displayAccounting: LiveData<AccountingItem> = _displayAccounting
 
     private var seq = 1 // 1 = expense 2 = income
-    private var updateItem = arrayListOf<UpdateItem>()
     private var expenseList = arrayListOf<UpdateItem>()
     private var incomeList = arrayListOf<UpdateItem>()
 
     init {
         expenseList = arrayListOf(
-            UpdateItem("Breakfast", R.drawable.icon_breakfast,1),
-            UpdateItem("Lunch", R.drawable.icon_lunch,1),
-            UpdateItem("Dinner", R.drawable.icon_dinner,1),
-            UpdateItem("Transport", R.drawable.icon_transport,1),
-            UpdateItem("Drink", R.drawable.icon_drink,1),
-            UpdateItem("Dessert", R.drawable.icon_dessert,1),
-            UpdateItem("Entertainment", R.drawable.icon_entertainment,1),
-            UpdateItem("DailyNecessary",R.drawable.icon_daily_necessary,1),
-            UpdateItem("Shopping", R.drawable.icon_shopping,1),
-            UpdateItem("Bill", R.drawable.icon_bill,1),
-            UpdateItem("Stock", R.drawable.icon_stock,1),
-            UpdateItem("VC", R.drawable.icon_vertical_currency,1),
-            UpdateItem("Other", R.drawable.icon_other,1),
+            UpdateItem("早餐", R.drawable.icon_breakfast, 1, true),
+            UpdateItem("午餐", R.drawable.icon_lunch, 1, false),
+            UpdateItem("晚餐", R.drawable.icon_dinner, 1, false),
+            UpdateItem("交通", R.drawable.icon_transport, 1, false),
+            UpdateItem("飲品", R.drawable.icon_drink, 1, false),
+            UpdateItem("點心", R.drawable.icon_dessert, 1, false),
+            UpdateItem("娛樂", R.drawable.icon_entertainment, 1, false),
+            UpdateItem("日用品", R.drawable.icon_daily_necessary, 1, false),
+            UpdateItem("購物", R.drawable.icon_shopping, 1, false),
+            UpdateItem("帳單", R.drawable.icon_bill, 1, false),
+            UpdateItem("股票", R.drawable.icon_stock, 1, false),
+            UpdateItem("虛擬貨幣", R.drawable.icon_vertical_currency, 1, false),
+            UpdateItem("其他", R.drawable.icon_other, 1, false),
         )
         incomeList = arrayListOf(
-            UpdateItem("Salary", R.drawable.icon_salery,2),
-            UpdateItem("Reward", R.drawable.icon_reward,2),
-            UpdateItem("Dividend", R.drawable.icon_dividend,2),
-            UpdateItem("Interest", R.drawable.icon_interest,2),
-            UpdateItem("InvestStock", R.drawable.icon_invest_stock,2),
-            UpdateItem("InvestVC", R.drawable.icon_invest_vertical_currency,2),
-            UpdateItem("Other", R.drawable.icon_other,2),
+            UpdateItem("薪水", R.drawable.icon_salery, 2, true),
+            UpdateItem("獎金", R.drawable.icon_reward, 2, false),
+            UpdateItem("股息", R.drawable.icon_dividend, 2, false),
+            UpdateItem("利息", R.drawable.icon_interest, 2, false),
+            UpdateItem("股票", R.drawable.icon_invest_stock, 2, false),
+            UpdateItem("虛擬貨幣", R.drawable.icon_invest_vertical_currency, 2, false),
+            UpdateItem("其他", R.drawable.icon_other, 2, false),
         )
-        updateItem = if (seq == 1) {
-            expenseList
-        } else {
-            incomeList
-        }
         _displayAccounting.postValue(
             AccountingItem(
-            itemList = updateItem,
-            seq = seq
-        )
+                itemExpenseList = expenseList,
+                itemIncomeList = incomeList,
+                seq = seq
+            )
         )
     }
-    fun onItemClick(updateItem : UpdateItem){
-        Log.d("kkk",updateItem.toString())
+
+    fun onItemClick(updateItem: UpdateItem) {
+        if (seq == 1) {
+            _displayAccounting.value?.itemExpenseList?.find {
+                it.isSelect
+            }.let {
+                it?.isSelect = false
+            }
+            _displayAccounting.value?.itemExpenseList?.find {
+                it == updateItem
+            }.let {
+                it?.isSelect = true
+            }
+            _displayAccounting.postValue(_displayAccounting.value)
+        } else{
+            _displayAccounting.value?.itemIncomeList?.find {
+                it.isSelect
+            }.let {
+                it?.isSelect = false
+            }
+            _displayAccounting.value?.itemIncomeList?.find {
+                it == updateItem
+            }.let {
+                it?.isSelect = true
+            }
+            _displayAccounting.postValue(_displayAccounting.value)
+        }
     }
-    fun onExpenseClick(){
+
+    fun onExpenseClick() {
         seq = 1
-        updateItem = expenseList
         _displayAccounting.value?.seq = seq
-        _displayAccounting.value?.itemList = updateItem
         _displayAccounting.postValue(_displayAccounting.value)
     }
-    fun onIncomeClick(){
+
+    fun onIncomeClick() {
         seq = 2
-        updateItem = incomeList
         _displayAccounting.value?.seq = seq
-        _displayAccounting.value?.itemList = updateItem
         _displayAccounting.postValue(_displayAccounting.value)
     }
 }
 
 data class AccountingItem(
-    var itemList :ArrayList<UpdateItem>,
-    var seq : Int
+    var itemExpenseList: ArrayList<UpdateItem>,
+    var itemIncomeList:ArrayList<UpdateItem>,
+    var seq: Int
 )
+
 data class UpdateItem(
     val title: String,
     val image: Int,
-    val type :Int
+    val type: Int,
+    var isSelect: Boolean
 )

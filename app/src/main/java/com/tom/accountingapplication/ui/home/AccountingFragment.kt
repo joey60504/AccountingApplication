@@ -1,12 +1,16 @@
 package com.tom.accountingapplication.ui.home
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.FragmentHomeBinding
 
 
@@ -14,6 +18,7 @@ class AccountingFragment : Fragment() {
     private val viewModel: AccountingViewModel by viewModels()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,15 +37,26 @@ class AccountingFragment : Fragment() {
                 viewModel.onItemClick(UpdateItem)
             }
         )
-        binding.recyclerItem.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = itemAdapter
-        }
         viewModel.displayAccounting.observe(this){
             itemAdapter.seq = it.seq
-            itemAdapter.itemList = it.itemList
-
+            if(it.seq == 1) {
+                binding.btnExpense.setBackgroundResource(R.drawable.corners_blue)
+                binding.btnExpense.setTextColor(getColor(requireContext(),R.color.white))
+                binding.btnIncome.setBackgroundColor(0)
+                binding.btnIncome.setTextColor(getColor(requireContext(),R.color.greyish_brown))
+                itemAdapter.itemList = it.itemExpenseList
+            } else{
+                binding.btnExpense.setBackgroundColor(0)
+                binding.btnExpense.setTextColor(getColor(requireContext(),R.color.greyish_brown))
+                binding.btnIncome.setBackgroundResource(R.drawable.corners_pink)
+                binding.btnIncome.setTextColor(getColor(requireContext(),R.color.white))
+                itemAdapter.itemList = it.itemIncomeList
+            }
+            binding.recyclerItem.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+                this.adapter = itemAdapter
+            }
         }
         return root
     }

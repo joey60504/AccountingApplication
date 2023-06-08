@@ -7,12 +7,13 @@
         android:id="@+id/txt_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:background="@drawable/corners_rim_blue"
         android:drawableTop="@drawable/icon_breakfast"
         android:drawablePadding="10dp"
-        android:fontFamily="@font/myfont"
+        android:fontFamily="@font/myfont3"
         android:gravity="center"
-        android:text="Breakfast"
-        android:textColor="@color/greyish_brown" />
+        android:padding="10dp"
+        android:text="早餐"
+        android:textColor="@color/greyish_brown"
+        android:textStyle="bold" />
 </LinearLayout>

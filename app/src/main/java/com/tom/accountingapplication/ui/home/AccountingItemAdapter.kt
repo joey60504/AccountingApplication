@@ -3,6 +3,7 @@ package com.tom.accountingapplication.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.ItemAccountingItemBinding
 
 class AccountingItemAdapter(
@@ -33,6 +34,15 @@ class AccountingItemAdapter(
         fun bind(item: UpdateItem, onItemClick: (UpdateItem) -> Unit) {
             binding.txtItemTitle.text = item.title
             binding.txtItemTitle.setCompoundDrawablesWithIntrinsicBounds(0, item.image, 0, 0)
+            if (item.isSelect) {
+                if (seq == 1) {
+                    binding.txtItemTitle.setBackgroundResource(R.drawable.corners_rim_blue)
+                } else {
+                    binding.txtItemTitle.setBackgroundResource(R.drawable.corners_rim_pink)
+                }
+            } else{
+                binding.txtItemTitle.setBackgroundResource(0)
+            }
             binding.txtItemTitle.setOnClickListener {
                 onItemClick(item)
             }
