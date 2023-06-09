@@ -1,4 +1,4 @@
-package com.tom.accountingapplication
+package com.tom.accountingapplication.login
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -13,8 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.tom.accountingapplication.databinding.ActivityMainBinding
+import com.tom.accountingapplication.homepage
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding

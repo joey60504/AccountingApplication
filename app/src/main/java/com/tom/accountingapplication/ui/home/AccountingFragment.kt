@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tom.accountingapplication.R
-import com.tom.accountingapplication.databinding.FragmentBottomsheetCalendarBinding
 import com.tom.accountingapplication.databinding.FragmentHomeBinding
 
 
@@ -21,9 +20,6 @@ class AccountingFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
-    private var _bindingBottomSheet: FragmentBottomsheetCalendarBinding? = null
-    private val bindingBottomSheet get() = _bindingBottomSheet!!
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
@@ -46,23 +42,49 @@ class AccountingFragment : Fragment() {
         binding.imgDateRight.setOnClickListener {
             viewModel.onDateRightClick()
         }
-        binding.txtDate.setOnClickListener {
-            _bindingBottomSheet =
-                FragmentBottomsheetCalendarBinding.inflate(inflater, container, false)
-            val bottomSheetDialog = BottomSheetDialog(requireContext())
-            val rootBottomSheet: View = bindingBottomSheet.root
-            bindingBottomSheet.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                viewModel.onDateSelect(year, month, dayOfMonth)
-                bottomSheetDialog.dismiss()
-            }
-            bottomSheetDialog.setContentView(rootBottomSheet)
-            bottomSheetDialog.show()
+        binding.txtSubmit.setOnClickListener {
+            viewModel.onSubmitClick(
+                binding.edittextRemark.text.toString(),
+                binding.edittextPrice.text.toString().toInt()
+            )
         }
+        binding.txtDate.setOnClickListener {
+            val bottomSheetFragment = AccountingBottomSheetCalendarFragment(
+                onItemClick = { year, month, day ->
+                    viewModel.onDateSelect(year, month, day)
+                }
+            )
+            bottomSheetFragment.show(
+                requireActivity().supportFragmentManager,
+                bottomSheetFragment.tag
+            )
+        }
+        binding.txtTag.setOnClickListener {
+            val bottomSheetFragment = AccountingBottomSheetTagFragment(
+                onItemClick = { tag ->
+                    viewModel.onTagClick(tag)
+                }
+            )
+            bottomSheetFragment.show(
+                requireActivity().supportFragmentManager,
+                bottomSheetFragment.tag
+            )
+        }
+
         val itemAdapter = AccountingItemAdapter(
             onItemClick = { updateItem ->
                 viewModel.onItemClick(updateItem)
             }
         )
+
+        viewModel.showPairMessage.observe(this) {
+            AlertDialog.Builder(requireContext())
+                .setCancelable(false)
+                .setTitle(it.first)
+                .setMessage(it.second)
+                .setPositiveButton("確定", null).show()
+        }
+
         viewModel.displayItemSelect.observe(this) {
             itemAdapter.seq = it.seq
             if (it.seq == 1) {
@@ -90,36 +112,12 @@ class AccountingFragment : Fragment() {
         viewModel.displayDate.observe(this) {
             binding.txtDate.text = it
         }
+        viewModel.displayTag.observe(this){
+            binding.txtTag.text = it.selectedTag
+        }
         return root
     }
 
-
-//    private fun datePicker() {
-//        val c = Calendar.getInstance()
-//        val year = c.get(Calendar.YEAR)
-//        val month = c.get(Calendar.MONTH)
-//        val day = c.get(Calendar.DAY_OF_MONTH)
-//        DatePickerDialog(requireContext(), { _, year, month, day ->
-//            run {
-//                val format = setDateFormat(year, month, day)
-//                binding.date.text = format
-//            }
-//        }, year, month, day).show()
-//    }
-
-//    private fun setDateFormat(year: Int, month: Int, day: Int): String {
-//        val fixMonth = if (month < 9) {
-//            "0${month + 1}"
-//        } else {
-//            "${month + 1}"
-//        }
-//        val fixDay = if (day < 10) {
-//            "0$day"
-//        } else {
-//            "$day"
-//        }
-//        return "$year/$fixMonth/$fixDay"
-//    }
 
 //    private fun upDateData() {
 //        TypeRemark = binding.filltype.text.toString()

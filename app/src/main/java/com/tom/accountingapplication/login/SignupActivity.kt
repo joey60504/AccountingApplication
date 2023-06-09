@@ -1,4 +1,4 @@
-package com.tom.accountingapplication
+package com.tom.accountingapplication.login
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.databinding.ActivitySignupBinding
+import com.tom.accountingapplication.homepage
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -68,7 +69,7 @@ class SignupActivity : AppCompatActivity() {
                 val firebaseUser = firebaseAuth.currentUser
                 val email = firebaseUser!!.email
                 Toast.makeText(this,"Account created with email${email}",Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this,homepage::class.java))
+                startActivity(Intent(this, homepage::class.java))
                 finish()
             }
             .addOnFailureListener {e->

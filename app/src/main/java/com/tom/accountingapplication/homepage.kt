@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.databinding.ActivityHomepageBinding
+import com.tom.accountingapplication.login.MainActivity
 
 class homepage : AppCompatActivity() {
 
@@ -48,7 +48,7 @@ class homepage : AppCompatActivity() {
     }
     fun logoutmethod(menuItem: MenuItem){
         FirebaseAuth.getInstance().signOut();
-        startActivity(Intent(this,MainActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

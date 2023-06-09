@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tom.accountingapplication.R
+import com.tom.accountingapplication.accountingModel.UpdateItem
 import com.tom.accountingapplication.databinding.ItemAccountingItemBinding
 
 class AccountingItemAdapter(

@@ -16,13 +16,10 @@
             android:theme="@style/Theme.AccountingApplication.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".login.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".login.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
