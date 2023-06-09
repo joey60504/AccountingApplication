@@ -10,14 +10,21 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tom.accountingapplication.R
+import com.tom.accountingapplication.databinding.FragmentBottomsheetCalendarBinding
 import com.tom.accountingapplication.databinding.FragmentHomeBinding
 
 
 class AccountingFragment : Fragment() {
     private val viewModel: AccountingViewModel by viewModels()
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private var _bindingBottomSheet: FragmentBottomsheetCalendarBinding? = null
+    private val bindingBottomSheet get() = _bindingBottomSheet!!
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,37 +33,62 @@ class AccountingFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
         binding.btnExpense.setOnClickListener {
             viewModel.onExpenseClick()
         }
         binding.btnIncome.setOnClickListener {
             viewModel.onIncomeClick()
         }
+        binding.imgDateLeft.setOnClickListener {
+            viewModel.onDateLeftClick()
+        }
+        binding.imgDateRight.setOnClickListener {
+            viewModel.onDateRightClick()
+        }
+        binding.txtDate.setOnClickListener {
+            _bindingBottomSheet =
+                FragmentBottomsheetCalendarBinding.inflate(inflater, container, false)
+            val bottomSheetDialog = BottomSheetDialog(requireContext())
+            val rootBottomSheet: View = bindingBottomSheet.root
+            bindingBottomSheet.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+                viewModel.onDateSelect(year, month, dayOfMonth)
+                bottomSheetDialog.dismiss()
+            }
+            bottomSheetDialog.setContentView(rootBottomSheet)
+            bottomSheetDialog.show()
+        }
         val itemAdapter = AccountingItemAdapter(
-            onItemClick = { UpdateItem->
-                viewModel.onItemClick(UpdateItem)
+            onItemClick = { updateItem ->
+                viewModel.onItemClick(updateItem)
             }
         )
-        viewModel.displayAccounting.observe(this){
+        viewModel.displayItemSelect.observe(this) {
             itemAdapter.seq = it.seq
-            if(it.seq == 1) {
+            if (it.seq == 1) {
                 binding.btnExpense.setBackgroundResource(R.drawable.corners_blue)
-                binding.btnExpense.setTextColor(getColor(requireContext(),R.color.white))
+                binding.btnExpense.setTextColor(getColor(requireContext(), R.color.white))
                 binding.btnIncome.setBackgroundColor(0)
-                binding.btnIncome.setTextColor(getColor(requireContext(),R.color.greyish_brown))
+                binding.btnIncome.setTextColor(getColor(requireContext(), R.color.greyish_brown))
+                binding.imgChoiceIcon.setBackgroundResource(it.itemSelectedDrawable)
                 itemAdapter.itemList = it.itemExpenseList
-            } else{
+            } else {
                 binding.btnExpense.setBackgroundColor(0)
-                binding.btnExpense.setTextColor(getColor(requireContext(),R.color.greyish_brown))
+                binding.btnExpense.setTextColor(getColor(requireContext(), R.color.greyish_brown))
                 binding.btnIncome.setBackgroundResource(R.drawable.corners_pink)
-                binding.btnIncome.setTextColor(getColor(requireContext(),R.color.white))
+                binding.btnIncome.setTextColor(getColor(requireContext(), R.color.white))
+                binding.imgChoiceIcon.setBackgroundResource(it.itemSelectedDrawable)
                 itemAdapter.itemList = it.itemIncomeList
             }
             binding.recyclerItem.apply {
                 setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 this.adapter = itemAdapter
             }
+        }
+        viewModel.displayDate.observe(this) {
+            binding.txtDate.text = it
         }
         return root
     }
