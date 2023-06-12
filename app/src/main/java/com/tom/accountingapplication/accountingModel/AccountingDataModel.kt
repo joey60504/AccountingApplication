@@ -2,31 +2,98 @@ package com.tom.accountingapplication.accountingModel
 
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.Random
 
 class AccountingDataModel {
-    private lateinit var auth: FirebaseAuth
-
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val database = FirebaseDatabase.getInstance().reference
+    private val userEmail = auth.currentUser?.email.toString()
+    private val userEmailModify = userEmail.substring(0, userEmail.indexOf("@"))
     fun uploadData(upload: UploadData) {
-        auth = FirebaseAuth.getInstance()
-        val database = FirebaseDatabase.getInstance().reference
         val dateYear = upload.date.substring(0, 4)
         val dateMonth = upload.date.substring(0, 7).replace("/", "")
         val date = upload.date.replace("/", "")
         val random = Random()
         val randomNumber = (random.nextInt(90000000) + 10000000).toString()
         val uploadMap = mapOf(
+            "type" to upload.type,
             "item" to upload.item,
             "date" to upload.date,
             "tag" to upload.tag,
             "remark" to upload.remark,
             "price" to upload.price
         )
-        database.child(upload.email).child("AccountingVision2").child(dateYear)
+        database.child(userEmailModify).child("AccountingVision2").child(dateYear)
             .child(dateMonth).child(date).child(upload.tag).child(randomNumber)
             .updateChildren(uploadMap)
     }
+
+    fun getData(listener: DataListener) {
+        val dataList = arrayListOf<UploadData>()
+        val tagList = arrayListOf<ReadDataTagList>()
+        val readDataList = arrayListOf<ReadData>()
+        val dataListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val root = snapshot.value as Map<*, *>
+                val userRoot = root[userEmailModify] as Map<*, *>
+                if (userRoot["AccountingVision2"] != null) {
+                    val userAccountingYear = userRoot["AccountingVision2"] as Map<*, *>
+                    userAccountingYear.map { year ->
+                        val userAccountingYearValue = year.value as Map<*, *>
+                        userAccountingYearValue.map { month ->
+                            val userAccountingMonthValue = month.value as Map<*, *>
+                            userAccountingMonthValue.map { day ->
+                                val userAccountingDayValue = day.value as Map<*, *>
+                                val userAccountingDayKey = day.key
+                                userAccountingDayValue.map { tag ->
+                                    val userAccountingTagValue = tag.value as Map<*, *>
+                                    val userAccountingTagKey = tag.key
+                                    userAccountingTagValue.map { number ->
+                                        val userAccountingData = number.value as Map<*, *>
+                                        dataList.add(
+                                            UploadData(
+                                                item = userAccountingData["item"].toString(),
+                                                date = userAccountingData["date"].toString(),
+                                                tag = userAccountingData["tag"].toString(),
+                                                remark = userAccountingData["remark"].toString(),
+                                                price = userAccountingData["price"].toString()
+                                                    .toInt(),
+                                                type = userAccountingData["type"].toString().toInt()
+                                            )
+                                        )
+                                    }
+                                    tagList.add(
+                                        ReadDataTagList(
+                                            title = userAccountingTagKey.toString(),
+                                            dataList = dataList
+                                        )
+                                    )
+                                }
+                                readDataList.add(
+                                    ReadData(
+                                        date = userAccountingDayKey.toString(),
+                                        tagList = tagList
+                                    )
+                                )
+
+                            }
+                        }
+                    }
+                    listener.onDataLoaded(readDataList)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        database.addValueEventListener(dataListener)
+    }
+}
+interface DataListener {
+    fun onDataLoaded(readDataList: ArrayList<ReadData>)
 }
 
 data class AccountingItem(
@@ -54,10 +121,21 @@ data class TagItem(
 )
 
 data class UploadData(
-    var email: String,
     var item: String,
     var date: String,
     var tag: String,
     var remark: String,
-    var price: Int
+    var price: Int,
+    var type: Int
 )
+
+data class ReadData(
+    var date: String,
+    var tagList: ArrayList<ReadDataTagList>
+)
+
+data class ReadDataTagList(
+    var title: String,
+    var dataList: ArrayList<UploadData>
+)
+

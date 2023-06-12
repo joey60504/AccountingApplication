@@ -2,6 +2,7 @@ package com.tom.accountingapplication.ui.home
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,8 @@ class AccountingFragment : Fragment() {
                 binding.edittextRemark.text.toString(),
                 binding.edittextPrice.text.toString().toInt()
             )
+            binding.edittextRemark.text.clear()
+            binding.edittextPrice.text.clear()
         }
         binding.txtDate.setOnClickListener {
             val bottomSheetFragment = AccountingBottomSheetCalendarFragment(
@@ -76,6 +79,7 @@ class AccountingFragment : Fragment() {
                 viewModel.onItemClick(updateItem)
             }
         )
+        val accountingDataAdapter = AccountingDataAdapter()
 
         viewModel.showPairMessage.observe(this) {
             AlertDialog.Builder(requireContext())
@@ -112,74 +116,20 @@ class AccountingFragment : Fragment() {
         viewModel.displayDate.observe(this) {
             binding.txtDate.text = it
         }
-        viewModel.displayTag.observe(this){
+        viewModel.displayTag.observe(this) {
             binding.txtTag.text = it.selectedTag
+        }
+        viewModel.displayData.observe(this){
+            accountingDataAdapter.itemList = it
+            binding.recyclerData.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+                this.adapter = accountingDataAdapter
+            }
         }
         return root
     }
 
-
-//    private fun upDateData() {
-//        TypeRemark = binding.filltype.text.toString()
-//        FillPrice = binding.fillmoney.text.toString()
-//        val chosenDate = binding.date.text.toString().replace("/", "")
-//        val chosenDateMonth = binding.date.text.substring(0, 7).replace("/", "")
-//
-//        auth = FirebaseAuth.getInstance()
-//        val userEmail = auth.currentUser?.email.toString()
-//        val findLittleMouseAt = userEmail.indexOf("@")
-//        val userEmailValue = userEmail.substring(0, findLittleMouseAt)
-//        val database = FirebaseDatabase.getInstance().reference
-//        if (FillPrice.isNotEmpty()) {
-//            val upload = Accounting(
-//                IncomeOrExpense,
-//                TypeChoice,
-//                binding.date.text.toString(),
-//                TypeRemark,
-//                FillPrice
-//            ).toDict()
-//            database.child(userEmailValue).get().addOnSuccessListener {
-//                val databaseEmailValue = it.value as java.util.HashMap<String, Any>
-//                //profile
-//                val userProfile = databaseEmailValue["Profile"] as HashMap<*, *>
-//                val userAsset = userProfile["Asset"].toString()
-//                //accounting
-//                val userAccounting =
-//                    databaseEmailValue["Accounting"] as java.util.HashMap<String, Any>
-//                if (userAccounting[chosenDateMonth] != null) {    //有無月份
-//                    val recordingDateMonth = userAccounting[chosenDateMonth] as HashMap<String, Any>
-//                    if (recordingDateMonth[chosenDate] != null) {  //有無日期
-//                        val recordingDate =
-//                            recordingDateMonth[chosenDate] as ArrayList<Map<String, *>>
-//                        recordingDate.add(upload)
-//                        recordingDateMonth[chosenDate] = recordingDate
-//                        userAccounting[chosenDateMonth] = recordingDateMonth
-//                        database.child(userEmailValue).child("Accounting")
-//                            .updateChildren(userAccounting)
-//                        //profile Asset
-//                        fillProfileAsset(userAsset, userEmailValue)
-//                    } else {
-//                        recordingDateMonth[chosenDate] = arrayListOf(upload)
-//                        userAccounting[chosenDateMonth] = recordingDateMonth
-//                        database.child(userEmailValue).child("Accounting")
-//                            .updateChildren(userAccounting)
-//                        //profile Asset
-//                        fillProfileAsset(userAsset, userEmailValue)
-//                    }
-//                } else {
-//                    val recordingDateMonth = hashMapOf<String, Any>()
-//                    recordingDateMonth[chosenDate] = arrayListOf(upload)
-//                    userAccounting[chosenDateMonth] = recordingDateMonth
-//                    database.child(userEmailValue).child("Accounting")
-//                        .updateChildren(userAccounting)
-//                    //profile Asset
-//                    fillProfileAsset(userAsset, userEmailValue)
-//                }
-//            }
-//        } else {
-//            Toast.makeText(requireContext(), "Price must not be empty", Toast.LENGTH_LONG).show()
-//        }
-//    }
 //    private fun dataSelect() {
 //        auth = FirebaseAuth.getInstance()
 //        val userEmail = auth.currentUser?.email.toString()

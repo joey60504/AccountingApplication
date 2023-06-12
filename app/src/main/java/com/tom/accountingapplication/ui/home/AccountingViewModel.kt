@@ -1,5 +1,6 @@
 package com.tom.accountingapplication.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.accountingModel.AccountingDataModel
 import com.tom.accountingapplication.accountingModel.AccountingItem
+import com.tom.accountingapplication.accountingModel.DataListener
+import com.tom.accountingapplication.accountingModel.ReadData
 import com.tom.accountingapplication.accountingModel.TagItem
 import com.tom.accountingapplication.accountingModel.TagItemList
 import com.tom.accountingapplication.accountingModel.UpdateItem
@@ -26,28 +29,23 @@ class AccountingViewModel : ViewModel() {
     val displayDate: LiveData<String> = _displayDate
     private val _displayTag: MutableLiveData<TagItemList> = MutableLiveData()
     val displayTag: LiveData<TagItemList> = _displayTag
+    private val _displayData: MutableLiveData<ArrayList<ReadData>> = MutableLiveData()
+    val displayData: LiveData<ArrayList<ReadData>> = _displayData
 
 
-    lateinit var auth: FirebaseAuth
+    private val accountingUploadModel = AccountingDataModel()
 
     private var seq = 1 // 1 = expense 2 = income
     private var expenseList = arrayListOf<UpdateItem>()
     private var incomeList = arrayListOf<UpdateItem>()
 
     init {
-        getTodayDate()
         setItemData()
-        setTagList()
     }
 
-    private fun getTodayDate() {
-        val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("yyyy/MM/dd (E)", Locale.getDefault())
-        val today = dateFormat.format(calendar.time)
-        _displayDate.postValue(today)
-    }
 
     private fun setItemData() {
+        //icon
         expenseList = arrayListOf(
             UpdateItem("早餐", R.drawable.icon_breakfast, 1, true),
             UpdateItem("午餐", R.drawable.icon_lunch, 1, false),
@@ -80,10 +78,12 @@ class AccountingViewModel : ViewModel() {
                 seq = seq
             )
         )
-    }
-
-    private fun setTagList() {
-        //TODO getTAG
+        //Date
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd (E)", Locale.getDefault())
+        val today = dateFormat.format(calendar.time)
+        _displayDate.postValue(today)
+        //tag
         val tagList = arrayListOf(
             TagItem(title = "日常", isSelect = true),
             TagItem(title = "台中一日遊", isSelect = false)
@@ -93,7 +93,15 @@ class AccountingViewModel : ViewModel() {
             selectedTag = tagList.find { it.isSelect }?.title.toString()
         )
         _displayTag.postValue(tagItemList)
+        //Data
+        accountingUploadModel.getData(object : DataListener {
+            override fun onDataLoaded(readDataList: ArrayList<ReadData>) {
+                _displayData.postValue(readDataList)
+            }
+        })
     }
+
+
 
     fun onExpenseClick() {
         seq = 1
@@ -191,12 +199,7 @@ class AccountingViewModel : ViewModel() {
     }
 
     fun onSubmitClick(remark: String, price: Int) {
-        auth = FirebaseAuth.getInstance()
-        val userEmail = auth.currentUser?.email.toString()
-        val userEmailModify = userEmail.substring(0, userEmail.indexOf("@"))
-
         val upLoad = UploadData(
-            email = userEmailModify,
             item = if (seq == 1) {
                 _displayItemSelect.value?.itemExpenseList?.find { it.isSelect }?.title
             } else {
@@ -205,9 +208,9 @@ class AccountingViewModel : ViewModel() {
             date = _displayDate.value.toString(),
             tag = _displayTag.value?.selectedTag.toString(),
             remark = remark,
-            price = price
+            price = price ,
+            type = seq
         )
-        val accountingUploadModel = AccountingDataModel()
         accountingUploadModel.uploadData(upLoad)
     }
 }

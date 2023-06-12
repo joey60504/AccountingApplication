@@ -33,18 +33,18 @@ class AccountingItemAdapter(
     inner class PackageViewHolder(private val binding: ItemAccountingItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: UpdateItem, onItemClick: (UpdateItem) -> Unit) {
-            binding.txtItemTitle.text = item.title
-            binding.txtItemTitle.setCompoundDrawablesWithIntrinsicBounds(0, item.image, 0, 0)
+            binding.txtTitle.text = item.title
+            binding.txtTitle.setCompoundDrawablesWithIntrinsicBounds(0, item.image, 0, 0)
             if (item.isSelect) {
                 if (seq == 1) {
-                    binding.txtItemTitle.setBackgroundResource(R.drawable.corners_rim_blue)
+                    binding.txtTitle.setBackgroundResource(R.drawable.corners_rim_blue)
                 } else {
-                    binding.txtItemTitle.setBackgroundResource(R.drawable.corners_rim_pink)
+                    binding.txtTitle.setBackgroundResource(R.drawable.corners_rim_pink)
                 }
             } else{
-                binding.txtItemTitle.setBackgroundResource(0)
+                binding.txtTitle.setBackgroundResource(0)
             }
-            binding.txtItemTitle.setOnClickListener {
+            binding.txtTitle.setOnClickListener {
                 onItemClick(item)
             }
         }
