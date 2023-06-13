@@ -123,62 +123,12 @@ class AccountingFragment : Fragment() {
             accountingDataAdapter.itemList = it
             binding.recyclerData.apply {
                 setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+                layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,true)
                 this.adapter = accountingDataAdapter
             }
         }
         return root
     }
-
-//    private fun dataSelect() {
-//        auth = FirebaseAuth.getInstance()
-//        val userEmail = auth.currentUser?.email.toString()
-//        val findLittleMouseAt = userEmail.indexOf("@")
-//        val userEmailValue = userEmail.substring(0, findLittleMouseAt)
-//        val database = FirebaseDatabase.getInstance().reference
-//
-//        val dataListener = object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val root = dataSnapshot.value as HashMap<*, *>
-//                val useremail = root[userEmailValue] as HashMap<*, *>
-//                try {
-//                    val accounting =
-//                        useremail["Accounting"] as HashMap<String, HashMap<String, ArrayList<HashMap<*, *>>>>
-//                    val sortedMonthKeyList = accounting.filter {
-//                        it.key != "test"
-//                    }.toSortedMap().values.toList()
-//                    StoreArray.clear()
-//                    for (i in sortedMonthKeyList.indices) {
-//                        val sortedDateKeyList = sortedMonthKeyList[i].toSortedMap().values.toList()
-//                        for (j in sortedDateKeyList.indices) {
-//                            sortedDateKeyList[j].map {
-//                                StoreArray.add(it)
-//                            }
-//                        }
-//                    }
-//                } catch (e: Exception) {
-//                    StoreArray = arrayListOf()
-//
-//                }
-//                activity?.runOnUiThread {
-//                    binding.recyclerview2.apply {
-//                        val myAdapter = homeadapter(this@HomeFragment)
-//                        adapter = myAdapter
-//                        val manager = LinearLayoutManager(requireContext())
-//                        manager.orientation = LinearLayoutManager.VERTICAL
-//                        layoutManager = manager
-//                        manager.stackFromEnd = true
-//                        myAdapter.dataList = StoreArray
-//                    }
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//            }
-//        }
-//        database.addValueEventListener(dataListener)
-//    }
-
 //    private fun firstLogin() {
 //        auth = FirebaseAuth.getInstance()
 //        var userEmail = auth.currentUser?.email.toString()

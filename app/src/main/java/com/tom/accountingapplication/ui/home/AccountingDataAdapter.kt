@@ -31,6 +31,7 @@ class AccountingDataAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item:ReadData) {
             binding.txtDate.text = item.date
+            binding.txtDatePrice.text = "日結：${item.datePrice}"
             val accountingDataTagAdapter = AccountingDataTagAdapter()
             accountingDataTagAdapter.itemList = item.tagList
             binding.recyclerDataTag.apply {

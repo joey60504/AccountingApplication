@@ -7,9 +7,9 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginStart="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -38,7 +38,9 @@
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@color/greyish_brown" />
 
     <LinearLayout
@@ -50,9 +52,9 @@
 
         <TextView
             android:id="@+id/txt_item_type"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
             android:fontFamily="@font/myfont3"
             android:gravity="center"
             android:textColor="@color/greyish_brown"
@@ -62,8 +64,9 @@
 
         <TextView
             android:id="@+id/txt_item_price"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:fontFamily="@font/myfont3"
             android:gravity="center"
             android:textColor="@color/expense"
@@ -73,13 +76,6 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:background="@color/greyish_brown" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -88,9 +84,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
             android:fontFamily="@font/myfont3"
             android:gravity="center"
             android:text="備註："
@@ -100,29 +96,24 @@
 
         <TextView
             android:id="@+id/txt_item_remark"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:fontFamily="@font/myfont3"
             android:gravity="center"
-            android:text="起家雞"
             android:textColor="@color/greyish_brown"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="起家雞" />
     </LinearLayout>
-
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:background="@color/greyish_brown" />
 
     <TextView
         android:id="@+id/txt_item_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="10dp"
         android:layout_weight="1"
+        android:drawableEnd="@drawable/icon_search"
         android:fontFamily="@font/myfont3"
         android:gravity="center"
         android:text="詳細資訊"

@@ -2,6 +2,7 @@ package com.tom.accountingapplication.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tom.accountingapplication.accountingModel.ReadDataTagList
@@ -31,12 +32,15 @@ class AccountingDataTagAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ReadDataTagList) {
             binding.txtItemTag.text = item.title
+            binding.txtTagPrice.text = "小計：${item.tagPrice}"
             val accountingDataTagItemAdapter = AccountingDataTagItemAdapter()
             accountingDataTagItemAdapter.itemList = item.dataList
             binding.recyclerDataTagItem.apply {
                 setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(itemView.context,
-                    LinearLayoutManager.VERTICAL,false)
+                layoutManager = LinearLayoutManager(
+                    itemView.context,
+                    LinearLayoutManager.VERTICAL, false
+                )
                 this.adapter = accountingDataTagItemAdapter
             }
         }

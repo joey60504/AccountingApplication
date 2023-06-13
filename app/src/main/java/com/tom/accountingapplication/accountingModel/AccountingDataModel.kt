@@ -33,8 +33,6 @@ class AccountingDataModel {
     }
 
     fun getData(listener: DataListener) {
-        val dataList = arrayListOf<UploadData>()
-        val tagList = arrayListOf<ReadDataTagList>()
         val readDataList = arrayListOf<ReadData>()
         val dataListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -49,9 +47,13 @@ class AccountingDataModel {
                             userAccountingMonthValue.map { day ->
                                 val userAccountingDayValue = day.value as Map<*, *>
                                 val userAccountingDayKey = day.key
+                                val tagList = arrayListOf<ReadDataTagList>()
+                                var datePrice = 0
                                 userAccountingDayValue.map { tag ->
                                     val userAccountingTagValue = tag.value as Map<*, *>
                                     val userAccountingTagKey = tag.key
+                                    val dataList = arrayListOf<UploadData>()
+                                    var tagPrice = 0
                                     userAccountingTagValue.map { number ->
                                         val userAccountingData = number.value as Map<*, *>
                                         dataList.add(
@@ -66,20 +68,27 @@ class AccountingDataModel {
                                             )
                                         )
                                     }
+                                    dataList.map {
+                                        tagPrice += it.price
+                                    }
                                     tagList.add(
                                         ReadDataTagList(
+                                            tagPrice = tagPrice.toString(),
                                             title = userAccountingTagKey.toString(),
                                             dataList = dataList
                                         )
                                     )
                                 }
+                                tagList.map {
+                                    datePrice += it.tagPrice.toInt()
+                                }
                                 readDataList.add(
                                     ReadData(
+                                        datePrice = datePrice.toString(),
                                         date = userAccountingDayKey.toString(),
                                         tagList = tagList
                                     )
                                 )
-
                             }
                         }
                     }
@@ -130,11 +139,13 @@ data class UploadData(
 )
 
 data class ReadData(
+    var datePrice: String,
     var date: String,
     var tagList: ArrayList<ReadDataTagList>
 )
 
 data class ReadDataTagList(
+    var tagPrice: String,
     var title: String,
     var dataList: ArrayList<UploadData>
 )
