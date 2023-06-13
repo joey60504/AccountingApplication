@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.FragmentHomeBinding
@@ -79,7 +80,11 @@ class AccountingFragment : Fragment() {
                 viewModel.onItemClick(updateItem)
             }
         )
-        val accountingDataAdapter = AccountingDataAdapter()
+        val accountingDataAdapter = AccountingDataAdapter(
+            onItemClick = { uploadData ->
+                Log.d("kkk",uploadData.toString())
+            }
+        )
 
         viewModel.showPairMessage.observe(this) {
             AlertDialog.Builder(requireContext())
@@ -109,7 +114,7 @@ class AccountingFragment : Fragment() {
             binding.recyclerItem.apply {
                 setHasFixedSize(true)
                 layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false)
                 this.adapter = itemAdapter
             }
         }
@@ -119,13 +124,17 @@ class AccountingFragment : Fragment() {
         viewModel.displayTag.observe(this) {
             binding.txtTag.text = it.selectedTag
         }
-        viewModel.displayData.observe(this){
+        viewModel.displayData.observe(this) {
             accountingDataAdapter.itemList = it
             binding.recyclerData.apply {
                 setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,true)
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
                 this.adapter = accountingDataAdapter
             }
+        }
+        viewModel.displayRetain.observe(this) {
+            binding.txtMonthRemain.text = "本月剩餘可使用金額：${it}"
         }
         return root
     }

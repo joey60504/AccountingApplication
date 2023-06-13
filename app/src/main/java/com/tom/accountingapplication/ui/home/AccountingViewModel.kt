@@ -4,12 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.accountingModel.AccountingDataModel
 import com.tom.accountingapplication.accountingModel.AccountingItem
 import com.tom.accountingapplication.accountingModel.DataListener
-import com.tom.accountingapplication.accountingModel.ReadData
+import com.tom.accountingapplication.accountingModel.ReadDataDate
+import com.tom.accountingapplication.accountingModel.ReadDataYear
 import com.tom.accountingapplication.accountingModel.TagItem
 import com.tom.accountingapplication.accountingModel.TagItemList
 import com.tom.accountingapplication.accountingModel.UpdateItem
@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.math.exp
 
 class AccountingViewModel : ViewModel() {
     private val _showPairMessage = MutableLiveData<Pair<String, String>>()
@@ -29,8 +30,10 @@ class AccountingViewModel : ViewModel() {
     val displayDate: LiveData<String> = _displayDate
     private val _displayTag: MutableLiveData<TagItemList> = MutableLiveData()
     val displayTag: LiveData<TagItemList> = _displayTag
-    private val _displayData: MutableLiveData<ArrayList<ReadData>> = MutableLiveData()
-    val displayData: LiveData<ArrayList<ReadData>> = _displayData
+    private val _displayData: MutableLiveData<ArrayList<ReadDataDate>> = MutableLiveData()
+    val displayData: LiveData<ArrayList<ReadDataDate>> = _displayData
+    private val _displayRetain: MutableLiveData<String> = MutableLiveData()
+    val displayRetain: LiveData<String> = _displayRetain
 
 
     private val accountingUploadModel = AccountingDataModel()
@@ -47,29 +50,35 @@ class AccountingViewModel : ViewModel() {
     private fun setItemData() {
         //icon
         expenseList = arrayListOf(
-            UpdateItem("早餐", R.drawable.icon_breakfast, 1, true),
-            UpdateItem("午餐", R.drawable.icon_lunch, 1, false),
-            UpdateItem("晚餐", R.drawable.icon_dinner, 1, false),
-            UpdateItem("交通", R.drawable.icon_transport, 1, false),
-            UpdateItem("飲品", R.drawable.icon_drink, 1, false),
-            UpdateItem("點心", R.drawable.icon_dessert, 1, false),
-            UpdateItem("娛樂", R.drawable.icon_entertainment, 1, false),
-            UpdateItem("日用品", R.drawable.icon_daily_necessary, 1, false),
-            UpdateItem("購物", R.drawable.icon_shopping, 1, false),
-            UpdateItem("帳單", R.drawable.icon_bill, 1, false),
-            UpdateItem("股票", R.drawable.icon_stock, 1, false),
-            UpdateItem("虛擬貨幣", R.drawable.icon_vertical_currency, 1, false),
-            UpdateItem("其他", R.drawable.icon_other, 1, false),
+            UpdateItem("早餐",0, 1, true),
+            UpdateItem("午餐", 0, 1, false),
+            UpdateItem("晚餐",0, 1, false),
+            UpdateItem("交通", 0, 1, false),
+            UpdateItem("飲品", 0, 1, false),
+            UpdateItem("點心",0, 1, false),
+            UpdateItem("娛樂", 0, 1, false),
+            UpdateItem("日用品",0, 1, false),
+            UpdateItem("購物", 0, 1, false),
+            UpdateItem("帳單", 0, 1, false),
+            UpdateItem("股票", 0, 1, false),
+            UpdateItem("虛擬貨幣", 0, 1, false),
+            UpdateItem("其他", 0, 1, false),
         )
         incomeList = arrayListOf(
-            UpdateItem("薪水", R.drawable.icon_salery, 2, true),
-            UpdateItem("獎金", R.drawable.icon_reward, 2, false),
-            UpdateItem("股息", R.drawable.icon_dividend, 2, false),
-            UpdateItem("利息", R.drawable.icon_interest, 2, false),
-            UpdateItem("股票", R.drawable.icon_invest_stock, 2, false),
-            UpdateItem("虛擬貨幣", R.drawable.icon_invest_vertical_currency, 2, false),
-            UpdateItem("其他", R.drawable.icon_other, 2, false),
+            UpdateItem("薪水", 0, 2, true),
+            UpdateItem("獎金", 0, 2, false),
+            UpdateItem("股息", 0, 2, false),
+            UpdateItem("利息", 0, 2, false),
+            UpdateItem("股票", 0, 2, false),
+            UpdateItem("虛擬貨幣", 0, 2, false),
+            UpdateItem("其他",0, 2, false),
         )
+        expenseList.onEach {
+            it.image = accountingUploadModel.getIcon(it.title)
+        }
+        incomeList.onEach {
+            it.image = accountingUploadModel.getIcon(it.title)
+        }
         _displayItemSelect.postValue(
             AccountingItem(
                 itemExpenseList = expenseList,
@@ -94,13 +103,29 @@ class AccountingViewModel : ViewModel() {
         )
         _displayTag.postValue(tagItemList)
         //Data
-        accountingUploadModel.getData(object : DataListener {
-            override fun onDataLoaded(readDataList: ArrayList<ReadData>) {
-                _displayData.postValue(readDataList)
+        accountingUploadModel.getAccountingData(object : DataListener {
+            override fun onDataLoaded(readDataList: ArrayList<ReadDataYear>) {
+                val dataList = arrayListOf<ReadDataDate>()
+                readDataList.map { year ->
+                    year.monthList.map { month ->
+                        month.dateList.map { date ->
+                            dataList.add(date)
+                        }
+                    }
+                    //每月剩餘
+                    val dateFormatMonth = SimpleDateFormat("yyyyMM", Locale.getDefault())
+                    val todayMonth = dateFormatMonth.format(calendar.time)
+                    val monthPrice = year.monthList.find { it.month == todayMonth }?.monthPrice
+                    if (monthPrice.isNullOrEmpty().not()) {
+                        val todayMonthPrice = (13000 - (monthPrice?.toInt() ?: 0)).toString()
+                        _displayRetain.postValue(todayMonthPrice)
+                    }
+                }
+                _displayData.postValue(dataList)
             }
         })
-    }
 
+    }
 
 
     fun onExpenseClick() {
@@ -200,6 +225,7 @@ class AccountingViewModel : ViewModel() {
 
     fun onSubmitClick(remark: String, price: Int) {
         val upLoad = UploadData(
+            image = _displayItemSelect.value?.itemSelectedDrawable ?: 0,
             item = if (seq == 1) {
                 _displayItemSelect.value?.itemExpenseList?.find { it.isSelect }?.title
             } else {
@@ -208,7 +234,7 @@ class AccountingViewModel : ViewModel() {
             date = _displayDate.value.toString(),
             tag = _displayTag.value?.selectedTag.toString(),
             remark = remark,
-            price = price ,
+            price = price,
             type = seq
         )
         accountingUploadModel.uploadData(upLoad)

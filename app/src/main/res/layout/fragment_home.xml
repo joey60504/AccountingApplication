@@ -28,7 +28,7 @@
             android:paddingEnd="5dp"
             android:text="支出"
             android:textColor="@color/greyish_brown"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:paddingStart="5dp"
             android:text="收入"
             android:textColor="@color/greyish_brown"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -51,8 +51,6 @@
         android:id="@+id/recycler_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         tools:itemCount="1"
         tools:listitem="@layout/item_accounting_item" />
 
@@ -89,7 +87,7 @@
             android:gravity="center"
             android:paddingLeft="20dp"
             android:textColor="@color/greyish_brown"
-            android:textSize="32sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             tools:text="2023/07/25" />
 
@@ -119,8 +117,8 @@
 
         <ImageView
             android:id="@+id/img_choice_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:layout_margin="10dp"
             android:background="@drawable/icon_breakfast" />
 
@@ -138,7 +136,7 @@
             android:gravity="center"
             android:text="日常"
             android:textColor="@color/greyish_brown"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <View
@@ -162,7 +160,7 @@
             android:inputType="text"
             android:paddingStart="5dp"
             android:textColor="@color/greyish_brown"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <EditText
@@ -178,7 +176,7 @@
             android:inputType="number"
             android:paddingEnd="10dp"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -204,7 +202,7 @@
             android:gravity="center"
             android:text="本月剩餘可使用金額：10000"
             android:textColor="@color/greyish_brown"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <View
@@ -224,7 +222,7 @@
             android:gravity="center"
             android:text="OK"
             android:textColor="@color/greyish_brown"
-            android:textSize="32sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 

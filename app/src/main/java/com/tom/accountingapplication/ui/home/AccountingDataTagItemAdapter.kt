@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tom.accountingapplication.accountingModel.UploadData
 import com.tom.accountingapplication.databinding.ItemAccountingDataTagItemBinding
 
-class AccountingDataTagItemAdapter :
+class AccountingDataTagItemAdapter(private val onItemClick: (UploadData) -> Unit) :
     RecyclerView.Adapter<AccountingDataTagItemAdapter.PackageViewHolder>() {
     var itemList: ArrayList<UploadData> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackageViewHolder {
@@ -23,17 +23,20 @@ class AccountingDataTagItemAdapter :
     }
 
     override fun onBindViewHolder(holder: PackageViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        holder.bind(itemList[position], onItemClick)
     }
 
     inner class PackageViewHolder(private val binding: ItemAccountingDataTagItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: UploadData) {
+        fun bind(item: UploadData, onItemClick: (UploadData) -> Unit) {
             binding.txtItemTitle.text = item.item
-            binding.imgItemIcon
+            binding.imgItemIcon.setBackgroundResource(item.image)
             binding.txtItemType.text = if (item.type == 1) "支出：" else "收入："
             binding.txtItemPrice.text = item.price.toString()
             binding.txtItemRemark.text = item.remark
+            binding.txtItemDetail.setOnClickListener {
+                onItemClick(item)
+            }
         }
     }
 }
