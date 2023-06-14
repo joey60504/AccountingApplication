@@ -164,6 +164,7 @@ class AccountingViewModel : ViewModel() {
     }
 
     fun onSubmitClick(remark: String, price: Int) {
+
         val upLoad = UploadData(
             image = _displayItemSelect.value?.itemSelectedDrawable ?: 0,
             item = if (seq == 1) {
@@ -177,14 +178,16 @@ class AccountingViewModel : ViewModel() {
             price = price,
             type = seq
         )
-        accountingUploadModel.uploadData(upLoad,seq)
+        accountingUploadModel.uploadData(upLoad, seq)
+
     }
-    private fun getData(){
+
+    private fun getData() {
         accountingUploadModel.getAccountingData(object : DataListener {
             override fun onDataLoaded(readDataList: ArrayList<ReadDataYear>) {
                 val dataList = arrayListOf<ReadDataDate>()
-                if(readDataList.isEmpty()){
-                    _displayRetain.postValue("13000")
+                if (readDataList.isEmpty()) {
+                    _displayRetain.postValue(_displayRetain.value ?: "13000")
                     _displayData.postValue(dataList)
                 } else {
                     readDataList.map { year ->
@@ -194,7 +197,7 @@ class AccountingViewModel : ViewModel() {
                             }
                         }
                         //每月剩餘
-                        if(seq == 1) {
+                        if (seq == 1) {
                             val calendar = Calendar.getInstance()
                             val dateFormatMonth = SimpleDateFormat("yyyyMM", Locale.getDefault())
                             val todayMonth = dateFormatMonth.format(calendar.time)

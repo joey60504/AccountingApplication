@@ -24,11 +24,13 @@ class AccountingDataModel {
                 UpdateItem("飲品", 0, 1, false),
                 UpdateItem("點心", 0, 1, false),
                 UpdateItem("娛樂", 0, 1, false),
+                UpdateItem("票券", 0, 1, false),
                 UpdateItem("日用品", 0, 1, false),
                 UpdateItem("購物", 0, 1, false),
                 UpdateItem("帳單", 0, 1, false),
                 UpdateItem("股票", 0, 1, false),
                 UpdateItem("虛擬貨幣", 0, 1, false),
+                UpdateItem("孝親費", 0, 1, false),
                 UpdateItem("其他", 0, 1, false),
             ).onEach { it.image = getIcon(it.title) },
             itemIncomeList = arrayListOf(
@@ -36,8 +38,8 @@ class AccountingDataModel {
                 UpdateItem("獎金", 0, 2, false),
                 UpdateItem("股息", 0, 2, false),
                 UpdateItem("利息", 0, 2, false),
-                UpdateItem("股票", 0, 2, false),
-                UpdateItem("虛擬貨幣", 0, 2, false),
+                UpdateItem("股票收入", 0, 2, false),
+                UpdateItem("虛擬貨幣收入", 0, 2, false),
                 UpdateItem("其他", 0, 2, false),
             ).onEach { it.image = getIcon(it.title) },
             itemSelectedDrawable = getIcon("早餐"),
@@ -54,11 +56,13 @@ class AccountingDataModel {
             "飲品" -> R.drawable.icon_drink
             "點心" -> R.drawable.icon_dessert
             "娛樂" -> R.drawable.icon_entertainment
+            "票券" -> R.drawable.icon_ticket
             "日用品" -> R.drawable.icon_daily_necessary
             "購物" -> R.drawable.icon_shopping
             "帳單" -> R.drawable.icon_bill
             "股票" -> R.drawable.icon_stock
             "虛擬貨幣" -> R.drawable.icon_vertical_currency
+            "孝親費" -> R.drawable.icon_family
             "其他" -> R.drawable.icon_other
             "薪水" -> R.drawable.icon_salery
             "獎金" -> R.drawable.icon_reward

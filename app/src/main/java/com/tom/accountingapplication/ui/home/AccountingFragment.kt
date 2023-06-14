@@ -46,12 +46,14 @@ class AccountingFragment : Fragment() {
             viewModel.onDateRightClick()
         }
         binding.txtSubmit.setOnClickListener {
-            viewModel.onSubmitClick(
-                binding.edittextRemark.text.toString(),
-                binding.edittextPrice.text.toString().toInt()
-            )
-            binding.edittextRemark.text.clear()
-            binding.edittextPrice.text.clear()
+            if(binding.edittextPrice.text.isNotEmpty()){
+                viewModel.onSubmitClick(
+                    binding.edittextRemark.text.toString(),
+                    binding.edittextPrice.text.toString().toInt()
+                )
+                binding.edittextRemark.text.clear()
+                binding.edittextPrice.text.clear()
+            }
         }
         binding.txtDate.setOnClickListener {
             val bottomSheetFragment = AccountingBottomSheetCalendarFragment(
@@ -130,7 +132,7 @@ class AccountingFragment : Fragment() {
             accountingDataAdapter.itemList = it
             binding.recyclerData.apply {
                 setHasFixedSize(true)
-                val manager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+                val manager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,true)
                 manager.stackFromEnd = true
                 layoutManager = manager
                 this.adapter = accountingDataAdapter

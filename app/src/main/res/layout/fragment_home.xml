@@ -130,8 +130,9 @@
 
         <TextView
             android:id="@+id/txt_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.25"
             android:fontFamily="@font/myfont3"
             android:gravity="center"
             android:text="日常"
@@ -148,8 +149,9 @@
 
         <EditText
             android:id="@+id/edittext_remark"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@null"
             android:drawableStart="@drawable/icon_pencil"
             android:ems="10"
@@ -164,8 +166,9 @@
 
         <EditText
             android:id="@+id/edittext_price"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@null"
             android:ems="10"
             android:fontFamily="@font/myfont3"

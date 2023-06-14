@@ -32,7 +32,7 @@ class AccountingDataTagItemAdapter(private val onItemClick: (UploadData) -> Unit
             binding.txtItemTitle.text = item.item
             binding.imgItemIcon.setBackgroundResource(item.image)
             binding.txtItemType.text = if (item.type == 1) "支出：" else "收入："
-            binding.txtItemPrice.text = item.price.toString()
+            binding.txtItemPrice.text = "＄${item.price}"
             binding.txtItemRemark.text = item.remark
             binding.txtItemDetail.setOnClickListener {
                 onItemClick(item)
