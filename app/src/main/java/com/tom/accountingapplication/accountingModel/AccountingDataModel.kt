@@ -44,6 +44,7 @@ class AccountingDataModel {
             seq = 1
         )
     }
+
     fun getIcon(title: String): Int {
         return when (title) {
             "早餐" -> R.drawable.icon_breakfast
@@ -69,7 +70,8 @@ class AccountingDataModel {
         }
     }
 
-    fun uploadData(upload: UploadData) {
+    fun uploadData(upload: UploadData, seq: Int) {
+        val typeString = if (seq == 1) "Expense" else "Income"
         val dateYear = upload.date.substring(0, 4)
         val dateMonth = upload.date.substring(0, 7).replace("/", "")
         val date = upload.date.replace("/", "")
@@ -83,130 +85,140 @@ class AccountingDataModel {
             "remark" to upload.remark,
             "price" to upload.price
         )
-        database.child(userEmailModify).child("AccountingVision2").child(dateYear)
+        database.child(userEmailModify).child("AccountingVision2").child(typeString).child(dateYear)
             .child(dateMonth).child(date).child(upload.tag).child(randomNumber)
             .updateChildren(uploadMap)
     }
-    fun deleteData(delete: UploadData) {
+
+    fun deleteData(delete: UploadData, seq: Int) {
+        val typeString = if (seq == 1) "Expense" else "Income"
         val dateYear = delete.date.substring(0, 4)
         val dateMonth = delete.date.substring(0, 7).replace("/", "")
         val date = delete.date.replace("/", "")
-        database.child(userEmailModify).child("AccountingVision2").get().addOnSuccessListener {
-            val root = it.value as Map<*, *>
-            val accountingYear = root[dateYear] as Map<*, *>
-            val accountingMonth = accountingYear[dateMonth] as Map<*, *>
-            val accountingDate = accountingMonth[date] as Map<*, *>
-            val accountingTag = accountingDate[delete.tag] as Map<*, *>
-            accountingTag.map { number ->
-                val numberValue = number.value as Map<*, *>
-                val data = UploadData(
-                    item = numberValue["item"].toString(),
-                    date = numberValue["date"].toString(),
-                    tag = numberValue["tag"].toString(),
-                    price = numberValue["price"].toString().toInt(),
-                    remark = numberValue["remark"].toString(),
-                    type = numberValue["type"].toString().toInt(),
-                    image = getIcon(numberValue["item"].toString())
-                )
-                if (data == delete) {
-                    database.child(userEmailModify).child("AccountingVision2").child(dateYear)
-                        .child(dateMonth).child(date).child(delete.tag)
-                        .child(number.key.toString()).removeValue()
+        database.child(userEmailModify).child("AccountingVision2").child(typeString).get()
+            .addOnSuccessListener {
+                val root = it.value as Map<*, *>
+                val accountingYear = root[dateYear] as Map<*, *>
+                val accountingMonth = accountingYear[dateMonth] as Map<*, *>
+                val accountingDate = accountingMonth[date] as Map<*, *>
+                val accountingTag = accountingDate[delete.tag] as Map<*, *>
+                accountingTag.map { number ->
+                    val numberValue = number.value as Map<*, *>
+                    val data = UploadData(
+                        item = numberValue["item"].toString(),
+                        date = numberValue["date"].toString(),
+                        tag = numberValue["tag"].toString(),
+                        price = numberValue["price"].toString().toInt(),
+                        remark = numberValue["remark"].toString(),
+                        type = numberValue["type"].toString().toInt(),
+                        image = getIcon(numberValue["item"].toString())
+                    )
+                    if (data == delete) {
+                        database.child(userEmailModify).child("AccountingVision2").child(typeString)
+                            .child(dateYear)
+                            .child(dateMonth).child(date).child(delete.tag)
+                            .child(number.key.toString()).removeValue()
+                    }
                 }
             }
-        }
     }
+
     fun updateData(oldData: UploadData, newData: UploadData) {
-        deleteData(oldData)
-        uploadData(newData)
+        deleteData(oldData, oldData.type)
+        uploadData(newData, newData.type)
     }
-    fun getAccountingData(listener: DataListener) {
+
+    fun getAccountingData(listener: DataListener, seq: Int) {
+        val typeString = if (seq == 1) "Expense" else "Income"
         val dataListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val root = snapshot.value as Map<*, *>
                 val userRoot = root[userEmailModify] as Map<*, *>
                 val readDataYearList = arrayListOf<ReadDataYear>()
                 if (userRoot["AccountingVision2"] != null) {
-                    val userAccountingYear = userRoot["AccountingVision2"] as Map<*, *>
-                    userAccountingYear.map { year ->
-                        val userAccountingYearValue = year.value as Map<*, *>
-                        val userAccountingYearKey = year.key
-                        val readDataMonthList = arrayListOf<ReadDataMonth>()
-                        var yearPrice = 0
-                        userAccountingYearValue.map { month ->
-                            val userAccountingMonthValue = month.value as Map<*, *>
-                            val userAccountingMonthKey = month.key
-                            val readDataDateList = arrayListOf<ReadDataDate>()
-                            var monthPrice = 0
-                            userAccountingMonthValue.map { day ->
-                                val userAccountingDayValue = day.value as Map<*, *>
-                                val userAccountingDayKey = day.key
-                                val readDataTagList = arrayListOf<ReadDataTag>()
-                                var datePrice = 0
-                                userAccountingDayValue.map { tag ->
-                                    val userAccountingTagValue = tag.value as Map<*, *>
-                                    val userAccountingTagKey = tag.key
-                                    val readDataDayList = arrayListOf<UploadData>()
-                                    var tagPrice = 0
-                                    userAccountingTagValue.map { number ->
-                                        val userAccountingData = number.value as Map<*, *>
-                                        readDataDayList.add(
-                                            UploadData(
-                                                item = userAccountingData["item"].toString(),
-                                                date = userAccountingData["date"].toString(),
-                                                tag = userAccountingData["tag"].toString(),
-                                                remark = userAccountingData["remark"].toString(),
-                                                price = userAccountingData["price"].toString()
-                                                    .toInt(),
-                                                type = userAccountingData["type"].toString()
-                                                    .toInt(),
-                                                image = getIcon(userAccountingData["item"].toString())
+                    val userAccountingType = userRoot["AccountingVision2"] as Map<*, *>
+                    if (userAccountingType[typeString] != null) {
+                        val userAccountingYear = userAccountingType[typeString] as Map<*, *>
+                        userAccountingYear.map { year ->
+                            val userAccountingYearValue = year.value as Map<*, *>
+                            val userAccountingYearKey = year.key
+                            val readDataMonthList = arrayListOf<ReadDataMonth>()
+                            var yearPrice = 0
+                            userAccountingYearValue.map { month ->
+                                val userAccountingMonthValue = month.value as Map<*, *>
+                                val userAccountingMonthKey = month.key
+                                val readDataDateList = arrayListOf<ReadDataDate>()
+                                var monthPrice = 0
+                                userAccountingMonthValue.map { day ->
+                                    val userAccountingDayValue = day.value as Map<*, *>
+                                    val userAccountingDayKey = day.key
+                                    val readDataTagList = arrayListOf<ReadDataTag>()
+                                    var datePrice = 0
+                                    userAccountingDayValue.map { tag ->
+                                        val userAccountingTagValue = tag.value as Map<*, *>
+                                        val userAccountingTagKey = tag.key
+                                        val readDataDayList = arrayListOf<UploadData>()
+                                        var tagPrice = 0
+                                        userAccountingTagValue.map { number ->
+                                            val userAccountingData = number.value as Map<*, *>
+                                            readDataDayList.add(
+                                                UploadData(
+                                                    item = userAccountingData["item"].toString(),
+                                                    date = userAccountingData["date"].toString(),
+                                                    tag = userAccountingData["tag"].toString(),
+                                                    remark = userAccountingData["remark"].toString(),
+                                                    price = userAccountingData["price"].toString()
+                                                        .toInt(),
+                                                    type = userAccountingData["type"].toString()
+                                                        .toInt(),
+                                                    image = getIcon(userAccountingData["item"].toString())
+                                                )
+                                            )
+                                        }
+                                        readDataDayList.map {
+                                            tagPrice += it.price
+                                        }
+                                        readDataTagList.add(
+                                            ReadDataTag(
+                                                tagPrice = tagPrice.toString(),
+                                                title = userAccountingTagKey.toString(),
+                                                dataList = readDataDayList
                                             )
                                         )
                                     }
-                                    readDataDayList.map {
-                                        tagPrice += it.price
+                                    readDataTagList.map {
+                                        datePrice += it.tagPrice.toInt()
                                     }
-                                    readDataTagList.add(
-                                        ReadDataTag(
-                                            tagPrice = tagPrice.toString(),
-                                            title = userAccountingTagKey.toString(),
-                                            dataList = readDataDayList
+                                    readDataDateList.add(
+                                        ReadDataDate(
+                                            datePrice = datePrice.toString(),
+                                            date = userAccountingDayKey.toString(),
+                                            tagList = readDataTagList
                                         )
                                     )
                                 }
-                                readDataTagList.map {
-                                    datePrice += it.tagPrice.toInt()
+                                readDataDateList.map {
+                                    monthPrice += it.datePrice.toInt()
                                 }
-                                readDataDateList.add(
-                                    ReadDataDate(
-                                        datePrice = datePrice.toString(),
-                                        date = userAccountingDayKey.toString(),
-                                        tagList = readDataTagList
+                                readDataMonthList.add(
+                                    ReadDataMonth(
+                                        monthPrice = monthPrice.toString(),
+                                        month = userAccountingMonthKey.toString(),
+                                        dateList = readDataDateList
                                     )
                                 )
                             }
-                            readDataDateList.map {
-                                monthPrice += it.datePrice.toInt()
+                            readDataMonthList.map {
+                                yearPrice += it.monthPrice.toInt()
                             }
-                            readDataMonthList.add(
-                                ReadDataMonth(
-                                    monthPrice = monthPrice.toString(),
-                                    month = userAccountingMonthKey.toString(),
-                                    dateList = readDataDateList
+                            readDataYearList.add(
+                                ReadDataYear(
+                                    yearPrice = yearPrice.toString(),
+                                    year = userAccountingYearKey.toString(),
+                                    monthList = readDataMonthList
                                 )
                             )
                         }
-                        readDataMonthList.map {
-                            yearPrice += it.monthPrice.toInt()
-                        }
-                        readDataYearList.add(
-                            ReadDataYear(
-                                yearPrice = yearPrice.toString(),
-                                year = userAccountingYearKey.toString(),
-                                monthList = readDataMonthList
-                            )
-                        )
                     }
                 }
                 listener.onDataLoaded(readDataYearList)

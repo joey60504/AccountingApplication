@@ -62,33 +62,7 @@ class AccountingViewModel : ViewModel() {
         )
         _displayTag.postValue(tagItemList)
         //Data
-        accountingUploadModel.getAccountingData(object : DataListener {
-            override fun onDataLoaded(readDataList: ArrayList<ReadDataYear>) {
-                val dataList = arrayListOf<ReadDataDate>()
-                if(readDataList.isEmpty()){
-                    _displayRetain.postValue("13000")
-                    _displayData.postValue(dataList)
-                } else {
-                    readDataList.map { year ->
-                        year.monthList.map { month ->
-                            month.dateList.map { date ->
-                                dataList.add(date)
-                            }
-                        }
-                        //每月剩餘
-                        val dateFormatMonth = SimpleDateFormat("yyyyMM", Locale.getDefault())
-                        val todayMonth = dateFormatMonth.format(calendar.time)
-                        val monthPrice = year.monthList.find { it.month == todayMonth }?.monthPrice
-                        if (monthPrice.isNullOrEmpty().not()) {
-                            val todayMonthPrice = (13000 - (monthPrice?.toInt() ?: 0)).toString()
-                            _displayRetain.postValue(todayMonthPrice)
-                        }
-                    }
-                    _displayData.postValue(dataList)
-                }
-            }
-        })
-
+        getData()
     }
 
 
@@ -98,6 +72,7 @@ class AccountingViewModel : ViewModel() {
         _displayItemSelect.value?.itemSelectedDrawable =
             _displayItemSelect.value?.itemExpenseList?.find { it.isSelect }?.image ?: 0
         _displayItemSelect.postValue(_displayItemSelect.value)
+        getData()
     }
 
     fun onIncomeClick() {
@@ -106,6 +81,7 @@ class AccountingViewModel : ViewModel() {
         _displayItemSelect.value?.itemSelectedDrawable =
             _displayItemSelect.value?.itemIncomeList?.find { it.isSelect }?.image ?: 0
         _displayItemSelect.postValue(_displayItemSelect.value)
+        getData()
     }
 
     fun onItemClick(updateItem: UpdateItem) {
@@ -201,6 +177,39 @@ class AccountingViewModel : ViewModel() {
             price = price,
             type = seq
         )
-        accountingUploadModel.uploadData(upLoad)
+        accountingUploadModel.uploadData(upLoad,seq)
+    }
+    private fun getData(){
+        accountingUploadModel.getAccountingData(object : DataListener {
+            override fun onDataLoaded(readDataList: ArrayList<ReadDataYear>) {
+                val dataList = arrayListOf<ReadDataDate>()
+                if(readDataList.isEmpty()){
+                    _displayRetain.postValue("13000")
+                    _displayData.postValue(dataList)
+                } else {
+                    readDataList.map { year ->
+                        year.monthList.map { month ->
+                            month.dateList.map { date ->
+                                dataList.add(date)
+                            }
+                        }
+                        //每月剩餘
+                        if(seq == 1) {
+                            val calendar = Calendar.getInstance()
+                            val dateFormatMonth = SimpleDateFormat("yyyyMM", Locale.getDefault())
+                            val todayMonth = dateFormatMonth.format(calendar.time)
+                            val monthPrice =
+                                year.monthList.find { it.month == todayMonth }?.monthPrice
+                            if (monthPrice.isNullOrEmpty().not()) {
+                                val todayMonthPrice =
+                                    (13000 - (monthPrice?.toInt() ?: 0)).toString()
+                                _displayRetain.postValue(todayMonthPrice)
+                            }
+                        }
+                    }
+                    _displayData.postValue(dataList)
+                }
+            }
+        }, seq = seq)
     }
 }

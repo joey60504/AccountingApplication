@@ -10,7 +10,7 @@ class AccountingDataDetailViewModel : ViewModel() {
     private val accountingUploadModel = AccountingDataModel()
 
     fun onDeleteClick(item: UploadData) {
-        accountingUploadModel.deleteData(item)
+        accountingUploadModel.deleteData(item,item.type)
     }
 
     fun onUpdateClick(
