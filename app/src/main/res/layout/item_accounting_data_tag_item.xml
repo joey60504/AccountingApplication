@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/background"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,7 +24,7 @@
             android:gravity="center"
             android:text="早餐"
             android:textColor="@color/greyish_brown"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <ImageView
@@ -58,7 +60,7 @@
             android:fontFamily="@font/myfont3"
             android:gravity="center"
             android:textColor="@color/greyish_brown"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             tools:text="支出：" />
 
@@ -70,7 +72,7 @@
             android:fontFamily="@font/myfont3"
             android:gravity="center"
             android:textColor="@color/expense"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             tools:text="＄500" />
 
@@ -91,7 +93,7 @@
             android:gravity="center"
             android:text="備註："
             android:textColor="@color/greyish_brown"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
@@ -102,7 +104,7 @@
             android:fontFamily="@font/myfont3"
             android:gravity="center"
             android:textColor="@color/greyish_brown"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             tools:text="起家雞" />
     </LinearLayout>
@@ -118,7 +120,7 @@
         android:gravity="center"
         android:text="詳細資訊"
         android:textColor="@color/greyish_brown"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
 

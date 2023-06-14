@@ -150,7 +150,6 @@
             android:id="@+id/edittext_remark"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@null"
             android:drawableStart="@drawable/icon_pencil"
             android:ems="10"
@@ -167,7 +166,6 @@
             android:id="@+id/edittext_price"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2"
             android:background="@null"
             android:ems="10"
             android:fontFamily="@font/myfont3"
@@ -200,7 +198,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/myfont3"
             android:gravity="center"
-            android:text="本月剩餘可使用金額：10000"
+            android:text="本月剩餘可使用金額：13000"
             android:textColor="@color/greyish_brown"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -238,6 +236,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:rotationX="0"
+        app:stackFromEnd="true"
         tools:itemCount="2"
         tools:listitem="@layout/item_accounting_data" />
 
