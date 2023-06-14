@@ -1,19 +1,18 @@
-package com.tom.accountingapplication.ui.home
+package com.tom.accountingapplication.datashow
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tom.accountingapplication.accountingModel.ReadDataDate
-import com.tom.accountingapplication.accountingModel.UpdateItem
+import com.tom.accountingapplication.accountingModel.ReadDataTag
 import com.tom.accountingapplication.accountingModel.UploadData
-import com.tom.accountingapplication.databinding.ItemAccountingDataBinding
+import com.tom.accountingapplication.databinding.ItemAccountingDataTagBinding
 
-class AccountingDataAdapter(private val onItemClick: (UploadData) -> Unit) :
-    RecyclerView.Adapter<AccountingDataAdapter.PackageViewHolder>() {
-    var itemList: ArrayList<ReadDataDate> = arrayListOf()
+class AccountingDataTagAdapter(private val onItemClick: (UploadData) -> Unit) :
+    RecyclerView.Adapter<AccountingDataTagAdapter.PackageViewHolder>() {
+    var itemList: ArrayList<ReadDataTag> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackageViewHolder {
-        val view = ItemAccountingDataBinding.inflate(
+        val view = ItemAccountingDataTagBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -29,24 +28,24 @@ class AccountingDataAdapter(private val onItemClick: (UploadData) -> Unit) :
         holder.bind(itemList[position], onItemClick)
     }
 
-    inner class PackageViewHolder(private val binding: ItemAccountingDataBinding) :
+    inner class PackageViewHolder(private val binding: ItemAccountingDataTagBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ReadDataDate, onItemClick: (UploadData) -> Unit) {
-            binding.txtDate.text = item.date
-            binding.txtDatePrice.text = "日結：${item.datePrice}"
-            val accountingDataTagAdapter = AccountingDataTagAdapter(
+        fun bind(item: ReadDataTag, onItemClick: (UploadData) -> Unit) {
+            binding.txtItemTag.text = item.title
+            binding.txtTagPrice.text = "小計：${item.tagPrice}"
+            val accountingDataTagItemAdapter = AccountingDataTagItemAdapter(
                 onItemClick = { uploadData ->
                     onItemClick(uploadData)
                 }
             )
-            accountingDataTagAdapter.itemList = item.tagList
-            binding.recyclerDataTag.apply {
+            accountingDataTagItemAdapter.itemList = item.dataList
+            binding.recyclerDataTagItem.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(
                     itemView.context,
                     LinearLayoutManager.VERTICAL, false
                 )
-                this.adapter = accountingDataTagAdapter
+                this.adapter = accountingDataTagItemAdapter
             }
         }
     }

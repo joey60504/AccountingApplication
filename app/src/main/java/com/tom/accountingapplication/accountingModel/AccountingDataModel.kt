@@ -14,6 +14,36 @@ class AccountingDataModel {
     private val database = FirebaseDatabase.getInstance().reference
     private val userEmail = auth.currentUser?.email.toString()
     private val userEmailModify = userEmail.substring(0, userEmail.indexOf("@"))
+    fun fillItem(): AccountingItem {
+        return AccountingItem(
+            itemExpenseList = arrayListOf(
+                UpdateItem("早餐", 0, 1, true),
+                UpdateItem("午餐", 0, 1, false),
+                UpdateItem("晚餐", 0, 1, false),
+                UpdateItem("交通", 0, 1, false),
+                UpdateItem("飲品", 0, 1, false),
+                UpdateItem("點心", 0, 1, false),
+                UpdateItem("娛樂", 0, 1, false),
+                UpdateItem("日用品", 0, 1, false),
+                UpdateItem("購物", 0, 1, false),
+                UpdateItem("帳單", 0, 1, false),
+                UpdateItem("股票", 0, 1, false),
+                UpdateItem("虛擬貨幣", 0, 1, false),
+                UpdateItem("其他", 0, 1, false),
+            ).onEach { it.image = getIcon(it.title) },
+            itemIncomeList = arrayListOf(
+                UpdateItem("薪水", 0, 2, true),
+                UpdateItem("獎金", 0, 2, false),
+                UpdateItem("股息", 0, 2, false),
+                UpdateItem("利息", 0, 2, false),
+                UpdateItem("股票", 0, 2, false),
+                UpdateItem("虛擬貨幣", 0, 2, false),
+                UpdateItem("其他", 0, 2, false),
+            ).onEach { it.image = getIcon(it.title) },
+            itemSelectedDrawable = getIcon("早餐"),
+            seq = 1
+        )
+    }
     fun getIcon(title: String): Int {
         return when (title) {
             "早餐" -> R.drawable.icon_breakfast
@@ -57,15 +87,47 @@ class AccountingDataModel {
             .child(dateMonth).child(date).child(upload.tag).child(randomNumber)
             .updateChildren(uploadMap)
     }
-
+    fun deleteData(delete: UploadData) {
+        val dateYear = delete.date.substring(0, 4)
+        val dateMonth = delete.date.substring(0, 7).replace("/", "")
+        val date = delete.date.replace("/", "")
+        database.child(userEmailModify).child("AccountingVision2").get().addOnSuccessListener {
+            val root = it.value as Map<*, *>
+            val accountingYear = root[dateYear] as Map<*, *>
+            val accountingMonth = accountingYear[dateMonth] as Map<*, *>
+            val accountingDate = accountingMonth[date] as Map<*, *>
+            val accountingTag = accountingDate[delete.tag] as Map<*, *>
+            accountingTag.map { number ->
+                val numberValue = number.value as Map<*, *>
+                val data = UploadData(
+                    item = numberValue["item"].toString(),
+                    date = numberValue["date"].toString(),
+                    tag = numberValue["tag"].toString(),
+                    price = numberValue["price"].toString().toInt(),
+                    remark = numberValue["remark"].toString(),
+                    type = numberValue["type"].toString().toInt(),
+                    image = getIcon(numberValue["item"].toString())
+                )
+                if (data == delete) {
+                    database.child(userEmailModify).child("AccountingVision2").child(dateYear)
+                        .child(dateMonth).child(date).child(delete.tag)
+                        .child(number.key.toString()).removeValue()
+                }
+            }
+        }
+    }
+    fun updateData(oldData: UploadData, newData: UploadData) {
+        deleteData(oldData)
+        uploadData(newData)
+    }
     fun getAccountingData(listener: DataListener) {
         val dataListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val root = snapshot.value as Map<*, *>
                 val userRoot = root[userEmailModify] as Map<*, *>
+                val readDataYearList = arrayListOf<ReadDataYear>()
                 if (userRoot["AccountingVision2"] != null) {
                     val userAccountingYear = userRoot["AccountingVision2"] as Map<*, *>
-                    val readDataYearList = arrayListOf<ReadDataYear>()
                     userAccountingYear.map { year ->
                         val userAccountingYearValue = year.value as Map<*, *>
                         val userAccountingYearKey = year.key
@@ -146,8 +208,8 @@ class AccountingDataModel {
                             )
                         )
                     }
-                    listener.onDataLoaded(readDataYearList)
                 }
+                listener.onDataLoaded(readDataYearList)
             }
 
             override fun onCancelled(error: DatabaseError) {

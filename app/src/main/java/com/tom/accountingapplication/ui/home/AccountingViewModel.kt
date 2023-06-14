@@ -1,10 +1,8 @@
 package com.tom.accountingapplication.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tom.accountingapplication.R
 import com.tom.accountingapplication.accountingModel.AccountingDataModel
 import com.tom.accountingapplication.accountingModel.AccountingItem
 import com.tom.accountingapplication.accountingModel.DataListener
@@ -18,7 +16,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlin.math.exp
 
 class AccountingViewModel : ViewModel() {
     private val _showPairMessage = MutableLiveData<Pair<String, String>>()
@@ -39,8 +36,6 @@ class AccountingViewModel : ViewModel() {
     private val accountingUploadModel = AccountingDataModel()
 
     private var seq = 1 // 1 = expense 2 = income
-    private var expenseList = arrayListOf<UpdateItem>()
-    private var incomeList = arrayListOf<UpdateItem>()
 
     init {
         setItemData()
@@ -49,44 +44,7 @@ class AccountingViewModel : ViewModel() {
 
     private fun setItemData() {
         //icon
-        expenseList = arrayListOf(
-            UpdateItem("早餐",0, 1, true),
-            UpdateItem("午餐", 0, 1, false),
-            UpdateItem("晚餐",0, 1, false),
-            UpdateItem("交通", 0, 1, false),
-            UpdateItem("飲品", 0, 1, false),
-            UpdateItem("點心",0, 1, false),
-            UpdateItem("娛樂", 0, 1, false),
-            UpdateItem("日用品",0, 1, false),
-            UpdateItem("購物", 0, 1, false),
-            UpdateItem("帳單", 0, 1, false),
-            UpdateItem("股票", 0, 1, false),
-            UpdateItem("虛擬貨幣", 0, 1, false),
-            UpdateItem("其他", 0, 1, false),
-        )
-        incomeList = arrayListOf(
-            UpdateItem("薪水", 0, 2, true),
-            UpdateItem("獎金", 0, 2, false),
-            UpdateItem("股息", 0, 2, false),
-            UpdateItem("利息", 0, 2, false),
-            UpdateItem("股票", 0, 2, false),
-            UpdateItem("虛擬貨幣", 0, 2, false),
-            UpdateItem("其他",0, 2, false),
-        )
-        expenseList.onEach {
-            it.image = accountingUploadModel.getIcon(it.title)
-        }
-        incomeList.onEach {
-            it.image = accountingUploadModel.getIcon(it.title)
-        }
-        _displayItemSelect.postValue(
-            AccountingItem(
-                itemExpenseList = expenseList,
-                itemIncomeList = incomeList,
-                itemSelectedDrawable = R.drawable.icon_breakfast,
-                seq = seq
-            )
-        )
+        _displayItemSelect.postValue(accountingUploadModel.fillItem())
         //Date
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("yyyy/MM/dd (E)", Locale.getDefault())
@@ -95,7 +53,8 @@ class AccountingViewModel : ViewModel() {
         //tag
         val tagList = arrayListOf(
             TagItem(title = "日常", isSelect = true),
-            TagItem(title = "台中一日遊", isSelect = false)
+            TagItem(title = "台中一日遊", isSelect = false),
+            TagItem(title = "新竹一日遊", isSelect = false)
         )
         val tagItemList = TagItemList(
             tagList = tagList,
@@ -106,22 +65,27 @@ class AccountingViewModel : ViewModel() {
         accountingUploadModel.getAccountingData(object : DataListener {
             override fun onDataLoaded(readDataList: ArrayList<ReadDataYear>) {
                 val dataList = arrayListOf<ReadDataDate>()
-                readDataList.map { year ->
-                    year.monthList.map { month ->
-                        month.dateList.map { date ->
-                            dataList.add(date)
+                if(readDataList.isEmpty()){
+                    _displayRetain.postValue("13000")
+                    _displayData.postValue(dataList)
+                } else {
+                    readDataList.map { year ->
+                        year.monthList.map { month ->
+                            month.dateList.map { date ->
+                                dataList.add(date)
+                            }
+                        }
+                        //每月剩餘
+                        val dateFormatMonth = SimpleDateFormat("yyyyMM", Locale.getDefault())
+                        val todayMonth = dateFormatMonth.format(calendar.time)
+                        val monthPrice = year.monthList.find { it.month == todayMonth }?.monthPrice
+                        if (monthPrice.isNullOrEmpty().not()) {
+                            val todayMonthPrice = (13000 - (monthPrice?.toInt() ?: 0)).toString()
+                            _displayRetain.postValue(todayMonthPrice)
                         }
                     }
-                    //每月剩餘
-                    val dateFormatMonth = SimpleDateFormat("yyyyMM", Locale.getDefault())
-                    val todayMonth = dateFormatMonth.format(calendar.time)
-                    val monthPrice = year.monthList.find { it.month == todayMonth }?.monthPrice
-                    if (monthPrice.isNullOrEmpty().not()) {
-                        val todayMonthPrice = (13000 - (monthPrice?.toInt() ?: 0)).toString()
-                        _displayRetain.postValue(todayMonthPrice)
-                    }
+                    _displayData.postValue(dataList)
                 }
-                _displayData.postValue(dataList)
             }
         })
 

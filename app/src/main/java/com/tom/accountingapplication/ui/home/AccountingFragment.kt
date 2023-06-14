@@ -2,7 +2,6 @@ package com.tom.accountingapplication.ui.home
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.FragmentHomeBinding
+import com.tom.accountingapplication.datashow.AccountingDataAdapter
+import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
 
 
 class AccountingFragment : Fragment() {
@@ -82,7 +83,8 @@ class AccountingFragment : Fragment() {
         )
         val accountingDataAdapter = AccountingDataAdapter(
             onItemClick = { uploadData ->
-                Log.d("kkk",uploadData.toString())
+                val customDialog = AccountingDataDetailDialog(uploadData)
+                customDialog.show(requireActivity().supportFragmentManager, "CustomDialog")
             }
         )
 
@@ -128,8 +130,9 @@ class AccountingFragment : Fragment() {
             accountingDataAdapter.itemList = it
             binding.recyclerData.apply {
                 setHasFixedSize(true)
-                layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
+                val manager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+                manager.stackFromEnd = true
+                layoutManager = manager
                 this.adapter = accountingDataAdapter
             }
         }
