@@ -1,37 +1,63 @@
 package com.tom.accountingapplication.ui.home
 
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.FragmentHomeBinding
 import com.tom.accountingapplication.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
+import com.tom.accountingapplication.login.MainActivity
+import com.tom.accountingapplication.ui.gallery.HistoryActivity
 
 
-class AccountingFragment : Fragment() {
+class AccountingActivity : AppCompatActivity() {
     private val viewModel: AccountingViewModel by viewModels()
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentHomeBinding
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        //側拉選單
+        binding.imgFilter.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+                binding.drawerLayout.openDrawer(GravityCompat.START)
+            }
+
+        }
+        binding.navView.setNavigationItemSelectedListener {menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_accounting -> {}
+                R.id.menu_history -> {
+                    startActivity(Intent(this, HistoryActivity::class.java))
+                }
+                R.id.menu_invest -> {
+                    //TODO
+                }
+                R.id.menu_information->{
+                    //TODO
+                }
+                R.id.menu_logout->{
+                    FirebaseAuth.getInstance().signOut()
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                else->{}
+            }
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
 
         binding.btnExpense.setOnClickListener {
             viewModel.onExpenseClick()
@@ -46,7 +72,7 @@ class AccountingFragment : Fragment() {
             viewModel.onDateRightClick()
         }
         binding.txtSubmit.setOnClickListener {
-            if(binding.edittextPrice.text.isNotEmpty()){
+            if (binding.edittextPrice.text.isNotEmpty()) {
                 viewModel.onSubmitClick(
                     binding.edittextRemark.text.toString(),
                     binding.edittextPrice.text.toString().toInt()
@@ -62,7 +88,7 @@ class AccountingFragment : Fragment() {
                 }
             )
             bottomSheetFragment.show(
-                requireActivity().supportFragmentManager,
+                supportFragmentManager,
                 bottomSheetFragment.tag
             )
         }
@@ -73,7 +99,7 @@ class AccountingFragment : Fragment() {
                 }
             )
             bottomSheetFragment.show(
-                requireActivity().supportFragmentManager,
+                supportFragmentManager,
                 bottomSheetFragment.tag
             )
         }
@@ -86,12 +112,12 @@ class AccountingFragment : Fragment() {
         val accountingDataAdapter = AccountingDataAdapter(
             onItemClick = { uploadData ->
                 val customDialog = AccountingDataDetailDialog(uploadData)
-                customDialog.show(requireActivity().supportFragmentManager, "CustomDialog")
+                customDialog.show(supportFragmentManager, "CustomDialog")
             }
         )
 
         viewModel.showPairMessage.observe(this) {
-            AlertDialog.Builder(requireContext())
+            AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setTitle(it.first)
                 .setMessage(it.second)
@@ -102,23 +128,23 @@ class AccountingFragment : Fragment() {
             itemAdapter.seq = it.seq
             if (it.seq == 1) {
                 binding.btnExpense.setBackgroundResource(R.drawable.corners_blue)
-                binding.btnExpense.setTextColor(getColor(requireContext(), R.color.white))
+                binding.btnExpense.setTextColor(getColor(this, R.color.white))
                 binding.btnIncome.setBackgroundColor(0)
-                binding.btnIncome.setTextColor(getColor(requireContext(), R.color.greyish_brown))
+                binding.btnIncome.setTextColor(getColor(this, R.color.greyish_brown))
                 binding.imgChoiceIcon.setBackgroundResource(it.itemSelectedDrawable)
                 itemAdapter.itemList = it.itemExpenseList
             } else {
                 binding.btnExpense.setBackgroundColor(0)
-                binding.btnExpense.setTextColor(getColor(requireContext(), R.color.greyish_brown))
+                binding.btnExpense.setTextColor(getColor(this, R.color.greyish_brown))
                 binding.btnIncome.setBackgroundResource(R.drawable.corners_pink)
-                binding.btnIncome.setTextColor(getColor(requireContext(), R.color.white))
+                binding.btnIncome.setTextColor(getColor(this, R.color.white))
                 binding.imgChoiceIcon.setBackgroundResource(it.itemSelectedDrawable)
                 itemAdapter.itemList = it.itemIncomeList
             }
             binding.recyclerItem.apply {
                 setHasFixedSize(true)
                 layoutManager =
-                    GridLayoutManager(requireContext(), 6, GridLayoutManager.VERTICAL, false)
+                    GridLayoutManager(this@AccountingActivity, 6, GridLayoutManager.VERTICAL, false)
                 this.adapter = itemAdapter
             }
         }
@@ -132,7 +158,8 @@ class AccountingFragment : Fragment() {
             accountingDataAdapter.itemList = it
             binding.recyclerData.apply {
                 setHasFixedSize(true)
-                val manager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,true)
+                val manager =
+                    LinearLayoutManager(this@AccountingActivity, LinearLayoutManager.VERTICAL, true)
                 manager.stackFromEnd = true
                 layoutManager = manager
                 this.adapter = accountingDataAdapter
@@ -141,7 +168,6 @@ class AccountingFragment : Fragment() {
         viewModel.displayRetain.observe(this) {
             binding.txtMonthRemain.text = "本月剩餘可使用金額：${it}"
         }
-        return root
     }
 //    private fun firstLogin() {
 //        auth = FirebaseAuth.getInstance()

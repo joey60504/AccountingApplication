@@ -2,22 +2,17 @@ package com.tom.accountingapplication.login
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Html
 import android.text.TextUtils
 import android.util.Patterns
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.databinding.ActivitySignupBinding
-import com.tom.accountingapplication.homepage
+import com.tom.accountingapplication.ui.home.AccountingActivity
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
-    private lateinit var actionBar : ActionBar
     private lateinit var progressDialog : ProgressDialog
     private lateinit var firebaseAuth : FirebaseAuth
     private var email=""
@@ -26,12 +21,6 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        actionBar = supportActionBar!!
-        actionBar.setTitle(Html.fromHtml("<font color=\"black\">" + "Signup" ))
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setDisplayShowHomeEnabled(true)
-        actionBar.setBackgroundDrawable(ColorDrawable(Color.parseColor("#FFBB86FC")))
 
         progressDialog= ProgressDialog(this)
         progressDialog.setTitle("Please wait")
@@ -69,7 +58,7 @@ class SignupActivity : AppCompatActivity() {
                 val firebaseUser = firebaseAuth.currentUser
                 val email = firebaseUser!!.email
                 Toast.makeText(this,"Account created with email${email}",Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, homepage::class.java))
+                startActivity(Intent(this, AccountingActivity::class.java))
                 finish()
             }
             .addOnFailureListener {e->

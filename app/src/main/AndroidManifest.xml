@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AccountingApplication" >
         <activity
-            android:name=".homepage"
-            android:exported="false"
-            android:label="@string/title_activity_homepage"
-            android:theme="@style/Theme.AccountingApplication.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:name=".ui.home.AccountingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.gallery.HistoryActivity"
+            android:exported="false" />
         <activity
             android:name=".login.SignupActivity"
             android:exported="false" />

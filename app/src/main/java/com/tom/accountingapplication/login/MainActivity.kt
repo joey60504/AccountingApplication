@@ -2,37 +2,26 @@ package com.tom.accountingapplication.login
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Html
 import android.text.TextUtils
 import android.util.Patterns
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.tom.accountingapplication.databinding.ActivityMainBinding
-import com.tom.accountingapplication.homepage
+import com.tom.accountingapplication.ui.home.AccountingActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
-    private lateinit var actionBar : ActionBar
     private lateinit var progressDialog : ProgressDialog
     private lateinit var firebaseAuth : FirebaseAuth
     private var email=""
     private var password=""
-    lateinit var database: DatabaseReference
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        actionBar = supportActionBar!!
-        actionBar.setBackgroundDrawable(ColorDrawable(Color.parseColor("#FFBB86FC")))
-        actionBar.setTitle(Html.fromHtml("<font color=\"black\">"+"Login" ))
-        //getActionBar()/* or getSupportActionBar() */.setTitle(Html.fromHtml("<font color=\"red\">" + getString(R.string.app_name) + "</font>"));
         progressDialog = ProgressDialog(this)
         progressDialog.setTitle("Please wait")
         progressDialog.setMessage("Logging In...")
@@ -69,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 val firebaseUser = firebaseAuth.currentUser
                 val email = firebaseUser!!.email
                 Toast.makeText(this@MainActivity, "LoggedIn as $email", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, homepage::class.java))
+                startActivity(Intent(this, AccountingActivity::class.java))
                 finish()
             }
             .addOnFailureListener {e->
@@ -81,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkUser(){
         val firebaseUser=firebaseAuth.currentUser
         if(firebaseUser!=null){
-            startActivity(Intent(this@MainActivity, homepage::class.java))
+            startActivity(Intent(this@MainActivity, AccountingActivity::class.java))
             finish()
         }
     }

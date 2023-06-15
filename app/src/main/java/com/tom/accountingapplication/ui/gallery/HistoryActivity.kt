@@ -1,42 +1,75 @@
 package com.tom.accountingapplication.ui.gallery
 
+import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.firebase.auth.FirebaseAuth
+import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.FragmentHistoryBinding
 import com.tom.accountingapplication.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
+import com.tom.accountingapplication.login.MainActivity
+import com.tom.accountingapplication.ui.home.AccountingActivity
+import com.tom.accountingapplication.ui.home.AccountingViewModel
 
 
-class HistoryFragment: Fragment() {
-    private val viewModel: HistoryViewModel by viewModels()
+class HistoryActivity : AppCompatActivity() {
+    private val viewModel: AccountingViewModel by viewModels()
 
-    private var _binding: FragmentHistoryBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentHistoryBinding
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = FragmentHistoryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
+        //側拉選單
+        binding.imgHistoryFilter.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+                binding.drawerLayout.openDrawer(GravityCompat.START)
+            }
+
+        }
+        binding.navHistoryView.setNavigationItemSelectedListener {menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_accounting -> {
+                    startActivity(Intent(this, AccountingActivity::class.java))
+                }
+                R.id.menu_history -> {}
+                R.id.menu_invest -> {
+                    //TODO
+                }
+                R.id.menu_information->{
+                    //TODO
+                }
+                R.id.menu_logout->{
+                    FirebaseAuth.getInstance().signOut()
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                else->{}
+            }
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
+
+
         val accountingDataAdapter = AccountingDataAdapter(
             onItemClick = { uploadData ->
                 val customDialog = AccountingDataDetailDialog(uploadData)
-                customDialog.show(requireActivity().supportFragmentManager, "CustomDialog")
+                customDialog.show(this.supportFragmentManager, "CustomDialog")
             }
         )
 
@@ -74,12 +107,11 @@ class HistoryFragment: Fragment() {
             accountingDataAdapter.itemList = it
             binding.recyclerHistoryData.apply {
                 setHasFixedSize(true)
-                val manager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,true)
+                val manager = LinearLayoutManager(this@HistoryActivity,LinearLayoutManager.VERTICAL,true)
                 manager.stackFromEnd = true
                 layoutManager = manager
                 this.adapter = accountingDataAdapter
             }
         }
-        return binding.root
     }
 }
