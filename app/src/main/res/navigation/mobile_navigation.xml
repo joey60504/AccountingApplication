@@ -7,24 +7,20 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.tom.accountingapplication.ui.home.AccountingFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.tom.accountingapplication.ui.gallery.GalleryFragment"
         android:label="History"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.tom.accountingapplication.ui.slideshow.SlideshowFragment"
         android:label="PersonalInformation"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/nav_invest"
-        android:name="com.tom.accountingapplication.ui.invest.InvestFragment"
         android:label="InvestFragment"
         tools:layout="@layout/fragment_invest"/>
 </navigation>
