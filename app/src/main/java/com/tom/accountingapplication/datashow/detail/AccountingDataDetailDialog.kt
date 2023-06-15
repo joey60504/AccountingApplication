@@ -57,14 +57,16 @@ class AccountingDataDetailDialog(private var item: UploadData) : DialogFragment(
             AlertDialog.Builder(requireContext())
                 .setMessage("確定更新?")
                 .setPositiveButton("確定") { _, _ ->
-                    viewModelDataDetail.onUpdateClick(
-                        binding.txtDialogTitle.text.toString(),
-                        binding.txtDialogDate.text.toString(),
-                        binding.txtDialogTag.text.toString(),
-                        binding.etDialogPrice.text.toString().toInt(),
-                        binding.etDialogRemark.text.toString(),
-                        item
-                    )
+                    if (binding.etDialogPrice.text.isNotEmpty()) {
+                        viewModelDataDetail.onUpdateClick(
+                            binding.txtDialogTitle.text.toString(),
+                            binding.txtDialogDate.text.toString(),
+                            binding.txtDialogTag.text.toString(),
+                            binding.etDialogPrice.text.toString().toInt(),
+                            binding.etDialogRemark.text.toString(),
+                            item
+                        )
+                    }
                     dismiss()
                 }.setNegativeButton("取消") { _, _ ->
                     dismiss()

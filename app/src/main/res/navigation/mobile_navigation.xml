@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.tom.accountingapplication.ui.gallery.GalleryFragment"
+        android:name="com.tom.accountingapplication.ui.gallery.HistoryFragment"
         android:label="History"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_history" />
 
     <fragment
         android:id="@+id/nav_slideshow"

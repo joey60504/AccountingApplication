@@ -40,16 +40,18 @@ class homepage : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery,R.id.nav_invest, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_invest, R.id.nav_slideshow
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
-    fun logoutmethod(menuItem: MenuItem){
+
+    fun logoutmethod(menuItem: MenuItem) {
         FirebaseAuth.getInstance().signOut();
         startActivity(Intent(this, MainActivity::class.java))
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.homepage, menu)

@@ -1,0 +1,85 @@
+package com.tom.accountingapplication.ui.gallery
+
+import android.graphics.Color
+import android.os.Build
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
+import com.tom.accountingapplication.databinding.FragmentHistoryBinding
+import com.tom.accountingapplication.datashow.AccountingDataAdapter
+import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
+
+
+class HistoryFragment: Fragment() {
+    private val viewModel: HistoryViewModel by viewModels()
+
+    private var _binding: FragmentHistoryBinding? = null
+    private val binding get() = _binding!!
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        val accountingDataAdapter = AccountingDataAdapter(
+            onItemClick = { uploadData ->
+                val customDialog = AccountingDataDetailDialog(uploadData)
+                customDialog.show(requireActivity().supportFragmentManager, "CustomDialog")
+            }
+        )
+
+        // 設置圓餅圖的一些屬性
+        binding.pieChart.setUsePercentValues(true)
+        binding.pieChart.description.isEnabled = false
+        binding.pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
+
+        // 創建圓餅圖的資料集
+        val entries = arrayListOf(
+            PieEntry(20f, "項目1"),
+            PieEntry(30f, "項目2"),
+            PieEntry(50f, "項目3")
+        )
+
+        val dataSet = PieDataSet(entries, "圓餅圖標題")
+        dataSet.colors = ColorTemplate.JOYFUL_COLORS.toList()
+        dataSet.valueTextSize = 12f
+
+        // 創建圓餅圖的資料
+        val data = PieData(dataSet)
+        data.setValueFormatter(PercentFormatter(binding.pieChart))
+        data.setValueTextSize(11f)
+        data.setValueTextColor(Color.WHITE)
+
+        // 設置中心文字
+        binding.pieChart.centerText = "中間文字"
+        binding.pieChart.setCenterTextSize(16f)
+
+        // 將資料設置到圓餅圖上
+        binding.pieChart.data = data
+        binding.pieChart.invalidate()
+
+        viewModel.displayData.observe(this) {
+            accountingDataAdapter.itemList = it
+            binding.recyclerHistoryData.apply {
+                setHasFixedSize(true)
+                val manager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,true)
+                manager.stackFromEnd = true
+                layoutManager = manager
+                this.adapter = accountingDataAdapter
+            }
+        }
+        return binding.root
+    }
+}

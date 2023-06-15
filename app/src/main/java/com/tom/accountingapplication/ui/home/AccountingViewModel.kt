@@ -7,7 +7,7 @@ import com.tom.accountingapplication.accountingModel.AccountingDataModel
 import com.tom.accountingapplication.accountingModel.AccountingItem
 import com.tom.accountingapplication.accountingModel.DataListener
 import com.tom.accountingapplication.accountingModel.ReadDataDate
-import com.tom.accountingapplication.accountingModel.ReadDataYear
+import com.tom.accountingapplication.accountingModel.ReadDataType
 import com.tom.accountingapplication.accountingModel.TagItem
 import com.tom.accountingapplication.accountingModel.TagItemList
 import com.tom.accountingapplication.accountingModel.UpdateItem
@@ -183,36 +183,43 @@ class AccountingViewModel : ViewModel() {
     }
 
     private fun getData() {
+        val typeString = if (seq == 1) "Expense" else "Income"
         accountingUploadModel.getAccountingData(object : DataListener {
-            override fun onDataLoaded(readDataList: ArrayList<ReadDataYear>) {
+            override fun onDataLoaded(readDataList: ArrayList<ReadDataType>) {
                 val dataList = arrayListOf<ReadDataDate>()
                 if (readDataList.isEmpty()) {
                     _displayRetain.postValue(_displayRetain.value ?: "13000")
-                    _displayData.postValue(dataList)
+                    _displayData.postValue(_displayData.value)
                 } else {
-                    readDataList.map { year ->
-                        year.monthList.map { month ->
-                            month.dateList.map { date ->
-                                dataList.add(date)
+                    readDataList.map { type ->
+                        type.yearList.map { year ->
+                            year.monthList.map { month ->
+                                month.dateList.map { date ->
+                                    if (typeString == type.type) {
+                                        dataList.add(date)
+                                    }
+                                }
+                            }
+                            //每月剩餘
+                            if (type.type == typeString) {
+                                val calendar = Calendar.getInstance()
+                                val dateFormatMonth =
+                                    SimpleDateFormat("yyyyMM", Locale.getDefault())
+                                val todayMonth = dateFormatMonth.format(calendar.time)
+                                val monthPrice =
+                                    year.monthList.find { it.month == todayMonth }?.monthPrice
+                                if (monthPrice.isNullOrEmpty().not()) {
+                                    val todayMonthPrice =
+                                        (13000 - (monthPrice?.toInt() ?: 0)).toString()
+                                    _displayRetain.postValue(todayMonthPrice)
+                                }
                             }
                         }
-                        //每月剩餘
-                        if (seq == 1) {
-                            val calendar = Calendar.getInstance()
-                            val dateFormatMonth = SimpleDateFormat("yyyyMM", Locale.getDefault())
-                            val todayMonth = dateFormatMonth.format(calendar.time)
-                            val monthPrice =
-                                year.monthList.find { it.month == todayMonth }?.monthPrice
-                            if (monthPrice.isNullOrEmpty().not()) {
-                                val todayMonthPrice =
-                                    (13000 - (monthPrice?.toInt() ?: 0)).toString()
-                                _displayRetain.postValue(todayMonthPrice)
-                            }
-                        }
+                        dataList.sortBy { it.date }
+                        _displayData.postValue(dataList)
                     }
-                    _displayData.postValue(dataList)
                 }
             }
-        }, seq = seq)
+        })
     }
 }

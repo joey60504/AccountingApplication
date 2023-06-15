@@ -132,18 +132,20 @@ class AccountingDataModel {
         uploadData(newData, newData.type)
     }
 
-    fun getAccountingData(listener: DataListener, seq: Int) {
-        val typeString = if (seq == 1) "Expense" else "Income"
+    fun getAccountingData(listener: DataListener) {
         val dataListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val root = snapshot.value as Map<*, *>
                 val userRoot = root[userEmailModify] as Map<*, *>
-                val readDataYearList = arrayListOf<ReadDataYear>()
+                val readDataTypeList = arrayListOf<ReadDataType>()
                 if (userRoot["AccountingVision2"] != null) {
-                    val userAccountingType = userRoot["AccountingVision2"] as Map<*, *>
-                    if (userAccountingType[typeString] != null) {
-                        val userAccountingYear = userAccountingType[typeString] as Map<*, *>
-                        userAccountingYear.map { year ->
+                    val userAccountingRoot = userRoot["AccountingVision2"] as Map<*, *>
+                    userAccountingRoot.map { type ->
+                        val userAccountingTypeValue = type.value as Map<*, *>
+                        val userAccountingTypeKey = type.key
+                        val readDataYearList = arrayListOf<ReadDataYear>()
+                        var typePrice = 0
+                        userAccountingTypeValue.map { year ->
                             val userAccountingYearValue = year.value as Map<*, *>
                             val userAccountingYearKey = year.key
                             val readDataMonthList = arrayListOf<ReadDataMonth>()
@@ -223,9 +225,19 @@ class AccountingDataModel {
                                 )
                             )
                         }
+                        readDataYearList.map {
+                            typePrice += it.yearPrice.toInt()
+                        }
+                        readDataTypeList.add(
+                            ReadDataType(
+                                typePrice = typePrice.toString(),
+                                type = userAccountingTypeKey.toString(),
+                                yearList = readDataYearList
+                            )
+                        )
                     }
                 }
-                listener.onDataLoaded(readDataYearList)
+                listener.onDataLoaded(readDataTypeList)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -236,7 +248,7 @@ class AccountingDataModel {
 }
 
 interface DataListener {
-    fun onDataLoaded(readDataList: ArrayList<ReadDataYear>)
+    fun onDataLoaded(readDataList: ArrayList<ReadDataType>)
 }
 
 data class AccountingItem(
@@ -273,6 +285,13 @@ data class UploadData(
     var type: Int
 )
 
+//getData
+data class ReadDataType(
+    var typePrice: String,
+    var type: String,
+    var yearList: ArrayList<ReadDataYear>
+)
+
 data class ReadDataYear(
     var yearPrice: String,
     var year: String,
@@ -296,4 +315,3 @@ data class ReadDataTag(
     var title: String,
     var dataList: ArrayList<UploadData>
 )
-
