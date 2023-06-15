@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun validataData() {
         email = binding.Email.text.toString().trim()
         password = binding.Password.text.toString().trim()
