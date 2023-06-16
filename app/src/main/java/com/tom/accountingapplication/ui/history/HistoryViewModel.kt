@@ -1,4 +1,4 @@
-package com.tom.accountingapplication.ui.gallery
+package com.tom.accountingapplication.ui.history
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

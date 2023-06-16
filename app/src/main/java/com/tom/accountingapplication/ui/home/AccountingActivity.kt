@@ -3,6 +3,7 @@ package com.tom.accountingapplication.ui.home
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
@@ -14,8 +15,8 @@ import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.FragmentHomeBinding
 import com.tom.accountingapplication.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
-import com.tom.accountingapplication.login.MainActivity
-import com.tom.accountingapplication.ui.gallery.HistoryActivity
+import com.tom.accountingapplication.ui.login.MainActivity
+import com.tom.accountingapplication.ui.history.HistoryActivity
 
 
 class AccountingActivity : AppCompatActivity() {
@@ -37,27 +38,31 @@ class AccountingActivity : AppCompatActivity() {
             }
 
         }
-        binding.navView.setNavigationItemSelectedListener {menuItem ->
-            when (menuItem.itemId) {
-                R.id.menu_accounting -> {}
-                R.id.menu_history -> {
-                    startActivity(Intent(this, HistoryActivity::class.java))
-                }
-                R.id.menu_invest -> {
-                    //TODO
-                }
-                R.id.menu_information->{
-                    //TODO
-                }
-                R.id.menu_logout->{
-                    FirebaseAuth.getInstance().signOut()
-                    startActivity(Intent(this, MainActivity::class.java))
-                }
-                else->{}
-            }
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-            true
+        val toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            null,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        binding.txtDrawerAccounting.setBackgroundColor(getColor(this,R.color.bar))
+        binding.txtDrawerAccounting.setTextColor(getColor(this,R.color.white))
+        binding.txtDrawerHistory.setOnClickListener {
+            startActivity(Intent(this, HistoryActivity::class.java))
         }
+        binding.txtDrawerInvest.setOnClickListener {
+
+        }
+        binding.txtDrawerInformation.setOnClickListener {
+
+        }
+        binding.txtDrawerLogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        //側拉選單結束
 
         binding.btnExpense.setOnClickListener {
             viewModel.onExpenseClick()

@@ -1,4 +1,4 @@
-package com.tom.accountingapplication.login
+package com.tom.accountingapplication.ui.login
 
 import android.app.ProgressDialog
 import android.content.Intent

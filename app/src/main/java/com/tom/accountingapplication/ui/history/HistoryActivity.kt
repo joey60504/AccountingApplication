@@ -1,10 +1,12 @@
-package com.tom.accountingapplication.ui.gallery
+package com.tom.accountingapplication.ui.history
 
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.data.PieData
@@ -17,7 +19,7 @@ import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.FragmentHistoryBinding
 import com.tom.accountingapplication.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
-import com.tom.accountingapplication.login.MainActivity
+import com.tom.accountingapplication.ui.login.MainActivity
 import com.tom.accountingapplication.ui.home.AccountingActivity
 import com.tom.accountingapplication.ui.home.AccountingViewModel
 
@@ -35,7 +37,7 @@ class HistoryActivity : AppCompatActivity() {
 
 
         //側拉選單
-        binding.imgHistoryFilter.setOnClickListener {
+        binding.imgFilter.setOnClickListener {
             if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
             } else {
@@ -43,27 +45,31 @@ class HistoryActivity : AppCompatActivity() {
             }
 
         }
-        binding.navHistoryView.setNavigationItemSelectedListener {menuItem ->
-            when (menuItem.itemId) {
-                R.id.menu_accounting -> {
-                    startActivity(Intent(this, AccountingActivity::class.java))
-                }
-                R.id.menu_history -> {}
-                R.id.menu_invest -> {
-                    //TODO
-                }
-                R.id.menu_information->{
-                    //TODO
-                }
-                R.id.menu_logout->{
-                    FirebaseAuth.getInstance().signOut()
-                    startActivity(Intent(this, MainActivity::class.java))
-                }
-                else->{}
-            }
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-            true
+        val toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            null,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        binding.txtDrawerAccounting.setOnClickListener {
+            startActivity(Intent(this, AccountingActivity::class.java))
         }
+        binding.txtDrawerHistory.setBackgroundColor(ContextCompat.getColor(this, R.color.bar))
+        binding.txtDrawerHistory.setTextColor(ContextCompat.getColor(this, R.color.white))
+        binding.txtDrawerInvest.setOnClickListener {
+
+        }
+        binding.txtDrawerInformation.setOnClickListener {
+
+        }
+        binding.txtDrawerLogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        //側拉選單結束
 
 
         val accountingDataAdapter = AccountingDataAdapter(

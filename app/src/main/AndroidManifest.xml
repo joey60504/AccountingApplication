@@ -13,13 +13,13 @@
             android:name=".ui.home.AccountingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.gallery.HistoryActivity"
+            android:name=".ui.history.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".login.SignupActivity"
+            android:name=".ui.login.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".login.MainActivity"
+            android:name=".ui.login.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
