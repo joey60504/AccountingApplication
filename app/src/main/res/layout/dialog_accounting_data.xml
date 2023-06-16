@@ -123,6 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:background="@drawable/corners_orange"
             android:fontFamily="@font/myfont3"
             android:gravity="center"
             android:text="刪除" />
@@ -132,6 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:background="@drawable/corners_orange"
             android:fontFamily="@font/myfont3"
             android:gravity="center"
             android:text="更新" />

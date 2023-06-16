@@ -5,16 +5,18 @@
 
     <TextView
         android:id="@+id/txt_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/corners_rim_blue"
         android:drawableTop="@drawable/icon_breakfast"
         android:drawablePadding="10dp"
+        android:ellipsize="end"
         android:fontFamily="@font/myfont3"
         android:gravity="center"
+        android:maxLines="2"
         android:padding="10dp"
         android:text="早餐"
         android:textColor="@color/greyish_brown"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:textStyle="bold" />
 </LinearLayout>

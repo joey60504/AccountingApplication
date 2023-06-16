@@ -1,5 +1,6 @@
 package com.tom.accountingapplication.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -201,7 +202,7 @@ class AccountingViewModel : ViewModel() {
                                 }
                             }
                             //每月剩餘
-                            if (type.type == typeString) {
+                            if (type.type == "Expense") {
                                 val calendar = Calendar.getInstance()
                                 val dateFormatMonth =
                                     SimpleDateFormat("yyyyMM", Locale.getDefault())
