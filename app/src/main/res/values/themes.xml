@@ -14,7 +14,21 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/bar</item>
+        <item name="colorPrimary">@color/bar</item>
+    </style>
 
+    <style name="CalenderViewDateCustomText" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/greyish_brown</item>
+        <item name="android:weekNumberColor">@color/bar</item>
+        <item name="android:fontFamily">@font/myfont3</item>
+    </style>
+
+    <style name="CalenderViewWeekCustomText" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/greyish_brown</item>
+        <item name="android:fontFamily">@font/myfont3</item>
+    </style>
 
 
     <style name="Theme.AccountingApplication.AppBarOverlay" parent="Theme.AppCompat.Light.NoActionBar" />
