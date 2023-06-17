@@ -14,36 +14,86 @@ class AccountingDataModel {
     private val database = FirebaseDatabase.getInstance().reference
     private val userEmail = auth.currentUser?.email.toString()
     private val userEmailModify = userEmail.substring(0, userEmail.indexOf("@"))
-    fun fillItem(): AccountingItem {
-        return AccountingItem(
-            itemExpenseList = arrayListOf(
-                UpdateItem("早餐", 0, 1, true),
-                UpdateItem("午餐", 0, 1, false),
-                UpdateItem("晚餐", 0, 1, false),
-                UpdateItem("交通", 0, 1, false),
-                UpdateItem("飲品", 0, 1, false),
-                UpdateItem("點心", 0, 1, false),
-                UpdateItem("娛樂", 0, 1, false),
-                UpdateItem("票券", 0, 1, false),
-                UpdateItem("日用品", 0, 1, false),
-                UpdateItem("購物", 0, 1, false),
-                UpdateItem("帳單", 0, 1, false),
-                UpdateItem("股票", 0, 1, false),
-                UpdateItem("虛擬貨幣", 0, 1, false),
-                UpdateItem("孝親費", 0, 1, false),
-                UpdateItem("其他", 0, 1, false),
-            ).onEach { it.image = getIcon(it.title) },
-            itemIncomeList = arrayListOf(
-                UpdateItem("薪水", 0, 2, true),
-                UpdateItem("獎金", 0, 2, false),
-                UpdateItem("股息", 0, 2, false),
-                UpdateItem("利息", 0, 2, false),
-                UpdateItem("股票收入", 0, 2, false),
-                UpdateItem("虛擬貨幣收入", 0, 2, false),
-                UpdateItem("其他", 0, 2, false),
-            ).onEach { it.image = getIcon(it.title) },
-            itemSelectedDrawable = getIcon("早餐"),
-            seq = 1
+    fun fillItem(): AccountingItemList {
+        return AccountingItemList(
+            itemExpense = AccountingItemTypeList(
+                typeList = arrayListOf("飲食", "購物", "交通", "投資", "娛樂", "生活"),
+                itemTypeList = arrayListOf(
+                    AccountingItemType(
+                        type = "飲食",
+                        arrayListOf(
+                            AccountingItem("早餐", 0, 1, true, "飲食"),
+                            AccountingItem("午餐", 0, 1, false, "飲食"),
+                            AccountingItem("晚餐", 0, 1, false, "飲食"),
+                            AccountingItem("飲品", 0, 1, false, "飲食"),
+                            AccountingItem("點心", 0, 1, false, "飲食"),
+                            AccountingItem("其他", 0, 1, false, "飲食"),
+                        ).onEach { it.image = getIcon(it.title) }
+                    ),
+                    AccountingItemType(
+                        type = "購物",
+                        arrayListOf(
+                            AccountingItem("日用品", 0, 1, false, "購物"),
+                            AccountingItem("購物", 0, 1, false, "購物"),
+                            AccountingItem("其他", 0, 1, false, "購物")
+                        ).onEach { it.image = getIcon(it.title) }
+                    ),
+                    AccountingItemType(
+                        type = "交通",
+                        arrayListOf(
+                            AccountingItem("加油", 0, 1, false, "交通"),
+                            AccountingItem("火車", 0, 1, false, "交通"),
+                            AccountingItem("其他", 0, 1, false, "交通"),
+                        ).onEach { it.image = getIcon(it.title) }
+                    ),
+                    AccountingItemType(
+                        type = "投資",
+                        arrayListOf(
+                            AccountingItem("股票", 0, 1, false, "投資"),
+                            AccountingItem("虛擬貨幣", 0, 1, false, "投資"),
+                            AccountingItem("其他", 0, 1, false, "投資"),
+                        ).onEach { it.image = getIcon(it.title) }
+                    ),
+                    AccountingItemType(
+                        type = "娛樂",
+                        arrayListOf(
+                            AccountingItem("串流平台", 0, 1, false, "娛樂"),
+                            AccountingItem("遊戲", 0, 1, false, "娛樂"),
+                            AccountingItem("唱歌", 0, 1, false, "娛樂"),
+                            AccountingItem("票券", 0, 1, false, "娛樂"),
+                            AccountingItem("其他", 0, 1, false, "娛樂"),
+                        ).onEach { it.image = getIcon(it.title) }
+                    ),
+                    AccountingItemType(
+                        type = "生活",
+                        arrayListOf(
+                            AccountingItem("帳單", 0, 1, false, "生活"),
+                            AccountingItem("孝親費", 0, 1, false, "生活"),
+                            AccountingItem("其他", 0, 1, false, "生活"),
+                        ).onEach { it.image = getIcon(it.title) }
+                    ),
+                ),
+                typeSeq = 0
+            ),
+            itemIncome = AccountingItemTypeList(
+                typeList = arrayListOf("生活"),
+                itemTypeList = arrayListOf(
+                    AccountingItemType(
+                        type = "生活",
+                        arrayListOf(
+                            AccountingItem("薪水", 0, 2, true, "生活"),
+                            AccountingItem("獎金", 0, 2, false, "生活"),
+                            AccountingItem("股息", 0, 2, false, "生活"),
+                            AccountingItem("利息", 0, 2, false, "生活"),
+                            AccountingItem("股票收入", 0, 2, false, "生活"),
+                            AccountingItem("虛擬貨幣收入", 0, 2, false, "生活"),
+                            AccountingItem("其他", 0, 2, false, "生活"),
+                        ).onEach { it.image = getIcon(it.title) })
+                ),
+                typeSeq = 0
+            ),
+            seq = 1,
+            itemSelectedDrawable = getIcon("早餐")
         )
     }
 
@@ -52,10 +102,13 @@ class AccountingDataModel {
             "早餐" -> R.drawable.icon_breakfast
             "午餐" -> R.drawable.icon_lunch
             "晚餐" -> R.drawable.icon_dinner
-            "交通" -> R.drawable.icon_transport
+            "加油" -> R.drawable.icon_oil
+            "火車" -> R.drawable.icon_transport
             "飲品" -> R.drawable.icon_drink
             "點心" -> R.drawable.icon_dessert
-            "娛樂" -> R.drawable.icon_entertainment
+            "串流平台" -> R.drawable.icon_entertainment
+            "遊戲" -> R.drawable.icon_game
+            "唱歌" -> R.drawable.icon_sing
             "票券" -> R.drawable.icon_ticket
             "日用品" -> R.drawable.icon_daily_necessary
             "購物" -> R.drawable.icon_shopping
@@ -82,12 +135,13 @@ class AccountingDataModel {
         val random = Random()
         val randomNumber = (random.nextInt(90000000) + 10000000).toString()
         val uploadMap = mapOf(
-            "type" to upload.type,
-            "item" to upload.item,
+            "seq" to upload.seq,
+            "title" to upload.title,
             "date" to upload.date,
             "tag" to upload.tag,
             "remark" to upload.remark,
-            "price" to upload.price
+            "price" to upload.price,
+            "type" to upload.type
         )
         database.child(userEmailModify).child("AccountingVision2").child(typeString).child(dateYear)
             .child(dateMonth).child(date).child(upload.tag).child(randomNumber)
@@ -109,13 +163,14 @@ class AccountingDataModel {
                 accountingTag.map { number ->
                     val numberValue = number.value as Map<*, *>
                     val data = UploadData(
-                        item = numberValue["item"].toString(),
+                        title = numberValue["title"].toString(),
                         date = numberValue["date"].toString(),
                         tag = numberValue["tag"].toString(),
                         price = numberValue["price"].toString().toInt(),
                         remark = numberValue["remark"].toString(),
-                        type = numberValue["type"].toString().toInt(),
-                        image = getIcon(numberValue["item"].toString())
+                        seq = numberValue["seq"].toString().toInt(),
+                        type = numberValue["type"].toString(),
+                        image = getIcon(numberValue["title"].toString())
                     )
                     if (data == delete) {
                         database.child(userEmailModify).child("AccountingVision2").child(typeString)
@@ -128,8 +183,8 @@ class AccountingDataModel {
     }
 
     fun updateData(oldData: UploadData, newData: UploadData) {
-        deleteData(oldData, oldData.type)
-        uploadData(newData, newData.type)
+        deleteData(oldData, oldData.seq)
+        uploadData(newData, newData.seq)
     }
 
     fun getAccountingData(listener: DataListener) {
@@ -169,15 +224,16 @@ class AccountingDataModel {
                                             val userAccountingData = number.value as Map<*, *>
                                             readDataDayList.add(
                                                 UploadData(
-                                                    item = userAccountingData["item"].toString(),
+                                                    title = userAccountingData["title"].toString(),
                                                     date = userAccountingData["date"].toString(),
                                                     tag = userAccountingData["tag"].toString(),
                                                     remark = userAccountingData["remark"].toString(),
                                                     price = userAccountingData["price"].toString()
                                                         .toInt(),
-                                                    type = userAccountingData["type"].toString()
+                                                    seq = userAccountingData["seq"].toString()
                                                         .toInt(),
-                                                    image = getIcon(userAccountingData["item"].toString())
+                                                    type = userAccountingData["type"].toString(),
+                                                    image = getIcon(userAccountingData["title"].toString())
                                                 )
                                             )
                                         }
@@ -251,20 +307,34 @@ interface DataListener {
     fun onDataLoaded(readDataList: ArrayList<ReadDataType>)
 }
 
-data class AccountingItem(
-    var itemExpenseList: ArrayList<UpdateItem>,
-    var itemIncomeList: ArrayList<UpdateItem>,
+//item
+data class AccountingItemList(
+    var itemExpense: AccountingItemTypeList,
+    var itemIncome: AccountingItemTypeList,
     var itemSelectedDrawable: Int,
     var seq: Int
 )
 
-data class UpdateItem(
-    val title: String,
-    var image: Int,
-    val type: Int,
-    var isSelect: Boolean
+data class AccountingItemTypeList(
+    var itemTypeList: ArrayList<AccountingItemType>,
+    var typeList: ArrayList<String>,
+    var typeSeq: Int
 )
 
+data class AccountingItemType(
+    var type: String,
+    var itemList: ArrayList<AccountingItem>,
+)
+
+data class AccountingItem(
+    val title: String,
+    var image: Int,
+    val seq: Int,
+    var isSelect: Boolean,
+    var type: String
+)
+
+//tag
 data class TagItemList(
     var tagList: ArrayList<TagItem>,
     var selectedTag: String
@@ -275,17 +345,7 @@ data class TagItem(
     var isSelect: Boolean
 )
 
-data class UploadData(
-    var image: Int,
-    var item: String,
-    var date: String,
-    var tag: String,
-    var remark: String,
-    var price: Int,
-    var type: Int
-)
-
-//getData
+//上傳or下載
 data class ReadDataType(
     var typePrice: String,
     var type: String,
@@ -314,4 +374,15 @@ data class ReadDataTag(
     var tagPrice: String,
     var title: String,
     var dataList: ArrayList<UploadData>
+)
+
+data class UploadData(
+    var title: String,
+    var date: String,
+    var tag: String,
+    var remark: String,
+    var price: Int,
+    var seq: Int,
+    var type: String,
+    var image: Int
 )

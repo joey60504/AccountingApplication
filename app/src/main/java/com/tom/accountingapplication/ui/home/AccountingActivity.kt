@@ -2,14 +2,16 @@ package com.tom.accountingapplication.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.GravityCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.ActivityHomeBinding
@@ -17,6 +19,7 @@ import com.tom.accountingapplication.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
 import com.tom.accountingapplication.ui.login.MainActivity
 import com.tom.accountingapplication.ui.history.HistoryActivity
+import com.tom.accountingapplication.ui.home.item.AccountingViewPagerAdapter
 
 
 class AccountingActivity : AppCompatActivity() {
@@ -47,8 +50,8 @@ class AccountingActivity : AppCompatActivity() {
         )
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-        binding.txtDrawerAccounting.setBackgroundColor(getColor(this,R.color.bar))
-        binding.txtDrawerAccounting.setTextColor(getColor(this,R.color.white))
+        binding.txtDrawerAccounting.setBackgroundColor(getColor(this, R.color.bar))
+        binding.txtDrawerAccounting.setTextColor(getColor(this, R.color.white))
         binding.txtDrawerHistory.setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
@@ -108,19 +111,17 @@ class AccountingActivity : AppCompatActivity() {
                 bottomSheetFragment.tag
             )
         }
-
-        val itemAdapter = AccountingItemAdapter(
-            onItemClick = { updateItem ->
-                viewModel.onItemClick(updateItem)
-            }
-        )
         val accountingDataAdapter = AccountingDataAdapter(
             onItemClick = { uploadData ->
                 val customDialog = AccountingDataDetailDialog(uploadData)
                 customDialog.show(supportFragmentManager, "CustomDialog")
             }
         )
-
+        val itemAdapter = AccountingViewPagerAdapter(
+            onItemClick = { accountingItem->
+                viewModel.onItemClick(accountingItem)
+            }
+        )
         viewModel.showPairMessage.observe(this) {
             AlertDialog.Builder(this)
                 .setCancelable(false)
@@ -131,27 +132,34 @@ class AccountingActivity : AppCompatActivity() {
 
         viewModel.displayItemSelect.observe(this) {
             itemAdapter.seq = it.seq
+            binding.viewpagerItem.adapter = itemAdapter
+            binding.viewpagerItem.orientation = ViewPager2.ORIENTATION_HORIZONTAL
             if (it.seq == 1) {
                 binding.btnExpense.setBackgroundResource(R.drawable.corners_blue)
                 binding.btnExpense.setTextColor(getColor(this, R.color.white))
                 binding.btnIncome.setBackgroundColor(0)
                 binding.btnIncome.setTextColor(getColor(this, R.color.greyish_brown))
                 binding.imgChoiceIcon.setBackgroundResource(it.itemSelectedDrawable)
-                itemAdapter.itemList = it.itemExpenseList
+
+                binding.viewpagerItem.setCurrentItem(it.itemExpense.typeSeq,false)
+                itemAdapter.itemType = it.itemExpense.itemTypeList
+                TabLayoutMediator(binding.tabLayoutItem, binding.viewpagerItem) { tab, position ->
+                    tab.text = it.itemExpense.typeList[position]
+                }.attach()
             } else {
                 binding.btnExpense.setBackgroundColor(0)
                 binding.btnExpense.setTextColor(getColor(this, R.color.greyish_brown))
                 binding.btnIncome.setBackgroundResource(R.drawable.corners_pink)
                 binding.btnIncome.setTextColor(getColor(this, R.color.white))
                 binding.imgChoiceIcon.setBackgroundResource(it.itemSelectedDrawable)
-                itemAdapter.itemList = it.itemIncomeList
+
+                binding.viewpagerItem.setCurrentItem(it.itemIncome.typeSeq,false)
+                itemAdapter.itemType = it.itemIncome.itemTypeList
+                TabLayoutMediator(binding.tabLayoutItem, binding.viewpagerItem) { tab, position ->
+                    tab.text = it.itemIncome.typeList[position]
+                }.attach()
             }
-            binding.recyclerItem.apply {
-                setHasFixedSize(true)
-                layoutManager =
-                    GridLayoutManager(this@AccountingActivity, 6, GridLayoutManager.VERTICAL, false)
-                this.adapter = itemAdapter
-            }
+
         }
         viewModel.displayDate.observe(this) {
             binding.txtDate.text = it
@@ -192,9 +200,5 @@ class AccountingActivity : AppCompatActivity() {
 //                }
 //            }
 //        }
-//    }
-
-//    override fun onItemClick(position: Int) {
-//
 //    }
 }

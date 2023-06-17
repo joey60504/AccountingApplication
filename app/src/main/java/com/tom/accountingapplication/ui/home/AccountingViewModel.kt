@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tom.accountingapplication.accountingModel.AccountingDataModel
-import com.tom.accountingapplication.accountingModel.AccountingItem
 import com.tom.accountingapplication.accountingModel.DataListener
 import com.tom.accountingapplication.accountingModel.ReadDataDate
 import com.tom.accountingapplication.accountingModel.ReadDataType
 import com.tom.accountingapplication.accountingModel.TagItem
+import com.tom.accountingapplication.accountingModel.AccountingItem
+import com.tom.accountingapplication.accountingModel.AccountingItemList
 import com.tom.accountingapplication.accountingModel.TagItemList
-import com.tom.accountingapplication.accountingModel.UpdateItem
 import com.tom.accountingapplication.accountingModel.UploadData
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -22,14 +22,18 @@ class AccountingViewModel : ViewModel() {
     private val _showPairMessage = MutableLiveData<Pair<String, String>>()
     val showPairMessage: LiveData<Pair<String, String>> = _showPairMessage
 
-    private val _displayItemSelect: MutableLiveData<AccountingItem> = MutableLiveData()
-    val displayItemSelect: LiveData<AccountingItem> = _displayItemSelect
+    private val _displayItemSelect: MutableLiveData<AccountingItemList> = MutableLiveData()
+    val displayItemSelect: LiveData<AccountingItemList> = _displayItemSelect
+
     private val _displayDate: MutableLiveData<String> = MutableLiveData()
     val displayDate: LiveData<String> = _displayDate
+
     private val _displayTag: MutableLiveData<TagItemList> = MutableLiveData()
     val displayTag: LiveData<TagItemList> = _displayTag
+
     private val _displayData: MutableLiveData<ArrayList<ReadDataDate>> = MutableLiveData()
     val displayData: LiveData<ArrayList<ReadDataDate>> = _displayData
+
     private val _displayRetain: MutableLiveData<String> = MutableLiveData()
     val displayRetain: LiveData<String> = _displayRetain
 
@@ -53,15 +57,17 @@ class AccountingViewModel : ViewModel() {
         _displayDate.postValue(today)
         //tag
         val tagList = arrayListOf(
-            TagItem(title = "日常", isSelect = true),
+            TagItem(title = "一般記帳", isSelect = true),
             TagItem(title = "台中一日遊", isSelect = false),
             TagItem(title = "新竹一日遊", isSelect = false)
         )
-        val tagItemList = TagItemList(
-            tagList = tagList,
-            selectedTag = tagList.find { it.isSelect }?.title.toString()
+
+        _displayTag.postValue(
+            TagItemList(
+                tagList = tagList,
+                selectedTag = "一般記帳"
+            )
         )
-        _displayTag.postValue(tagItemList)
         //Data
         getData()
     }
@@ -70,8 +76,6 @@ class AccountingViewModel : ViewModel() {
     fun onExpenseClick() {
         seq = 1
         _displayItemSelect.value?.seq = seq
-        _displayItemSelect.value?.itemSelectedDrawable =
-            _displayItemSelect.value?.itemExpenseList?.find { it.isSelect }?.image ?: 0
         _displayItemSelect.postValue(_displayItemSelect.value)
         getData()
     }
@@ -79,38 +83,52 @@ class AccountingViewModel : ViewModel() {
     fun onIncomeClick() {
         seq = 2
         _displayItemSelect.value?.seq = seq
-        _displayItemSelect.value?.itemSelectedDrawable =
-            _displayItemSelect.value?.itemIncomeList?.find { it.isSelect }?.image ?: 0
         _displayItemSelect.postValue(_displayItemSelect.value)
         getData()
     }
 
-    fun onItemClick(updateItem: UpdateItem) {
+    fun onItemClick(item: AccountingItem) {
+        //filter下再用map是因為該陣列只會有一項1
         if (seq == 1) {
-            _displayItemSelect.value?.itemExpenseList?.find {
-                it.isSelect
-            }.let {
-                it?.isSelect = false
-                updateItem.isSelect = false
+            _displayItemSelect.value?.itemExpense?.itemTypeList?.map {
+                it.itemList.filter {  accountingItem ->
+                    accountingItem.isSelect
+                }.map { accountingItem ->
+                    accountingItem.isSelect = false
+                }
             }
-            _displayItemSelect.value?.itemExpenseList?.find {
-                it == updateItem
-            }.let {
-                it?.isSelect = true
-                _displayItemSelect.value?.itemSelectedDrawable = it?.image ?: 0
+
+            _displayItemSelect.value?.itemExpense?.itemTypeList?.map {
+                it.itemList.filter {  accountingItem ->
+                    accountingItem == item
+                }.map { accountingItem ->
+                    accountingItem.isSelect = true
+                    _displayItemSelect.value?.itemSelectedDrawable = accountingItem.image
+                    _displayItemSelect.value?.itemExpense?.typeSeq =
+                        _displayItemSelect.value?.itemExpense?.typeList?.indexOf(accountingItem.type)
+                            ?: 0
+                }
             }
             _displayItemSelect.postValue(_displayItemSelect.value)
         } else {
-            _displayItemSelect.value?.itemIncomeList?.find {
-                it.isSelect
-            }.let {
-                it?.isSelect = false
+            _displayItemSelect.value?.itemIncome?.itemTypeList?.map {
+                it.itemList.filter {  accountingItem ->
+                    accountingItem.isSelect
+                }.map { accountingItem ->
+                    accountingItem.isSelect = false
+                }
             }
-            _displayItemSelect.value?.itemIncomeList?.find {
-                it == updateItem
-            }.let {
-                it?.isSelect = true
-                _displayItemSelect.value?.itemSelectedDrawable = it?.image ?: 0
+
+            _displayItemSelect.value?.itemIncome?.itemTypeList?.map {
+                it.itemList.filter {  accountingItem ->
+                    accountingItem == item
+                }.map { accountingItem ->
+                    accountingItem.isSelect = true
+                    _displayItemSelect.value?.itemSelectedDrawable = accountingItem.image
+                    _displayItemSelect.value?.itemIncome?.typeSeq =
+                        _displayItemSelect.value?.itemIncome?.typeList?.indexOf(accountingItem.type)
+                            ?: 0
+                }
             }
             _displayItemSelect.postValue(_displayItemSelect.value)
         }
@@ -165,19 +183,39 @@ class AccountingViewModel : ViewModel() {
     }
 
     fun onSubmitClick(remark: String, price: Int) {
-
+        var title = ""
+        var type = ""
+        var image = 0
+        if (seq == 1) {
+            _displayItemSelect.value?.itemExpense?.itemTypeList?.map {
+                it.itemList.filter {  accountingItem ->
+                    accountingItem.isSelect
+                }.map { accountingItem ->
+                    title = accountingItem.title
+                    image = accountingItem.image
+                    type = accountingItem.type
+                }
+            }
+        } else {
+            _displayItemSelect.value?.itemIncome?.itemTypeList?.map {
+                it.itemList.filter {  accountingItem ->
+                    accountingItem.isSelect
+                }.map { accountingItem ->
+                    title = accountingItem.title
+                    image = accountingItem.image
+                    type = accountingItem.type
+                }
+            }
+        }
         val upLoad = UploadData(
-            image = _displayItemSelect.value?.itemSelectedDrawable ?: 0,
-            item = if (seq == 1) {
-                _displayItemSelect.value?.itemExpenseList?.find { it.isSelect }?.title
-            } else {
-                _displayItemSelect.value?.itemIncomeList?.find { it.isSelect }?.title
-            }.toString(),
+            title = title,
             date = _displayDate.value.toString(),
             tag = _displayTag.value?.selectedTag.toString(),
             remark = remark,
             price = price,
-            type = seq
+            seq = seq,
+            type = type,
+            image = image
         )
         accountingUploadModel.uploadData(upLoad, seq)
 
@@ -190,7 +228,7 @@ class AccountingViewModel : ViewModel() {
                 val dataList = arrayListOf<ReadDataDate>()
                 if (readDataList.isEmpty()) {
                     _displayRetain.postValue(_displayRetain.value ?: "13000")
-                    _displayData.postValue(_displayData.value)
+                    _displayData.postValue(arrayListOf())
                 } else {
                     readDataList.map { type ->
                         type.yearList.map { year ->

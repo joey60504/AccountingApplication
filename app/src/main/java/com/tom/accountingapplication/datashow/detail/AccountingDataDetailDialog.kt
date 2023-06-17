@@ -34,7 +34,7 @@ class AccountingDataDetailDialog(private var item: UploadData) : DialogFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.txtDialogTitle.text = item.item
+        binding.txtDialogTitle.text = item.title
         binding.txtDialogDate.text = item.date
         binding.txtDialogTag.text = item.tag
         binding.etDialogPrice.setText(item.price.toString())
@@ -64,6 +64,7 @@ class AccountingDataDetailDialog(private var item: UploadData) : DialogFragment(
                             binding.txtDialogTag.text.toString(),
                             binding.etDialogPrice.text.toString().toInt(),
                             binding.etDialogRemark.text.toString(),
+                            item.type,
                             item
                         )
                     }

@@ -29,9 +29,9 @@ class AccountingDataTagItemAdapter(private val onItemClick: (UploadData) -> Unit
     inner class PackageViewHolder(private val binding: ItemAccountingDataTagItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: UploadData, onItemClick: (UploadData) -> Unit) {
-            binding.txtItemTitle.text = item.item
+            binding.txtItemTitle.text = item.title
             binding.imgItemIcon.setBackgroundResource(item.image)
-            binding.txtItemType.text = if (item.type == 1) "支出：" else "收入："
+            binding.txtItemType.text = if (item.seq == 1) "支出：" else "收入："
             binding.txtItemPrice.text = "＄${item.price}"
             binding.txtItemRemark.text = item.remark
             binding.txtItemDetail.setOnClickListener {

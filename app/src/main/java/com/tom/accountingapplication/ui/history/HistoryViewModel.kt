@@ -29,7 +29,7 @@ class HistoryViewModel :ViewModel() {
                 readDataTypeList = readDataList
                 val dataList = arrayListOf<ReadDataDate>()
                 if (readDataList.isEmpty()) {
-                    _displayData.postValue(_displayData.value)
+                    _displayData.postValue(arrayListOf())
                 } else {
                     readDataList.map { type ->
                         type.yearList.map { year ->
