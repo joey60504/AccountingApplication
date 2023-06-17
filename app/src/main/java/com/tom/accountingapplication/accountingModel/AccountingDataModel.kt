@@ -26,24 +26,33 @@ class AccountingDataModel {
                             AccountingItem("午餐", 0, 1, false, "飲食"),
                             AccountingItem("晚餐", 0, 1, false, "飲食"),
                             AccountingItem("飲品", 0, 1, false, "飲食"),
-                            AccountingItem("點心", 0, 1, false, "飲食"),
-                            AccountingItem("其他", 0, 1, false, "飲食"),
+                            AccountingItem("蛋糕", 0, 1, false, "飲食"),
+                            AccountingItem("零嘴", 0, 1, false, "飲食"),
+                            AccountingItem("其他飲食項目", 0, 1, false, "飲食"),
                         ).onEach { it.image = getIcon(it.title) }
                     ),
                     AccountingItemType(
                         type = "購物",
                         arrayListOf(
                             AccountingItem("日用品", 0, 1, false, "購物"),
-                            AccountingItem("購物", 0, 1, false, "購物"),
-                            AccountingItem("其他", 0, 1, false, "購物")
+                            AccountingItem("衣服", 0, 1, false, "購物"),
+                            AccountingItem("鞋子", 0, 1, false, "購物"),
+                            AccountingItem("配件", 0, 1, false, "購物"),
+                            AccountingItem("其他購物項目", 0, 1, false, "購物")
                         ).onEach { it.image = getIcon(it.title) }
                     ),
                     AccountingItemType(
                         type = "交通",
                         arrayListOf(
                             AccountingItem("加油", 0, 1, false, "交通"),
+                            AccountingItem("公車", 0, 1, false, "交通"),
                             AccountingItem("火車", 0, 1, false, "交通"),
-                            AccountingItem("其他", 0, 1, false, "交通"),
+                            AccountingItem("捷運", 0, 1, false, "交通"),
+                            AccountingItem("高鐵", 0, 1, false, "交通"),
+                            AccountingItem("修理費", 0, 1, false, "交通"),
+                            AccountingItem("租機車", 0, 1, false, "交通"),
+                            AccountingItem("租汽車", 0, 1, false, "交通"),
+                            AccountingItem("其他交通項目", 0, 1, false, "交通")
                         ).onEach { it.image = getIcon(it.title) }
                     ),
                     AccountingItemType(
@@ -51,7 +60,10 @@ class AccountingDataModel {
                         arrayListOf(
                             AccountingItem("股票", 0, 1, false, "投資"),
                             AccountingItem("虛擬貨幣", 0, 1, false, "投資"),
-                            AccountingItem("其他", 0, 1, false, "投資"),
+                            AccountingItem("基金", 0, 1, false, "投資"),
+                            AccountingItem("定存", 0, 1, false, "投資"),
+                            AccountingItem("債券", 0, 1, false, "投資"),
+                            AccountingItem("其他投資項目", 0, 1, false, "投資"),
                         ).onEach { it.image = getIcon(it.title) }
                     ),
                     AccountingItemType(
@@ -61,7 +73,7 @@ class AccountingDataModel {
                             AccountingItem("遊戲", 0, 1, false, "娛樂"),
                             AccountingItem("唱歌", 0, 1, false, "娛樂"),
                             AccountingItem("票券", 0, 1, false, "娛樂"),
-                            AccountingItem("其他", 0, 1, false, "娛樂"),
+                            AccountingItem("其他娛樂項目", 0, 1, false, "娛樂"),
                         ).onEach { it.image = getIcon(it.title) }
                     ),
                     AccountingItemType(
@@ -69,7 +81,7 @@ class AccountingDataModel {
                         arrayListOf(
                             AccountingItem("帳單", 0, 1, false, "生活"),
                             AccountingItem("孝親費", 0, 1, false, "生活"),
-                            AccountingItem("其他", 0, 1, false, "生活"),
+                            AccountingItem("其他生活項目", 0, 1, false, "生活"),
                         ).onEach { it.image = getIcon(it.title) }
                     ),
                 ),
@@ -83,11 +95,12 @@ class AccountingDataModel {
                         arrayListOf(
                             AccountingItem("薪水", 0, 2, true, "生活"),
                             AccountingItem("獎金", 0, 2, false, "生活"),
+                            AccountingItem("接案", 0, 2, false, "生活"),
                             AccountingItem("股息", 0, 2, false, "生活"),
                             AccountingItem("利息", 0, 2, false, "生活"),
                             AccountingItem("股票收入", 0, 2, false, "生活"),
                             AccountingItem("虛擬貨幣收入", 0, 2, false, "生活"),
-                            AccountingItem("其他", 0, 2, false, "生活"),
+                            AccountingItem("其他生活項目", 0, 2, false, "生活"),
                         ).onEach { it.image = getIcon(it.title) })
                 ),
                 typeSeq = 0
@@ -99,30 +112,54 @@ class AccountingDataModel {
 
     fun getIcon(title: String): Int {
         return when (title) {
+            //支出
+            //飲食
             "早餐" -> R.drawable.icon_breakfast
             "午餐" -> R.drawable.icon_lunch
             "晚餐" -> R.drawable.icon_dinner
-            "加油" -> R.drawable.icon_oil
-            "火車" -> R.drawable.icon_transport
             "飲品" -> R.drawable.icon_drink
-            "點心" -> R.drawable.icon_dessert
+            "蛋糕" -> R.drawable.icon_dessert
+            "零嘴" -> R.drawable.icon_cookie
+            //購物
+            "日用品" -> R.drawable.icon_daily_necessary
+            "衣服" -> R.drawable.icon_cloth
+            "鞋子" -> R.drawable.icon_shoe
+            "配件" -> R.drawable.icon_ring
+            //交通
+            "加油" -> R.drawable.icon_oil
+            "公車" -> R.drawable.icon_bus
+            "火車" -> R.drawable.icon_train
+            "捷運" -> R.drawable.icon_mrt
+            "高鐵" -> R.drawable.icon_hsr
+            "修理費" -> R.drawable.icon_vehicle_fix
+            "租機車" -> R.drawable.icon_motocycle_rent
+            "租汽車" -> R.drawable.icon_car_rent
+            //投資
+            "股票" -> R.drawable.icon_stock
+            "虛擬貨幣" -> R.drawable.icon_vertical_currency
+            "基金" -> R.drawable.icon_fund
+            "定存" -> R.drawable.icon_money
+            "債券" -> R.drawable.icon_bond
+            //娛樂
             "串流平台" -> R.drawable.icon_entertainment
             "遊戲" -> R.drawable.icon_game
             "唱歌" -> R.drawable.icon_sing
             "票券" -> R.drawable.icon_ticket
-            "日用品" -> R.drawable.icon_daily_necessary
-            "購物" -> R.drawable.icon_shopping
+            //生活
             "帳單" -> R.drawable.icon_bill
-            "股票" -> R.drawable.icon_stock
-            "虛擬貨幣" -> R.drawable.icon_vertical_currency
             "孝親費" -> R.drawable.icon_family
-            "其他" -> R.drawable.icon_other
+            //收入
+            //生活
             "薪水" -> R.drawable.icon_salery
             "獎金" -> R.drawable.icon_reward
+            "接案" -> R.drawable.icon_mission
             "股息" -> R.drawable.icon_dividend
             "利息" -> R.drawable.icon_interest
             "股票收入" -> R.drawable.icon_invest_stock
             "虛擬貨幣收入" -> R.drawable.icon_invest_vertical_currency
+            //其他
+            "其他" -> R.drawable.icon_other
+
             else -> R.drawable.icon_other // 如果標題不在上述列表中，返回預設的圖標
         }
     }

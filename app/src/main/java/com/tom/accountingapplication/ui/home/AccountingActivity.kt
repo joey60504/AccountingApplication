@@ -1,8 +1,11 @@
 package com.tom.accountingapplication.ui.home
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewTreeObserver
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -10,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -182,23 +186,4 @@ class AccountingActivity : AppCompatActivity() {
             binding.txtMonthRemain.text = "本月剩餘可使用金額：${it}"
         }
     }
-//    private fun firstLogin() {
-//        auth = FirebaseAuth.getInstance()
-//        var userEmail = auth.currentUser?.email.toString()
-//        val findLittleMouseAt = userEmail.indexOf("@")
-//        val userEmailValue = userEmail.substring(0, findLittleMouseAt)
-//        var database = FirebaseDatabase.getInstance().reference
-//        database.get().addOnSuccessListener {
-//            if (it.value == null) {
-//                startActivity(Intent(requireContext(), ProfileActivity::class.java))
-//            } else {
-//                val databaseHashMap = it.value as java.util.HashMap<*, *>
-//                if (databaseHashMap[userEmailValue] == null) {
-//                    startActivity(Intent(requireContext(), ProfileActivity::class.java))
-//                } else {
-//                    dataSelect()
-//                }
-//            }
-//        }
-//    }
 }
