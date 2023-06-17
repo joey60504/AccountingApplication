@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 34
     defaultConfig {
         applicationId "com.tom.accountingapplication"
-        minSdk 26
-        targetSdk 32
+        minSdk 21
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

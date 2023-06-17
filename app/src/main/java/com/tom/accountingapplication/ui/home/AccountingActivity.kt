@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
-import com.tom.accountingapplication.databinding.FragmentHomeBinding
+import com.tom.accountingapplication.databinding.ActivityHomeBinding
 import com.tom.accountingapplication.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
 import com.tom.accountingapplication.ui.login.MainActivity
@@ -22,12 +22,12 @@ import com.tom.accountingapplication.ui.history.HistoryActivity
 class AccountingActivity : AppCompatActivity() {
     private val viewModel: AccountingViewModel by viewModels()
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = FragmentHomeBinding.inflate(layoutInflater)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //側拉選單
         binding.imgFilter.setOnClickListener {

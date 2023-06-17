@@ -16,7 +16,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
-import com.tom.accountingapplication.databinding.FragmentHistoryBinding
+import com.tom.accountingapplication.databinding.ActivityHistoryBinding
 import com.tom.accountingapplication.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
 import com.tom.accountingapplication.ui.login.MainActivity
@@ -27,12 +27,12 @@ import com.tom.accountingapplication.ui.home.AccountingViewModel
 class HistoryActivity : AppCompatActivity() {
     private val viewModel: AccountingViewModel by viewModels()
 
-    private lateinit var binding: FragmentHistoryBinding
+    private lateinit var binding: ActivityHistoryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = FragmentHistoryBinding.inflate(layoutInflater)
+        binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
