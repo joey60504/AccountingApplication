@@ -52,17 +52,22 @@ class AccountingActivity : AppCompatActivity() {
         )
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+        //生活記帳
         binding.txtDrawerAccounting.setBackgroundColor(getColor(this, R.color.bar))
         binding.txtDrawerAccounting.setTextColor(getColor(this, R.color.white))
+        //歷史分析
         binding.txtDrawerHistory.setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
+        //投資理財
         binding.txtDrawerInvest.setOnClickListener {
 
         }
+        //個人資訊
         binding.txtDrawerInformation.setOnClickListener {
 
         }
+        //登出
         binding.txtDrawerLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(this, MainActivity::class.java))
@@ -91,7 +96,7 @@ class AccountingActivity : AppCompatActivity() {
                 binding.edittextPrice.text.clear()
             } else{
                 val inflater = layoutInflater
-                val layout: View = inflater.inflate(R.layout.item_toast, findViewById(R.id.custom_toast_container))
+                val layout: View = inflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_container))
                 val text: TextView = layout.findViewById(R.id.custom_toast_text)
                 text.text = "請填寫正確的金額唷~"
                 with (Toast(applicationContext)) {
