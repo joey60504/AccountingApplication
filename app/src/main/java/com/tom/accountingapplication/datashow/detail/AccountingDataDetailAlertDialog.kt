@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.tom.accountingapplication.databinding.DialogAccountingDataAlertBinding
+import com.tom.accountingapplication.databinding.CustomAlertBinding
 import com.tom.accountingapplication.ui.home.AccountingBottomSheetTagFragment
 
 class AccountingDataDetailAlertDialog(
     private val onItemClick: (Boolean) -> Unit,
     private val title: String
 ) : DialogFragment() {
-    private var _binding: DialogAccountingDataAlertBinding? = null
+    private var _binding: CustomAlertBinding? = null
     private val binding get() = _binding!!
 
     companion object {
@@ -26,7 +26,7 @@ class AccountingDataDetailAlertDialog(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogAccountingDataAlertBinding.inflate(inflater, container, false)
+        _binding = CustomAlertBinding.inflate(inflater, container, false)
         return binding.root
     }
 

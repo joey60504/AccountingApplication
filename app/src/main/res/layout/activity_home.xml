@@ -310,7 +310,7 @@
                 android:id="@+id/txt_drawer_accounting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginBottom="18dp"
                 android:fontFamily="@font/myfont3"
                 android:gravity="center"
