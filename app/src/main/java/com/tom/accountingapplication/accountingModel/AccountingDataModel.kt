@@ -29,6 +29,7 @@ class AccountingDataModel {
                             AccountingItem("飲品", 0, 1, false, "飲食"),
                             AccountingItem("蛋糕", 0, 1, false, "飲食"),
                             AccountingItem("單品小吃", 0, 1, false, "飲食"),
+                            AccountingItem("自煮食材", 0, 1, false, "飲食"),
                             AccountingItem("其他", 0, 1, false, "飲食"),
                         ).onEach { it.image = getIcon(it.title) }
                     ),
@@ -37,13 +38,15 @@ class AccountingDataModel {
                         arrayListOf(
                             AccountingItem("日用品", 0, 1, false, "購物"),
                             AccountingItem("包包", 0, 1, false, "購物"),
-                            AccountingItem("衣服", 0, 1, false, "購物"),
-                            AccountingItem("褲子", 0, 1, false, "購物"),
+                            AccountingItem("衣著", 0, 1, false, "購物"),
                             AccountingItem("鞋子", 0, 1, false, "購物"),
                             AccountingItem("配件", 0, 1, false, "購物"),
+                            AccountingItem("化妝品", 0, 1, false, "購物"),
+                            AccountingItem("保養品", 0, 1, false, "購物"),
                             AccountingItem("傢俱", 0, 1, false, "購物"),
-                            AccountingItem("家電", 0, 1, false, "購物"),
                             AccountingItem("電腦周邊", 0, 1, false, "購物"),
+                            AccountingItem("手機周邊", 0, 1, false, "購物"),
+                            AccountingItem("其他周邊", 0, 1, false, "購物"),
                             AccountingItem("其他", 0, 1, false, "購物")
                         ).onEach { it.image = getIcon(it.title) }
                     ),
@@ -68,6 +71,7 @@ class AccountingDataModel {
                             AccountingItem("VC", 0, 1, false, "投資"),
                             AccountingItem("基金", 0, 1, false, "投資"),
                             AccountingItem("定期存款", 0, 1, false, "投資"),
+                            AccountingItem("儲蓄險", 0, 1, false, "投資"),
                             AccountingItem("債券", 0, 1, false, "投資"),
                             AccountingItem("其他", 0, 1, false, "投資"),
                         ).onEach { it.image = getIcon(it.title) }
@@ -76,8 +80,10 @@ class AccountingDataModel {
                         type = "娛樂",
                         arrayListOf(
                             AccountingItem("串流平台", 0, 1, false, "娛樂"),
+                            AccountingItem("訂閱費用", 0, 1, false, "娛樂"),
                             AccountingItem("遊戲", 0, 1, false, "娛樂"),
                             AccountingItem("唱歌", 0, 1, false, "娛樂"),
+                            AccountingItem("住宿費", 0, 1, false, "娛樂"),
                             AccountingItem("票券", 0, 1, false, "娛樂"),
                             AccountingItem("其他", 0, 1, false, "娛樂"),
                         ).onEach { it.image = getIcon(it.title) }
@@ -85,7 +91,14 @@ class AccountingDataModel {
                     AccountingItemType(
                         type = "生活",
                         arrayListOf(
-                            AccountingItem("帳單", 0, 1, false, "生活"),
+                            AccountingItem("房租", 0, 1, false, "生活"),
+                            AccountingItem("水費", 0, 1, false, "生活"),
+                            AccountingItem("電費", 0, 1, false, "生活"),
+                            AccountingItem("瓦斯費", 0, 1, false, "生活"),
+                            AccountingItem("電信費", 0, 1, false, "生活"),
+                            AccountingItem("網路費", 0, 1, false, "生活"),
+                            AccountingItem("保費", 0, 1, false, "生活"),
+                            AccountingItem("學費", 0, 1, false, "生活"),
                             AccountingItem("孝親費", 0, 1, false, "生活"),
                             AccountingItem("其他", 0, 1, false, "生活"),
                         ).onEach { it.image = getIcon(it.title) }
@@ -127,16 +140,19 @@ class AccountingDataModel {
             "飲品" -> R.drawable.icon_drink
             "蛋糕" -> R.drawable.icon_dessert
             "單品小吃" -> R.drawable.icon_food
+            "自煮食材" -> R.drawable.icon_lettuce
             //購物
             "日用品" -> R.drawable.icon_daily_necessary
-            "包包" -> R.drawable.icon_bag
-            "衣服" -> R.drawable.icon_cloth
-            "褲子" -> R.drawable.icon_pants
+            "包包" -> R.drawable.icon_ladybag
+            "衣著" -> R.drawable.icon_cloth
             "鞋子" -> R.drawable.icon_shoe
             "配件" -> R.drawable.icon_ring
-            "傢俱" -> R.drawable.icon_table
-            "家電" -> R.drawable.icon_refrigerator
+            "化妝品" -> R.drawable.icon_lipstick
+            "保養品" -> R.drawable.icon_lotion
+            "傢俱" -> R.drawable.icon_refrigerator
             "電腦周邊" -> R.drawable.icon_computer
+            "手機周邊" -> R.drawable.icon_phone
+            "其他周邊" -> R.drawable.icon_bag
             //交通
             "加油" -> R.drawable.icon_oil
             "公車" -> R.drawable.icon_bus
@@ -151,14 +167,24 @@ class AccountingDataModel {
             "VC" -> R.drawable.icon_vertical_currency
             "基金" -> R.drawable.icon_fund
             "定期存款" -> R.drawable.icon_money
+            "儲蓄險" -> R.drawable.icon_savinginsurance
             "債券" -> R.drawable.icon_bond
             //娛樂
             "串流平台" -> R.drawable.icon_entertainment
+            "訂閱費用" -> R.drawable.icon_subscribe
             "遊戲" -> R.drawable.icon_game
             "唱歌" -> R.drawable.icon_sing
+            "住宿費" -> R.drawable.icon_house
             "票券" -> R.drawable.icon_ticket
             //生活
-            "帳單" -> R.drawable.icon_bill
+            "房租" -> R.drawable.icon_building
+            "水費" -> R.drawable.icon_water
+            "電費" -> R.drawable.icon_electricity
+            "瓦斯費" -> R.drawable.icon_fire
+            "電信費" -> R.drawable.icon_phonefee
+            "網路費" -> R.drawable.icon_network
+            "保費" -> R.drawable.icon_bill
+            "學費" -> R.drawable.icon_school
             "孝親費" -> R.drawable.icon_family
             //收入
             //生活
@@ -360,18 +386,18 @@ interface DataListener {
 data class AccountingItemList(
     var itemExpense: AccountingItemTypeList,
     var itemIncome: AccountingItemTypeList,
-    var itemSelectedDrawable: Int,
-    var seq: Int
+    var itemSelectedDrawable: Int, //當前選取Item的drawable
+    var seq: Int  //收入or支出
 )
 
 data class AccountingItemTypeList(
     var itemTypeList: ArrayList<AccountingItemType>,
-    var typeList: ArrayList<String>,
-    var typeSeq: Int
+    var typeList: ArrayList<String>, // 支出 : "飲食", "購物", "交通", "投資", "娛樂", "生活" //收入 : "生活"
+    var typeSeq: Int //在viewpager的第幾項
 )
 
 data class AccountingItemType(
-    var type: String,
+    var type: String, //typeList下 是哪一個
     var itemList: ArrayList<AccountingItem>,
 )
 

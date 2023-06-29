@@ -1,11 +1,10 @@
 package com.tom.accountingapplication.ui.home
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -13,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -91,6 +89,16 @@ class AccountingActivity : AppCompatActivity() {
                 )
                 binding.edittextRemark.text.clear()
                 binding.edittextPrice.text.clear()
+            } else{
+                val inflater = layoutInflater
+                val layout: View = inflater.inflate(R.layout.item_toast, findViewById(R.id.custom_toast_container))
+                val text: TextView = layout.findViewById(R.id.custom_toast_text)
+                text.text = "請填寫正確的金額唷~"
+                with (Toast(applicationContext)) {
+                    duration = Toast.LENGTH_SHORT
+                    view = layout
+                    show()
+                }
             }
         }
         binding.txtDate.setOnClickListener {
