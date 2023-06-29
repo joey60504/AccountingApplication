@@ -19,9 +19,10 @@ import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.ActivityHistoryBinding
 import com.tom.accountingapplication.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
+import com.tom.accountingapplication.ui.history.historyfilter.HistoryFilterCalendarActivity
+import com.tom.accountingapplication.ui.history.historyfilter.HistoryFilterTypeActivity
 import com.tom.accountingapplication.ui.login.MainActivity
 import com.tom.accountingapplication.ui.home.AccountingActivity
-import com.tom.accountingapplication.ui.home.AccountingViewModel
 
 
 class HistoryActivity : AppCompatActivity() {
@@ -54,30 +55,57 @@ class HistoryActivity : AppCompatActivity() {
         )
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+        //生活記帳
         binding.txtDrawerAccounting.setOnClickListener {
             startActivity(Intent(this, AccountingActivity::class.java))
         }
+        //歷史分析
         binding.txtDrawerHistory.setBackgroundColor(ContextCompat.getColor(this, R.color.bar))
         binding.txtDrawerHistory.setTextColor(ContextCompat.getColor(this, R.color.white))
+        //投資理財
         binding.txtDrawerInvest.setOnClickListener {
 
         }
+        //個人資訊
         binding.txtDrawerInformation.setOnClickListener {
 
         }
+        //登出
         binding.txtDrawerLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(this, MainActivity::class.java))
         }
         //側拉選單結束
 
-
+        binding.btnHistoryExpense.setOnClickListener {
+            binding.btnHistoryExpense.setBackgroundResource(R.drawable.corners_blue)
+            binding.btnHistoryExpense.setTextColor(ContextCompat.getColor(this, R.color.white))
+            binding.btnHistoryIncome.setBackgroundColor(0)
+            binding.btnHistoryIncome.setTextColor(ContextCompat.getColor(this, R.color.greyish_brown))
+            viewModel.onExpenseClick()
+        }
+        binding.btnHistoryIncome.setOnClickListener {
+            binding.btnHistoryExpense.setBackgroundColor(0)
+            binding.btnHistoryExpense.setTextColor(ContextCompat.getColor(this, R.color.greyish_brown))
+            binding.btnHistoryIncome.setBackgroundResource(R.drawable.corners_pink)
+            binding.btnHistoryIncome.setTextColor(ContextCompat.getColor(this, R.color.white))
+            viewModel.onIncomeClick()
+        }
+        binding.txtFilterType.setOnClickListener {
+            startActivity(Intent(this@HistoryActivity, HistoryFilterTypeActivity::class.java))
+        }
+        binding.txtFilterCalendar.setOnClickListener {
+            startActivity(Intent(this@HistoryActivity, HistoryFilterCalendarActivity::class.java))
+        }
         val accountingDataAdapter = AccountingDataAdapter(
             onItemClick = { uploadData ->
                 val customDialog = AccountingDataDetailDialog(uploadData)
                 customDialog.show(this.supportFragmentManager, "CustomDialog")
             }
         )
+
+
+
 
         // 設置圓餅圖的一些屬性
         binding.pieChart.setUsePercentValues(true)
@@ -113,7 +141,8 @@ class HistoryActivity : AppCompatActivity() {
             accountingDataAdapter.itemList = it
             binding.recyclerHistoryData.apply {
                 setHasFixedSize(true)
-                val manager = LinearLayoutManager(this@HistoryActivity,LinearLayoutManager.VERTICAL,true)
+                val manager =
+                    LinearLayoutManager(this@HistoryActivity, LinearLayoutManager.VERTICAL, true)
                 manager.stackFromEnd = true
                 layoutManager = manager
                 this.adapter = accountingDataAdapter

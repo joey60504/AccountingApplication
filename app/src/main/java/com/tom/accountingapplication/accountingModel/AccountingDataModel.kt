@@ -461,3 +461,14 @@ data class UploadData(
     var type: String,
     var image: Int
 )
+
+//篩選
+data class FilterTypeItemList(
+    var type: String,
+    var filterTypeItemList: ArrayList<FilterTypeItem>
+)
+
+data class FilterTypeItem(
+    var title: String,
+    var isChecked: Boolean
+)
