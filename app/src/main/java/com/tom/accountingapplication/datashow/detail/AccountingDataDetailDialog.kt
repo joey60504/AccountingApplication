@@ -44,34 +44,42 @@ class AccountingDataDetailDialog(private var item: UploadData) : DialogFragment(
             dismiss()
         }
         binding.btnDialogDelete.setOnClickListener {
-            AlertDialog.Builder(requireContext())
-                .setMessage("確定刪除?")
-                .setPositiveButton("確定") { _, _ ->
-                    viewModelDataDetail.onDeleteClick(item)
-                    dismiss()
-                }.setNegativeButton("取消") { _, _ ->
-                    dismiss()
-                }.show()
+            val customDialog = AccountingDataDetailAlertDialog(
+                onItemClick = { b: Boolean ->
+                    if (b) {
+                        viewModelDataDetail.onDeleteClick(item)
+                        dismiss()
+                    } else {
+                        dismiss()
+                    }
+                },
+                "確定刪除?",
+            )
+            customDialog.show(requireActivity().supportFragmentManager, "CustomDialog")
         }
         binding.btnDialogUpdate.setOnClickListener {
-            AlertDialog.Builder(requireContext())
-                .setMessage("確定更新?")
-                .setPositiveButton("確定") { _, _ ->
-                    if (binding.etDialogPrice.text.isNotEmpty()) {
-                        viewModelDataDetail.onUpdateClick(
-                            binding.txtDialogTitle.text.toString(),
-                            binding.txtDialogDate.text.toString(),
-                            binding.txtDialogTag.text.toString(),
-                            binding.etDialogPrice.text.toString().toInt(),
-                            binding.etDialogRemark.text.toString(),
-                            item.type,
-                            item
-                        )
+            val customDialog = AccountingDataDetailAlertDialog(
+                onItemClick = { b: Boolean ->
+                    if (b) {
+                        if (binding.etDialogPrice.text.isNotEmpty()) {
+                            viewModelDataDetail.onUpdateClick(
+                                binding.txtDialogTitle.text.toString(),
+                                binding.txtDialogDate.text.toString(),
+                                binding.txtDialogTag.text.toString(),
+                                binding.etDialogPrice.text.toString().toInt(),
+                                binding.etDialogRemark.text.toString(),
+                                item.type,
+                                item
+                            )
+                        }
+                        dismiss()
+                    } else {
+                        dismiss()
                     }
-                    dismiss()
-                }.setNegativeButton("取消") { _, _ ->
-                    dismiss()
-                }.show()
+                },
+                "確定更新?",
+            )
+            customDialog.show(requireActivity().supportFragmentManager, "CustomDialog")
         }
 
     }

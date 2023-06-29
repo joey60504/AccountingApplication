@@ -25,7 +25,7 @@ import com.tom.accountingapplication.ui.home.AccountingViewModel
 
 
 class HistoryActivity : AppCompatActivity() {
-    private val viewModel: AccountingViewModel by viewModels()
+    private val viewModel: HistoryViewModel by viewModels()
 
     private lateinit var binding: ActivityHistoryBinding
 
