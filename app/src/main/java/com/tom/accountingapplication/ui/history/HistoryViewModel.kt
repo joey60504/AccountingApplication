@@ -66,9 +66,9 @@ class HistoryViewModel : ViewModel() {
         accountingItemList.itemExpense.itemTypeList.map {
             val titleList = arrayListOf<FilterTypeItem>()
             it.itemList.map { accountingItem ->
-                titleList.add(FilterTypeItem(accountingItem.title, false))
+                titleList.add(FilterTypeItem(it.type,accountingItem.title, false))
             }
-            titleList.add(0, FilterTypeItem("${it.type}全選", false))
+            titleList.add(0, FilterTypeItem(it.type,"${it.type}全選", false))
             expenseTypeItemList.add(
                 FilterTypeItemList(
                     type = it.type,
@@ -79,9 +79,9 @@ class HistoryViewModel : ViewModel() {
         accountingItemList.itemIncome.itemTypeList.map {
             val titleList = arrayListOf<FilterTypeItem>()
             it.itemList.map { accountingItem ->
-                titleList.add(FilterTypeItem(accountingItem.title, false))
+                titleList.add(FilterTypeItem(it.type,accountingItem.title, false))
             }
-            titleList.add(0, FilterTypeItem("${it.type}全選", false))
+            titleList.add(0, FilterTypeItem(it.type,"${it.type}全選", false))
             incomeTypeItemList.add(
                 FilterTypeItemList(
                     type = it.type,
@@ -127,7 +127,7 @@ class HistoryViewModel : ViewModel() {
                 }
             } else {
                 it.filterTypeItemList.find { filterTypeItem ->
-                    filterTypeItem.title == item.title
+                    filterTypeItem.title == item.title && filterTypeItem.type == item.type
                 }.let { filterTypeItem ->
                     filterTypeItem?.isChecked = checkedBoolean.not()
                 }
