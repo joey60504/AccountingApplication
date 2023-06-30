@@ -17,8 +17,8 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.ActivityHistoryBinding
-import com.tom.accountingapplication.datashow.AccountingDataAdapter
-import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
+import com.tom.accountingapplication.ui.datashow.AccountingDataAdapter
+import com.tom.accountingapplication.ui.datashow.detail.AccountingDataDetailDialog
 import com.tom.accountingapplication.ui.history.historyfilter.HistoryFilterCalendarActivity
 import com.tom.accountingapplication.ui.history.historyfilter.HistoryFilterTypeActivity
 import com.tom.accountingapplication.ui.login.MainActivity
@@ -92,7 +92,11 @@ class HistoryActivity : AppCompatActivity() {
             viewModel.onIncomeClick()
         }
         binding.txtFilterType.setOnClickListener {
-            startActivity(Intent(this@HistoryActivity, HistoryFilterTypeActivity::class.java))
+            startActivity(Intent(this@HistoryActivity, HistoryFilterTypeActivity::class.java).apply {
+                putExtras(Bundle().apply {
+                    putInt("Seq", viewModel.displaySeq.value ?: 1)
+                })
+            })
         }
         binding.txtFilterCalendar.setOnClickListener {
             startActivity(Intent(this@HistoryActivity, HistoryFilterCalendarActivity::class.java))
@@ -103,7 +107,6 @@ class HistoryActivity : AppCompatActivity() {
                 customDialog.show(this.supportFragmentManager, "CustomDialog")
             }
         )
-
 
 
 

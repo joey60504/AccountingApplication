@@ -17,8 +17,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.databinding.ActivityHomeBinding
-import com.tom.accountingapplication.datashow.AccountingDataAdapter
-import com.tom.accountingapplication.datashow.detail.AccountingDataDetailDialog
+import com.tom.accountingapplication.ui.datashow.AccountingDataAdapter
+import com.tom.accountingapplication.ui.datashow.detail.AccountingDataDetailDialog
 import com.tom.accountingapplication.ui.login.MainActivity
 import com.tom.accountingapplication.ui.history.HistoryActivity
 import com.tom.accountingapplication.ui.home.item.AccountingViewPagerAdapter
@@ -139,6 +139,14 @@ class AccountingActivity : AppCompatActivity() {
                 viewModel.onItemClick(accountingItem)
             }
         )
+        binding.recyclerData.apply {
+            setHasFixedSize(true)
+            val manager =
+                LinearLayoutManager(this@AccountingActivity, LinearLayoutManager.VERTICAL, true)
+            manager.stackFromEnd = true
+            layoutManager = manager
+            this.adapter = accountingDataAdapter
+        }
         viewModel.showPairMessage.observe(this) {
             AlertDialog.Builder(this)
                 .setCancelable(false)
@@ -185,15 +193,7 @@ class AccountingActivity : AppCompatActivity() {
             binding.txtTag.text = it.selectedTag
         }
         viewModel.displayData.observe(this) {
-            accountingDataAdapter.itemList = it
-            binding.recyclerData.apply {
-                setHasFixedSize(true)
-                val manager =
-                    LinearLayoutManager(this@AccountingActivity, LinearLayoutManager.VERTICAL, true)
-                manager.stackFromEnd = true
-                layoutManager = manager
-                this.adapter = accountingDataAdapter
-            }
+            accountingDataAdapter.setData(it)
         }
         viewModel.displayRetain.observe(this) {
             binding.txtMonthRemain.text = "本月剩餘可使用金額：${it}"

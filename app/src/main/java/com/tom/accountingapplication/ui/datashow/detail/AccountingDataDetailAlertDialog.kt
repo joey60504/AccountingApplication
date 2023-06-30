@@ -1,4 +1,4 @@
-package com.tom.accountingapplication.datashow.detail
+package com.tom.accountingapplication.ui.datashow.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,5 +1,6 @@
-package com.tom.accountingapplication.datashow
+package com.tom.accountingapplication.ui.datashow
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,12 @@ class AccountingDataAdapter(private val onItemClick: (UploadData) -> Unit) :
         holder.bind(itemList[position], onItemClick)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(newData: ArrayList<ReadDataDate>) {
+        itemList.clear()
+        itemList.addAll(newData)
+        notifyDataSetChanged()
+    }
     inner class PackageViewHolder(private val binding: ItemAccountingDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ReadDataDate, onItemClick: (UploadData) -> Unit) {

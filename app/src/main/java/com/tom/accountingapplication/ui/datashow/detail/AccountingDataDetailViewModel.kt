@@ -1,4 +1,4 @@
-package com.tom.accountingapplication.datashow.detail
+package com.tom.accountingapplication.ui.datashow.detail
 
 import androidx.lifecycle.ViewModel
 import com.tom.accountingapplication.accountingModel.AccountingDataModel

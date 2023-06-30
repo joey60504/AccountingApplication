@@ -1,10 +1,9 @@
-package com.tom.accountingapplication.datashow.detail
+package com.tom.accountingapplication.ui.datashow.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.tom.accountingapplication.accountingModel.UploadData

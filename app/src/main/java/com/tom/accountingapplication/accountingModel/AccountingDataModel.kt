@@ -463,6 +463,11 @@ data class UploadData(
 )
 
 //篩選
+data class FilterItem(
+    var incomeTypeItemList : ArrayList<FilterTypeItemList>,
+    var expenseTypeItemList : ArrayList<FilterTypeItemList>,
+    var seq: Int
+)
 data class FilterTypeItemList(
     var type: String,
     var filterTypeItemList: ArrayList<FilterTypeItem>
