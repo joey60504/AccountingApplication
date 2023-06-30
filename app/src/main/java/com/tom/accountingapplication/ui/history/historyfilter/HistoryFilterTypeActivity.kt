@@ -1,5 +1,6 @@
 package com.tom.accountingapplication.ui.history.historyfilter
 
+import android.content.Intent
 import android.os.Bundle
 
 import androidx.activity.viewModels
@@ -7,12 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tom.accountingapplication.accountingModel.FilterItem
 import com.tom.accountingapplication.databinding.ActivityFilterTypeBinding
-import com.tom.accountingapplication.ui.history.HistoryViewModel
+import com.tom.accountingapplication.ui.history.HistoryActivity
 
 class HistoryFilterTypeActivity : AppCompatActivity() {
 
-    private val viewModel: HistoryViewModel by viewModels()
+    private val viewModel: HistoryFilterTypeViewModel by viewModels()
 
     private lateinit var binding: ActivityFilterTypeBinding
 
@@ -21,14 +23,33 @@ class HistoryFilterTypeActivity : AppCompatActivity() {
         binding = ActivityFilterTypeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val seq: Int = requireNotNull(intent.extras?.getInt("Seq"))
+
+        val filter: FilterItem? = intent.extras?.getParcelable("Filter")
+
+        viewModel.init(filter)
 
         binding.imgFilterDismiss.setOnClickListener {
             finish()
         }
+        binding.txtFilterTypeClear.setOnClickListener {
+            viewModel.onTypeClearClick()
+        }
+        binding.txtFilterTypeSubmit.setOnClickListener {
+            viewModel.onTypeSubmitClick()
+            startActivity(
+                Intent(
+                    this@HistoryFilterTypeActivity,
+                    HistoryActivity::class.java
+                ).apply {
+                    putExtras(Bundle().apply {
+                        putParcelable("Filter", viewModel.displayTypeFilter.value)
+                    })
+                })
+            finish()
+        }
         val historyFilterTypeAdapter = HistoryFilterTypeAdapter(
             onItemClick = { filterTypeItem ->
-                viewModel.onItemClick(filterTypeItem,seq)
+                viewModel.onItemClick(filterTypeItem)
             }
         )
         binding.recyclerFilterType.apply {
@@ -51,11 +72,7 @@ class HistoryFilterTypeActivity : AppCompatActivity() {
         }
 
         viewModel.displayTypeFilter.observe(this) {
-            if (seq == 1) {
-                historyFilterTypeAdapter.setData(it.expenseTypeItemList)
-            } else {
-                historyFilterTypeAdapter.setData(it.incomeTypeItemList)
-            }
+            historyFilterTypeAdapter.setData(it?.typeItemList ?: arrayListOf())
         }
     }
 }

@@ -16,6 +16,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
+import com.tom.accountingapplication.accountingModel.FilterItem
 import com.tom.accountingapplication.databinding.ActivityHistoryBinding
 import com.tom.accountingapplication.ui.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.ui.datashow.detail.AccountingDataDetailDialog
@@ -35,7 +36,6 @@ class HistoryActivity : AppCompatActivity() {
 
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         //側拉選單
         binding.imgFilter.setOnClickListener {
@@ -77,24 +77,14 @@ class HistoryActivity : AppCompatActivity() {
         }
         //側拉選單結束
 
-        binding.btnHistoryExpense.setOnClickListener {
-            binding.btnHistoryExpense.setBackgroundResource(R.drawable.corners_blue)
-            binding.btnHistoryExpense.setTextColor(ContextCompat.getColor(this, R.color.white))
-            binding.btnHistoryIncome.setBackgroundColor(0)
-            binding.btnHistoryIncome.setTextColor(ContextCompat.getColor(this, R.color.greyish_brown))
-            viewModel.onExpenseClick()
-        }
-        binding.btnHistoryIncome.setOnClickListener {
-            binding.btnHistoryExpense.setBackgroundColor(0)
-            binding.btnHistoryExpense.setTextColor(ContextCompat.getColor(this, R.color.greyish_brown))
-            binding.btnHistoryIncome.setBackgroundResource(R.drawable.corners_pink)
-            binding.btnHistoryIncome.setTextColor(ContextCompat.getColor(this, R.color.white))
-            viewModel.onIncomeClick()
-        }
+        val filter: FilterItem? = intent.extras?.getParcelable("Filter")
+
+        viewModel.init(filter)
+
         binding.txtFilterType.setOnClickListener {
             startActivity(Intent(this@HistoryActivity, HistoryFilterTypeActivity::class.java).apply {
                 putExtras(Bundle().apply {
-                    putInt("Seq", viewModel.displaySeq.value ?: 1)
+                    putParcelable("Filter",viewModel.displayTypeFilter.value)
                 })
             })
         }

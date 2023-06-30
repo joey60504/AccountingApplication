@@ -1,12 +1,16 @@
+@file:Suppress("DEPRECATED_ANNOTATION")
+
 package com.tom.accountingapplication.accountingModel
 
 
+import android.os.Parcelable
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.tom.accountingapplication.R
+import kotlinx.android.parcel.Parcelize
 import java.util.Random
 
 class AccountingDataModel {
@@ -107,19 +111,19 @@ class AccountingDataModel {
                 typeSeq = 0
             ),
             itemIncome = AccountingItemTypeList(
-                typeList = arrayListOf("生活"),
+                typeList = arrayListOf("收入"),
                 itemTypeList = arrayListOf(
                     AccountingItemType(
-                        type = "生活",
+                        type = "收入",
                         arrayListOf(
-                            AccountingItem("薪水", 0, 2, true, "生活"),
-                            AccountingItem("獎金", 0, 2, false, "生活"),
-                            AccountingItem("接案", 0, 2, false, "生活"),
-                            AccountingItem("股息", 0, 2, false, "生活"),
-                            AccountingItem("利息", 0, 2, false, "生活"),
-                            AccountingItem("股票收入", 0, 2, false, "生活"),
-                            AccountingItem("VC收入", 0, 2, false, "生活"),
-                            AccountingItem("其他", 0, 2, false, "生活"),
+                            AccountingItem("薪水", 0, 2, true, "收入"),
+                            AccountingItem("獎金", 0, 2, false, "收入"),
+                            AccountingItem("接案", 0, 2, false, "收入"),
+                            AccountingItem("股息", 0, 2, false, "收入"),
+                            AccountingItem("利息", 0, 2, false, "收入"),
+                            AccountingItem("股票收入", 0, 2, false, "收入"),
+                            AccountingItem("VC收入", 0, 2, false, "收入"),
+                            AccountingItem("其他", 0, 2, false, "收入"),
                         ).onEach { it.image = getIcon(it.title) })
                 ),
                 typeSeq = 0
@@ -463,19 +467,22 @@ data class UploadData(
 )
 
 //篩選
+@Parcelize
 data class FilterItem(
-    var incomeTypeItemList: ArrayList<FilterTypeItemList>,
-    var expenseTypeItemList: ArrayList<FilterTypeItemList>,
-    var seq: Int
-)
+    var typeItemList: ArrayList<FilterTypeItemList>,
+    var seq: Int,
+    var isFiltered:Boolean
+) : Parcelable
 
+@Parcelize
 data class FilterTypeItemList(
     var type: String,
     var filterTypeItemList: ArrayList<FilterTypeItem>
-)
+): Parcelable
 
+@Parcelize
 data class FilterTypeItem(
     var type: String,
     var title: String,
     var isChecked: Boolean
-)
+): Parcelable
