@@ -24,6 +24,7 @@ import com.tom.accountingapplication.accountingModel.FilterItem
 import com.tom.accountingapplication.databinding.ActivityHistoryBinding
 import com.tom.accountingapplication.ui.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.ui.datashow.detail.AccountingDataDetailDialog
+import com.tom.accountingapplication.ui.history.calendarfilter.HistoryFilterCalendarFragment
 import com.tom.accountingapplication.ui.history.typefilter.HistoryFilterTypeActivity
 import com.tom.accountingapplication.ui.login.MainActivity
 import com.tom.accountingapplication.ui.home.AccountingActivity
@@ -99,18 +100,29 @@ class HistoryActivity : AppCompatActivity() {
             viewModel.onDateClick()
         }
         binding.txtFilterCalendar.setOnClickListener {
-            if(viewModel.displayDateType.value?.isEnable == true){
-
-            }else{
+            if (viewModel.displayDateType.value?.state == DateEnum.ALL) {
                 val inflater = layoutInflater
-                val layout: View = inflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_container))
+                val layout: View = inflater.inflate(
+                    R.layout.custom_toast,
+                    findViewById(R.id.custom_toast_container)
+                )
                 val text: TextView = layout.findViewById(R.id.custom_toast_text)
                 text.text = "請先選擇篩選模式~"
-                with (Toast(applicationContext)) {
+                with(Toast(applicationContext)) {
                     duration = Toast.LENGTH_SHORT
                     view = layout
                     show()
                 }
+            } else {
+                val bottomSheetFragment =
+                    HistoryFilterCalendarFragment(viewModel.displayDateType.value?.state
+                        ?: DateEnum.DATE, onItemClick = {
+
+                    })
+                bottomSheetFragment.show(
+                    supportFragmentManager,
+                    bottomSheetFragment.tag
+                )
             }
         }
         val accountingDataAdapter = AccountingDataAdapter(
@@ -160,7 +172,7 @@ class HistoryActivity : AppCompatActivity() {
             binding.pieChart.invalidate()
         }
 
-        viewModel.displayTypeFilter.observe(this){
+        viewModel.displayTypeFilter.observe(this) {
             binding.txtFilterType.text = "種類篩選（${it.count}）"
         }
         viewModel.displayDateType.observe(this) {

@@ -12,7 +12,6 @@ import com.google.firebase.database.ValueEventListener
 import com.tom.accountingapplication.R
 import kotlinx.android.parcel.Parcelize
 import java.util.Random
-import java.util.logging.Filter
 
 class AccountingDataModel {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -495,13 +494,11 @@ data class FilterTypeItem(
 data class FilterDate(
     var title: String,
     var state: DateEnum,
-    var isEnable: Boolean,
     var calendar: String
 )
 
 enum class DateEnum {
     ALL,
     DATE,
-    MONTH,
-    YEAR
+    MONTH
 }

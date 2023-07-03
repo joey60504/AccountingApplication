@@ -42,7 +42,7 @@ class HistoryViewModel : ViewModel() {
 
         getData()
 
-        _displayDateType.postValue(FilterDate("全", DateEnum.ALL, false, "日期篩選"))
+        _displayDateType.postValue(FilterDate("全", DateEnum.ALL, "日期篩選"))
     }
 
     fun init(filter: FilterItem?) {
@@ -87,28 +87,18 @@ class HistoryViewModel : ViewModel() {
                 DateEnum.ALL -> {
                     it.title = "日"
                     it.state = DateEnum.DATE
-                    it.isEnable = true
                     it.calendar = dateString
                 }
 
                 DateEnum.DATE -> {
                     it.title = "月"
                     it.state = DateEnum.MONTH
-                    it.isEnable = true
                     it.calendar = dateString.substring(0, 7)
                 }
 
                 DateEnum.MONTH -> {
-                    it.title = "年"
-                    it.state = DateEnum.YEAR
-                    it.isEnable = true
-                    it.calendar = dateString.substring(0, 4)
-                }
-
-                else -> {
                     it.title = "全"
                     it.state = DateEnum.ALL
-                    it.isEnable = false
                     it.calendar = "日期篩選"
                 }
             }
