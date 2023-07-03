@@ -16,10 +16,7 @@
             android:name=".ui.history.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.history.historyfilter.HistoryFilterTypeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.history.historyfilter.HistoryFilterCalendarActivity"
+            android:name=".ui.history.typefilter.HistoryFilterTypeActivity"
             android:exported="false" />
         <activity
             android:name=".ui.login.SignupActivity"

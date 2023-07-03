@@ -49,7 +49,7 @@ class AccountingViewPagerAdapter(private val onItemClick: (AccountingItem) -> Un
             binding.recyclerItem.apply {
                 setHasFixedSize(true)
                 val manager =
-                    GridLayoutManager(itemView.context,6, LinearLayoutManager.VERTICAL, false)
+                    GridLayoutManager(itemView.context,5, LinearLayoutManager.VERTICAL, false)
                 manager.stackFromEnd = false
                 layoutManager = manager
                 this.adapter = accountingItemAdapter

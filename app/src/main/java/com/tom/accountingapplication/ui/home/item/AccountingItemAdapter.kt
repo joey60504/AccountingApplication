@@ -27,7 +27,6 @@ class AccountingItemAdapter(private val onItemClick: (AccountingItem) -> Unit) :
     override fun onBindViewHolder(holder: PackageViewHolder, position: Int) {
         holder.bind(itemList[position], seq ?: 1, onItemClick)
     }
-
     inner class PackageViewHolder(private val binding: ItemAccountingItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: AccountingItem, seq: Int, onItemClick: (AccountingItem) -> Unit) {
@@ -35,12 +34,12 @@ class AccountingItemAdapter(private val onItemClick: (AccountingItem) -> Unit) :
             binding.txtTitle.setCompoundDrawablesWithIntrinsicBounds(0, item.image, 0, 0)
             if (item.isSelect) {
                 if (seq == 1) {
-                    binding.txtTitle.setBackgroundResource(R.drawable.corners_rim_blue)
+                    binding.layoutItem.setBackgroundResource(R.drawable.blue_circle_crayon)
                 } else {
-                    binding.txtTitle.setBackgroundResource(R.drawable.corners_rim_pink)
+                    binding.layoutItem.setBackgroundResource(R.drawable.red_circle_crayon)
                 }
             } else {
-                binding.txtTitle.setBackgroundResource(0)
+                binding.layoutItem.setBackgroundResource(0)
             }
             binding.txtTitle.setOnClickListener {
                 onItemClick(item)

@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bar">#F1D09D</color>
     <color name="background">#FFFAF4</color>
-    <color name="income">#C09D9B</color>
+    <color name="income">#e8c5c3</color>
     <color name="expense">#97A5C0</color>
     <color name="greyish_brown">#464644</color>
 </resources>

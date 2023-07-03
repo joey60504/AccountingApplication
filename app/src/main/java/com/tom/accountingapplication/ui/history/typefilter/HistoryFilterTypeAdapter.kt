@@ -1,4 +1,4 @@
-package com.tom.accountingapplication.ui.history.historyfilter
+package com.tom.accountingapplication.ui.history.typefilter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

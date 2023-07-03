@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_item"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/blue_circle_crayon"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
     <TextView
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/corners_rim_blue"
         android:drawableTop="@drawable/icon_breakfast"
         android:drawablePadding="10dp"
         android:ellipsize="end"
         android:fontFamily="@font/myfont3"
         android:gravity="center"
-        android:maxLines="2"
+        android:lines="2"
         android:padding="10dp"
         android:text="早餐"
         android:textColor="@color/greyish_brown"

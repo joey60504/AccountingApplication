@@ -20,8 +20,7 @@ import com.tom.accountingapplication.accountingModel.FilterItem
 import com.tom.accountingapplication.databinding.ActivityHistoryBinding
 import com.tom.accountingapplication.ui.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.ui.datashow.detail.AccountingDataDetailDialog
-import com.tom.accountingapplication.ui.history.historyfilter.HistoryFilterCalendarActivity
-import com.tom.accountingapplication.ui.history.historyfilter.HistoryFilterTypeActivity
+import com.tom.accountingapplication.ui.history.typefilter.HistoryFilterTypeActivity
 import com.tom.accountingapplication.ui.login.MainActivity
 import com.tom.accountingapplication.ui.home.AccountingActivity
 
@@ -88,9 +87,9 @@ class HistoryActivity : AppCompatActivity() {
                 })
             })
         }
-        binding.txtFilterCalendar.setOnClickListener {
-            startActivity(Intent(this@HistoryActivity, HistoryFilterCalendarActivity::class.java))
-        }
+//        binding.txtFilterCalendar.setOnClickListener {
+//            startActivity(Intent(this@HistoryActivity, HistoryFilterCalendarActivity::class.java))
+//        }
         val accountingDataAdapter = AccountingDataAdapter(
             onItemClick = { uploadData ->
                 val customDialog = AccountingDataDetailDialog(uploadData)

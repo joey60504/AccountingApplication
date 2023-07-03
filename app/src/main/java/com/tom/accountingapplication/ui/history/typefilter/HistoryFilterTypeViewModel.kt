@@ -1,4 +1,4 @@
-package com.tom.accountingapplication.ui.history.historyfilter
+package com.tom.accountingapplication.ui.history.typefilter
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

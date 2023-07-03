@@ -1,4 +1,4 @@
-package com.tom.accountingapplication.ui.history.historyfilter
+package com.tom.accountingapplication.ui.history.typefilter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -37,9 +37,9 @@ class HistoryFilterTypeItemAdapter(private val onItemClick: (FilterTypeItem) -> 
                 onItemClick(item)
             }
             if(item.isChecked){
-                binding.txtFilterItem.setBackgroundResource(R.drawable.corners_rim_grey_1)
+                binding.layoutFilterItem.setBackgroundResource(R.drawable.orange_circle_crayon)
             } else {
-                binding.txtFilterItem.setBackgroundResource(0)
+                binding.layoutFilterItem.setBackgroundResource(0)
             }
         }
     }
