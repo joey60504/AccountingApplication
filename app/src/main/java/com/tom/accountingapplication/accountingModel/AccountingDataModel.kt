@@ -12,6 +12,7 @@ import com.google.firebase.database.ValueEventListener
 import com.tom.accountingapplication.R
 import kotlinx.android.parcel.Parcelize
 import java.util.Random
+import java.util.logging.Filter
 
 class AccountingDataModel {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -466,23 +467,41 @@ data class UploadData(
     var image: Int
 )
 
-//篩選
+//篩選 種類
+data class FilterItemData(
+    var itemList: FilterItem?,
+    var count: Int
+)
+
 @Parcelize
 data class FilterItem(
-    var typeItemList: ArrayList<FilterTypeItemList>,
-    var seq: Int,
-    var isFiltered:Boolean
+    var typeItemList: ArrayList<FilterTypeItemList>
 ) : Parcelable
 
 @Parcelize
 data class FilterTypeItemList(
     var type: String,
     var filterTypeItemList: ArrayList<FilterTypeItem>
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class FilterTypeItem(
     var type: String,
     var title: String,
     var isChecked: Boolean
-): Parcelable
+) : Parcelable
+
+// 篩選 日期
+data class FilterDate(
+    var title: String,
+    var state: DateEnum,
+    var isEnable: Boolean,
+    var calendar: String
+)
+
+enum class DateEnum {
+    ALL,
+    DATE,
+    MONTH,
+    YEAR
+}

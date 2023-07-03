@@ -56,9 +56,7 @@ class HistoryFilterTypeViewModel : ViewModel() {
         }
         _displayTypeFilter.postValue(
             FilterItem(
-                typeItemList = typeItemList,
-                seq = 1,
-                isFiltered = false
+                typeItemList = typeItemList
             )
         )
     }
