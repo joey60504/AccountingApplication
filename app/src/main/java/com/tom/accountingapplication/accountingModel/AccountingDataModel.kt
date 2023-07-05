@@ -466,30 +466,33 @@ data class UploadData(
     var image: Int
 )
 
-//篩選 種類
-data class FilterItemData(
-    var itemList: FilterItem?,
-    var count: Int
-)
+@Parcelize
+data class FilterTypeData(
+    var filterTypeList: ArrayList<FilterType>,
+    var tabList :ArrayList<String>,
+    var position : Int
+) :Parcelable
 
 @Parcelize
-data class FilterItem(
-    var typeItemList: ArrayList<FilterTypeItemList>
+data class FilterType(
+    var seq :Int,
+    var typeList: ArrayList<FilterItem>,
 ) : Parcelable
 
 @Parcelize
-data class FilterTypeItemList(
+data class FilterItem(
+    var seq :Int,
     var type: String,
     var filterTypeItemList: ArrayList<FilterTypeItem>
 ) : Parcelable
 
 @Parcelize
 data class FilterTypeItem(
+    var seq:Int,
     var type: String,
     var title: String,
     var isChecked: Boolean
 ) : Parcelable
-
 // 篩選 日期
 
 data class FilterDate(

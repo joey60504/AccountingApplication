@@ -8,9 +8,7 @@ import com.tom.accountingapplication.accountingModel.AccountingDataModel
 import com.tom.accountingapplication.accountingModel.DataListener
 import com.tom.accountingapplication.accountingModel.DateEnum
 import com.tom.accountingapplication.accountingModel.FilterDate
-import com.tom.accountingapplication.accountingModel.FilterItem
-import com.tom.accountingapplication.accountingModel.FilterItemData
-import com.tom.accountingapplication.accountingModel.FilterTypeItem
+import com.tom.accountingapplication.accountingModel.FilterTypeData
 import com.tom.accountingapplication.accountingModel.ReadDataDate
 import com.tom.accountingapplication.accountingModel.ReadDataType
 import java.text.SimpleDateFormat
@@ -22,10 +20,8 @@ class HistoryViewModel : ViewModel() {
     private val _displayData: MutableLiveData<ArrayList<ReadDataDate>> = MutableLiveData()
     val displayData: LiveData<ArrayList<ReadDataDate>> = _displayData
 
-
-    private val _displayTypeFilter: MutableLiveData<FilterItemData> =
-        MutableLiveData()
-    val displayTypeFilter: LiveData<FilterItemData> = _displayTypeFilter
+    private val _displayFilterCount: MutableLiveData<Int> = MutableLiveData()
+    val displayFilterCount: LiveData<Int> = _displayFilterCount
 
     private val _displayDate: MutableLiveData<FilterDate> =
         MutableLiveData()
@@ -46,19 +42,6 @@ class HistoryViewModel : ViewModel() {
         getData()
 
     }
-
-    fun getTypeFilter(filter: FilterItem?) {
-        val filterCount = arrayListOf<FilterTypeItem>()
-        filter?.typeItemList?.map {
-            it.filterTypeItemList.filter { filterTypeItem ->
-                filterTypeItem.isChecked
-            }.map { filterTypeItem ->
-                filterCount.add(filterTypeItem)
-            }
-        }
-        _displayTypeFilter.postValue(FilterItemData(filter, filterCount.size))
-    }
-
     private fun getData() {
         accountingUploadModel.getAccountingData(object : DataListener {
             override fun onDataLoaded(readDataList: ArrayList<ReadDataType>) {
@@ -82,6 +65,18 @@ class HistoryViewModel : ViewModel() {
             }
         })
     }
+    fun onTypeFiltered(filter: FilterTypeData?){
+        var filterCheckedCount = 0
+        filter?.filterTypeList?.map {
+            it.typeList.map {filterItem->
+                filterCheckedCount += filterItem.filterTypeItemList.filter { filterTypeItem->
+                    filterTypeItem.isChecked
+                }.size
+            }
+        }
+        _displayFilterCount.postValue(filterCheckedCount)
+    }
+
     fun onDateFiltered(date:String){
         _displayDate.value?.calendar = date
         _displayDate.value?.isFiltered = true

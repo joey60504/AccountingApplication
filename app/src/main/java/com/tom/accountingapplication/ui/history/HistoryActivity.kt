@@ -20,7 +20,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
 import com.tom.accountingapplication.R
 import com.tom.accountingapplication.accountingModel.DateEnum
-import com.tom.accountingapplication.accountingModel.FilterItem
+import com.tom.accountingapplication.accountingModel.FilterTypeData
 import com.tom.accountingapplication.databinding.ActivityHistoryBinding
 import com.tom.accountingapplication.ui.datashow.AccountingDataAdapter
 import com.tom.accountingapplication.ui.datashow.detail.AccountingDataDetailDialog
@@ -81,9 +81,9 @@ class HistoryActivity : AppCompatActivity() {
         }
         //側拉選單結束
 
-        val filter: FilterItem? = intent.extras?.getParcelable("Filter")
+        val filter: FilterTypeData? = intent.extras?.getParcelable("Filter")
 
-        viewModel.getTypeFilter(filter)
+        viewModel.onTypeFiltered(filter)
 
         binding.txtFilterType.setOnClickListener {
             startActivity(
@@ -92,7 +92,7 @@ class HistoryActivity : AppCompatActivity() {
                     HistoryFilterTypeActivity::class.java
                 ).apply {
                     putExtras(Bundle().apply {
-                        putParcelable("Filter", viewModel.displayTypeFilter.value?.itemList)
+                        putParcelable("Filter", filter)
                     })
                 })
         }
@@ -173,8 +173,8 @@ class HistoryActivity : AppCompatActivity() {
             binding.pieChart.invalidate()
         }
 
-        viewModel.displayTypeFilter.observe(this) {
-            binding.txtFilterType.text = "種類篩選（${it.count}）"
+        viewModel.displayFilterCount.observe(this) {
+            binding.txtFilterType.text = "種類篩選（${it}）"
         }
         viewModel.displayDate.observe(this) {
             binding.txtDateFilter.text = it.title

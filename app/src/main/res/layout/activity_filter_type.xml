@@ -42,15 +42,38 @@
             android:layout_margin="24dp" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_filter_type"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_filter_type_item">
+        android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_item_history_filter_type"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/background"
+            android:clipToPadding="false"
+            android:overScrollMode="always"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/bar"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="10dp"
+            app:tabPaddingStart="10dp"
+            app:tabSelectedTextColor="@color/bar"
+            app:tabTextAppearance="@style/TabTextAppearance"
+            app:tabTextColor="@color/greyish_brown" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager_history_filter_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:background="@color/background"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

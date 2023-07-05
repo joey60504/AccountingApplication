@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tom.accountingapplication.accountingModel.FilterItem
 import com.tom.accountingapplication.accountingModel.FilterTypeItem
-import com.tom.accountingapplication.accountingModel.FilterTypeItemList
 import com.tom.accountingapplication.databinding.ItemFilterTypeItemBinding
 
 class HistoryFilterTypeAdapter(private val onItemClick: (FilterTypeItem) -> Unit) :
     RecyclerView.Adapter<HistoryFilterTypeAdapter.PackageViewHolder>() {
 
-    var itemList: ArrayList<FilterTypeItemList> = arrayListOf()
+    var itemList: ArrayList<FilterItem> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackageViewHolder {
         val view = ItemFilterTypeItemBinding.inflate(
@@ -32,7 +32,7 @@ class HistoryFilterTypeAdapter(private val onItemClick: (FilterTypeItem) -> Unit
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(newData: ArrayList<FilterTypeItemList>) {
+    fun setData(newData: ArrayList<FilterItem>) {
         itemList.clear()
         itemList.addAll(newData)
         notifyDataSetChanged()
@@ -40,7 +40,7 @@ class HistoryFilterTypeAdapter(private val onItemClick: (FilterTypeItem) -> Unit
 
     class PackageViewHolder(private val binding: ItemFilterTypeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: FilterTypeItemList, onItemClick: (FilterTypeItem) -> Unit) {
+        fun bind(item: FilterItem, onItemClick: (FilterTypeItem) -> Unit) {
             binding.txtFilterTypeItem.text = "${item.type}："
             val historyFilterTypeItemAdapter = HistoryFilterTypeItemAdapter(
                 onItemClick = { filterTypeItem ->

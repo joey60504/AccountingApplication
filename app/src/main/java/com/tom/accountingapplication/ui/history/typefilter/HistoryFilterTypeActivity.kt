@@ -2,13 +2,11 @@ package com.tom.accountingapplication.ui.history.typefilter
 
 import android.content.Intent
 import android.os.Bundle
-
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.tom.accountingapplication.accountingModel.FilterItem
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
+import com.tom.accountingapplication.accountingModel.FilterTypeData
 import com.tom.accountingapplication.databinding.ActivityFilterTypeBinding
 import com.tom.accountingapplication.ui.history.HistoryActivity
 
@@ -24,7 +22,7 @@ class HistoryFilterTypeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val filter: FilterItem? = intent.extras?.getParcelable("Filter")
+        val filter: FilterTypeData? = intent.extras?.getParcelable("Filter")
 
         viewModel.init(filter)
 
@@ -35,7 +33,6 @@ class HistoryFilterTypeActivity : AppCompatActivity() {
             viewModel.onTypeClearClick()
         }
         binding.txtFilterTypeSubmit.setOnClickListener {
-            viewModel.onTypeSubmitClick()
             startActivity(
                 Intent(
                     this@HistoryFilterTypeActivity,
@@ -47,32 +44,22 @@ class HistoryFilterTypeActivity : AppCompatActivity() {
                 })
             finish()
         }
-        val historyFilterTypeAdapter = HistoryFilterTypeAdapter(
+        val itemAdapter = HistoryFilterTypeViewPagerAdapter(
             onItemClick = { filterTypeItem ->
                 viewModel.onItemClick(filterTypeItem)
             }
         )
-        binding.recyclerFilterType.apply {
-            setHasFixedSize(true)
-            val manager =
-                LinearLayoutManager(
-                    this@HistoryFilterTypeActivity,
-                    LinearLayoutManager.VERTICAL,
-                    false
-                )
-            manager.stackFromEnd = false
-            addItemDecoration(
-                DividerItemDecoration(
-                    this@HistoryFilterTypeActivity,
-                    RecyclerView.VERTICAL
-                )
-            )
-            layoutManager = manager
-            this.adapter = historyFilterTypeAdapter
-        }
-
         viewModel.displayTypeFilter.observe(this) {
-            historyFilterTypeAdapter.setData(it?.typeItemList ?: arrayListOf())
+            binding.viewpagerHistoryFilterType.adapter = itemAdapter
+            binding.viewpagerHistoryFilterType.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            binding.viewpagerHistoryFilterType.setCurrentItem(it?.position ?: 0, false)
+            itemAdapter.itemList = it?.filterTypeList ?: arrayListOf()
+            TabLayoutMediator(
+                binding.tabLayoutItemHistoryFilterType,
+                binding.viewpagerHistoryFilterType
+            ) { tab, position ->
+                tab.text = it?.tabList?.get(position)
+            }.attach()
         }
     }
 }

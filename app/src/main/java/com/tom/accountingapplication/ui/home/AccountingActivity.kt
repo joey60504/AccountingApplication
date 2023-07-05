@@ -94,12 +94,15 @@ class AccountingActivity : AppCompatActivity() {
                 )
                 binding.edittextRemark.text.clear()
                 binding.edittextPrice.text.clear()
-            } else{
+            } else {
                 val inflater = layoutInflater
-                val layout: View = inflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_container))
+                val layout: View = inflater.inflate(
+                    R.layout.custom_toast,
+                    findViewById(R.id.custom_toast_container)
+                )
                 val text: TextView = layout.findViewById(R.id.custom_toast_text)
                 text.text = "請填寫正確的金額唷~"
-                with (Toast(applicationContext)) {
+                with(Toast(applicationContext)) {
                     duration = Toast.LENGTH_SHORT
                     view = layout
                     show()
@@ -135,7 +138,7 @@ class AccountingActivity : AppCompatActivity() {
             }
         )
         val itemAdapter = AccountingViewPagerAdapter(
-            onItemClick = { accountingItem->
+            onItemClick = { accountingItem ->
                 viewModel.onItemClick(accountingItem)
             }
         )
@@ -166,7 +169,7 @@ class AccountingActivity : AppCompatActivity() {
                 binding.btnIncome.setTextColor(getColor(this, R.color.greyish_brown))
                 binding.imgChoiceIcon.setBackgroundResource(it.itemSelectedDrawable)
 
-                binding.viewpagerItem.setCurrentItem(it.itemExpense.typeSeq,false)
+                binding.viewpagerItem.setCurrentItem(it.itemExpense.typeSeq, false)
                 itemAdapter.itemType = it.itemExpense.itemTypeList
                 TabLayoutMediator(binding.tabLayoutItem, binding.viewpagerItem) { tab, position ->
                     tab.text = it.itemExpense.typeList[position]
@@ -178,7 +181,7 @@ class AccountingActivity : AppCompatActivity() {
                 binding.btnIncome.setTextColor(getColor(this, R.color.white))
                 binding.imgChoiceIcon.setBackgroundResource(it.itemSelectedDrawable)
 
-                binding.viewpagerItem.setCurrentItem(it.itemIncome.typeSeq,false)
+                binding.viewpagerItem.setCurrentItem(it.itemIncome.typeSeq, false)
                 itemAdapter.itemType = it.itemIncome.itemTypeList
                 TabLayoutMediator(binding.tabLayoutItem, binding.viewpagerItem) { tab, position ->
                     tab.text = it.itemIncome.typeList[position]
