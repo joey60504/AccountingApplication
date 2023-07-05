@@ -83,7 +83,7 @@ class HistoryActivity : AppCompatActivity() {
 
         val filter: FilterItem? = intent.extras?.getParcelable("Filter")
 
-        viewModel.init(filter)
+        viewModel.getTypeFilter(filter)
 
         binding.txtFilterType.setOnClickListener {
             startActivity(
@@ -100,7 +100,7 @@ class HistoryActivity : AppCompatActivity() {
             viewModel.onDateClick()
         }
         binding.txtFilterCalendar.setOnClickListener {
-            if (viewModel.displayDateType.value?.state == DateEnum.ALL) {
+            if (viewModel.displayDate.value?.state == DateEnum.ALL) {
                 val inflater = layoutInflater
                 val layout: View = inflater.inflate(
                     R.layout.custom_toast,
@@ -115,10 +115,11 @@ class HistoryActivity : AppCompatActivity() {
                 }
             } else {
                 val bottomSheetFragment =
-                    HistoryFilterCalendarFragment(viewModel.displayDateType.value?.state
-                        ?: DateEnum.DATE, onItemClick = {
-
-                    })
+                    HistoryFilterCalendarFragment(
+                        date = viewModel.displayDate.value,
+                        onItemClick = { date ->
+                            viewModel.onDateFiltered(date)
+                        })
                 bottomSheetFragment.show(
                     supportFragmentManager,
                     bottomSheetFragment.tag
@@ -175,7 +176,7 @@ class HistoryActivity : AppCompatActivity() {
         viewModel.displayTypeFilter.observe(this) {
             binding.txtFilterType.text = "種類篩選（${it.count}）"
         }
-        viewModel.displayDateType.observe(this) {
+        viewModel.displayDate.observe(this) {
             binding.txtDateFilter.text = it.title
             binding.txtFilterCalendar.text = it.calendar
         }

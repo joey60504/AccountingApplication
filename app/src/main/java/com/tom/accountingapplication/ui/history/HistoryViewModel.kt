@@ -27,9 +27,10 @@ class HistoryViewModel : ViewModel() {
         MutableLiveData()
     val displayTypeFilter: LiveData<FilterItemData> = _displayTypeFilter
 
-    private val _displayDateType: MutableLiveData<FilterDate> =
+    private val _displayDate: MutableLiveData<FilterDate> =
         MutableLiveData()
-    val displayDateType: LiveData<FilterDate> = _displayDateType
+    val displayDate: LiveData<FilterDate> = _displayDate
+
 
 
     private val accountingUploadModel = AccountingDataModel()
@@ -40,12 +41,13 @@ class HistoryViewModel : ViewModel() {
         val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
         dateString = dateFormat.format(calendar.time)
 
+        _displayDate.postValue(FilterDate("全", DateEnum.ALL, "日期篩選",false))
+
         getData()
 
-        _displayDateType.postValue(FilterDate("全", DateEnum.ALL, "日期篩選"))
     }
 
-    fun init(filter: FilterItem?) {
+    fun getTypeFilter(filter: FilterItem?) {
         val filterCount = arrayListOf<FilterTypeItem>()
         filter?.typeItemList?.map {
             it.filterTypeItemList.filter { filterTypeItem ->
@@ -80,29 +82,36 @@ class HistoryViewModel : ViewModel() {
             }
         })
     }
-
+    fun onDateFiltered(date:String){
+        _displayDate.value?.calendar = date
+        _displayDate.value?.isFiltered = true
+        _displayDate.postValue(_displayDate.value)
+    }
     fun onDateClick() {
-        _displayDateType.value?.let {
+        _displayDate.value?.let {
             when (it.state) {
                 DateEnum.ALL -> {
                     it.title = "日"
                     it.state = DateEnum.DATE
                     it.calendar = dateString
+                    it.isFiltered = false
                 }
 
                 DateEnum.DATE -> {
                     it.title = "月"
                     it.state = DateEnum.MONTH
                     it.calendar = dateString.substring(0, 7)
+                    it.isFiltered = false
                 }
 
                 DateEnum.MONTH -> {
                     it.title = "全"
                     it.state = DateEnum.ALL
                     it.calendar = "日期篩選"
+                    it.isFiltered = false
                 }
             }
         }
-        _displayDateType.postValue(_displayDateType.value)
+        _displayDate.postValue(_displayDate.value)
     }
 }

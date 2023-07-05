@@ -27,8 +27,12 @@
     <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
         <item name="android:textColor">@color/greyish_brown</item>
     </style>
-
-
+    //datepicker
+    <style name="NumberPickerCustomText">
+        <item name="android:textSize">22sp</item> // add if you want to change size
+        <item name="android:fontFamily">@font/myfont3</item> // add font (this font folder is present in res folder)
+    </style>
+    //
     <style name="TabTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>

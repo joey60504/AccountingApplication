@@ -491,10 +491,12 @@ data class FilterTypeItem(
 ) : Parcelable
 
 // 篩選 日期
+
 data class FilterDate(
     var title: String,
     var state: DateEnum,
-    var calendar: String
+    var calendar: String,
+    var isFiltered:Boolean
 )
 
 enum class DateEnum {

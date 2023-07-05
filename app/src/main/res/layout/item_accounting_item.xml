@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:drawableTop="@drawable/icon_breakfast"
-        android:drawablePadding="10dp"
         android:ellipsize="end"
         android:fontFamily="@font/myfont3"
         android:gravity="center"
